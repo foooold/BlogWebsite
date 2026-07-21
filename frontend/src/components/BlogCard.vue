@@ -81,4 +81,15 @@ const readTime = computed(() => {
   flex-wrap: wrap;
   gap: 0.5rem;
 }
+
+/* 移动端：减小内边距 */
+@media (max-width: 768px) {
+  .card-body {
+    padding: 1rem 1rem;
+  }
+
+  .title {
+    font-size: 1.05rem;
+  }
+}
 </style>

@@ -189,4 +189,28 @@ const stats = computed(() => {
 .view-all:hover {
   text-decoration: underline;
 }
+
+/* 移动端：减小间距 */
+@media (max-width: 768px) {
+  .hero {
+    padding: 1.5rem 0.5rem 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .hero-name {
+    font-size: 1.35rem;
+  }
+
+  .hero-stats {
+    gap: 1.5rem;
+  }
+
+  .hero-links {
+    gap: 1rem;
+  }
+
+  .hero-link {
+    font-size: 0.8rem;
+  }
+}
 </style>

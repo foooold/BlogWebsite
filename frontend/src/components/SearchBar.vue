@@ -349,4 +349,26 @@ onBeforeUnmount(() => {
   border-radius: 2px;
   padding: 0 1px;
 }
+
+/* 移动端：搜索栏全宽 */
+@media (max-width: 768px) {
+  .search-input-group {
+    width: 100%;
+  }
+
+  .search-input-group.focused {
+    width: 100%;
+  }
+
+  .search-dropdown {
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: none;
+  }
+
+  .search-shortcut {
+    display: none;
+  }
+}
 </style>

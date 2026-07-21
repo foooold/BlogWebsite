@@ -91,4 +91,23 @@ button.active {
   color: #8b949e;
   margin-left: 1rem;
 }
+
+/* 移动端：加大触摸目标 */
+@media (max-width: 768px) {
+  button {
+    padding: 0.55rem 0.9rem;
+    font-size: 0.95rem;
+  }
+
+  .pagination {
+    gap: 0.35rem;
+  }
+
+  .info {
+    width: 100%;
+    text-align: center;
+    margin-left: 0;
+    margin-top: 0.5rem;
+  }
+}
 </style>

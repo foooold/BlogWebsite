@@ -28,4 +28,16 @@ h1 {
   color: #8b949e;
   font-size: 0.9rem;
 }
+
+/* 移动端：减小 padding */
+@media (max-width: 768px) {
+  .page-header {
+    padding: 1.25rem 0 1rem;
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    font-size: 1.3rem;
+  }
+}
 </style>

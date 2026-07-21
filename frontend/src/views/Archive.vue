@@ -113,6 +113,22 @@ const archive = computed(() => getArchive())
   flex: 1;
   min-width: 200px;
 }
+
+/* 移动端：移除最小宽度约束 */
+@media (max-width: 768px) {
+  .item-title {
+    min-width: 0;
+  }
+
+  .archive-item {
+    padding: 0.5rem;
+    gap: 0.5rem;
+  }
+
+  .group-title {
+    font-size: 0.95rem;
+  }
+}
 .item-title:hover {
   text-decoration: underline;
 }

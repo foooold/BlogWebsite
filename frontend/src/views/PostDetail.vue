@@ -115,6 +115,7 @@ watch(renderedContent, () => {
 })
 
 function addCopyButtons() {
+  // 复制按钮
   document.querySelectorAll('.code-block').forEach(block => {
     if (block.querySelector('.copy-btn')) return
     const btn = document.createElement('button')
@@ -127,6 +128,22 @@ function addCopyButtons() {
       setTimeout(() => { btn.textContent = '复制' }, 2000)
     }
     block.appendChild(btn)
+  })
+
+  // 触屏设备：复制按钮始终可见
+  if (window.matchMedia('(hover: none)').matches) {
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.classList.add('touch-visible')
+    })
+  }
+
+  // 表格包裹 overflow-x: auto
+  document.querySelectorAll('.post-content table').forEach(table => {
+    if (table.parentElement?.classList.contains('table-wrapper')) return
+    const wrapper = document.createElement('div')
+    wrapper.className = 'table-wrapper'
+    table.parentNode.insertBefore(wrapper, table)
+    wrapper.appendChild(table)
   })
 }
 </script>
@@ -306,6 +323,16 @@ function addCopyButtons() {
   margin: 0.75rem 0;
   font-size: 0.88rem;
 }
+
+.post-content :deep(.table-wrapper) {
+  overflow-x: auto;
+  margin: 0.75rem 0;
+}
+
+.post-content :deep(.table-wrapper table) {
+  margin: 0;
+  min-width: 500px;
+}
 .post-content :deep(th),
 .post-content :deep(td) {
   padding: 0.5rem 0.75rem;
@@ -340,5 +367,53 @@ function addCopyButtons() {
 }
 .not-found a {
   color: #60a5fa;
+}
+
+/* 触屏设备：复制按钮始终可见 */
+.post-content :deep(.copy-btn).touch-visible {
+  opacity: 1;
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+  .post-header h1 {
+    font-size: 1.3rem;
+  }
+
+  .post-header {
+    padding-bottom: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .post-content {
+    font-size: 15px;
+    line-height: 1.75;
+  }
+
+  .post-content :deep(.code-block) {
+    padding: 0.75rem;
+    font-size: 13px;
+  }
+
+  .post-content :deep(.code-block code) {
+    font-size: 13px;
+  }
+
+  .post-content :deep(h2) {
+    font-size: 1.1rem;
+    margin: 1.5rem 0 0.5rem;
+  }
+
+  .post-content :deep(h3) {
+    font-size: 1rem;
+  }
+
+  .post-content :deep(.copy-btn) {
+    opacity: 1;
+  }
+
+  .post-footer {
+    padding: 1.5rem 0;
+  }
 }
 </style>
