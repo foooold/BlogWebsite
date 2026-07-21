@@ -27,6 +27,8 @@
         <span>&copy; 2026 Frank's Blog</span>
         <span class="footer-dot">·</span>
         <span>Powered by Vue 3 + Vite + Django</span>
+        <br />
+        <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener" class="icp-link">沪ICP备XXXXXXXX号-1</a>
       </div>
     </footer>
   </div>
@@ -115,5 +117,13 @@ import SearchBar from '@/components/SearchBar.vue'
 }
 .footer-dot {
   margin: 0 0.4rem;
+}
+.icp-link {
+  color: #484f58;
+  text-decoration: none;
+}
+.icp-link:hover {
+  color: #8b949e;
+  text-decoration: underline;
 }
 </style>
