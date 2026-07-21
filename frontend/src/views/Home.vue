@@ -189,4 +189,13 @@ const stats = computed(() => {
 .view-all:hover {
   text-decoration: underline;
 }
+
+@media (max-width: 768px) {
+  .hero-stats {
+    gap: 1.5rem;
+  }
+  .hero-links {
+    gap: 1.2rem;
+  }
+}
 </style>

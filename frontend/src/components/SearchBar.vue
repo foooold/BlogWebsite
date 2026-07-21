@@ -349,4 +349,21 @@ onBeforeUnmount(() => {
   border-radius: 2px;
   padding: 0 1px;
 }
+
+@media (max-width: 768px) {
+  .search-input-group {
+    width: 100%;
+  }
+  .search-input-group.focused {
+    width: 100%;
+  }
+  .search-shortcut {
+    display: none;
+  }
+  .search-dropdown {
+    left: 0;
+    right: 0;
+    width: 100%;
+  }
+}
 </style>
