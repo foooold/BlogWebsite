@@ -18,6 +18,7 @@ body {
   line-height: 1.6;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 #app {
@@ -53,4 +54,10 @@ a:hover {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #484f58;
+}
+
+@media (max-width: 768px) {
+  body {
+    font-size: 16px;
+  }
 }

@@ -91,4 +91,20 @@ button.active {
   color: #8b949e;
   margin-left: 1rem;
 }
+
+@media (max-width: 768px) {
+  button {
+    padding: 0.5rem 0.9rem;
+    font-size: 0.9rem;
+  }
+  .pagination {
+    gap: 0.35rem;
+  }
+  .info {
+    width: 100%;
+    text-align: center;
+    margin-left: 0;
+    margin-top: 0.25rem;
+  }
+}
 </style>

@@ -123,6 +123,10 @@ const pagedPosts = computed(() => {
   font-size: 0.95rem;
   font-weight: 400;
   color: #8b949e;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
 }
 .tagged-header em {
   font-style: normal;
@@ -137,6 +141,7 @@ const pagedPosts = computed(() => {
   border: 1px solid #30363d;
   border-radius: 6px;
   cursor: pointer;
+  flex-shrink: 0;
 }
 .clear-btn:hover {
   background: #30363d;
