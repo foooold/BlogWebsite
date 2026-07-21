@@ -121,4 +121,10 @@ const archive = computed(() => getArchive())
   gap: 0.4rem;
   flex-wrap: wrap;
 }
+
+@media (max-width: 768px) {
+  .item-title {
+    min-width: 0;
+  }
+}
 </style>
