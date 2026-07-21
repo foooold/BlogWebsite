@@ -65,7 +65,25 @@ Route priority is critical: API and admin are matched before the SPA catch-all v
 ### Serving modes
 
 - **Development** (`DEBUG=True`): `templates/index.html` loads Vue from Vite dev server (`localhost:5173`), with HMR. Access `http://localhost:5173` directly.
-- **Production** (`DEBUG=False`): Django serves built Vue assets from `static/dist/`, reading paths from `.vite/manifest.json`.
+- **Production** (`DEBUG=False`): Django serves built Vue assets from `static/dist/`, reading paths from `.vite/manifest.json`. Access via Nginx on port 80 only (5173 is dev-only).
+
+### Production access
+
+| Page | URL |
+|------|-----|
+| Frontend | `http://<server-ip>/` |
+| Admin | `http://<server-ip>/zh-hans/admin/` |
+
+### Website title
+
+The HTML `<title>` must be kept in sync between two files:
+
+| File | Used by |
+|------|---------|
+| `templates/index.html` | Django (dev via :8000, production via Nginx) |
+| `frontend/index.html` | Vite dev server (:5173 direct access) |
+
+Current title: `Frank Du 的个人空间`. Template changes take effect immediately — no server restart needed.
 
 ## Django Backend
 
@@ -301,3 +319,4 @@ No backend settings for these yet.
 - Vite build manifest at `static/dist/.vite/manifest.json` — Django template reads this at runtime (production only).
 - `frontend/src/style.css` sets `scrollbar-gutter: stable` on `html` to prevent horizontal layout shift when scrollbar appears/disappears.
 - **Always run `npm run build` after editing frontend files** to verify compilation. The dev server may not catch errors.
+- npm 11+ includes `libc` fields in `package-lock.json` on all platforms (not just Linux). This is normal — no action needed.
