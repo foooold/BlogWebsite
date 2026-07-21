@@ -128,6 +128,14 @@ function addCopyButtons() {
     }
     block.appendChild(btn)
   })
+  // Wrap tables for mobile horizontal scroll
+  document.querySelectorAll('.post-content table').forEach(table => {
+    if (table.parentElement.classList.contains('table-wrapper')) return
+    const wrapper = document.createElement('div')
+    wrapper.className = 'table-wrapper'
+    table.parentNode.insertBefore(wrapper, table)
+    wrapper.appendChild(table)
+  })
 }
 </script>
 
@@ -316,6 +324,10 @@ function addCopyButtons() {
   background: #161b22;
   font-weight: 600;
 }
+.post-content :deep(.table-wrapper) {
+  overflow-x: auto;
+  margin: 0.75rem 0;
+}
 .post-footer {
   border-top: 1px solid #30363d;
   padding: 2rem 0;
@@ -340,5 +352,37 @@ function addCopyButtons() {
 }
 .not-found a {
   color: #60a5fa;
+}
+
+/* Touch devices: always show copy button */
+@media (hover: none) and (pointer: coarse) {
+  .post-content :deep(.code-block) .copy-btn {
+    opacity: 1;
+  }
+}
+
+/* Mobile typography adjustments */
+@media (max-width: 768px) {
+  .post-header h1 {
+    font-size: 1.3rem;
+  }
+  .post-header {
+    padding-bottom: 1rem;
+    margin-bottom: 1.25rem;
+  }
+  .post-content :deep(.code-block) {
+    padding: 0.75rem;
+    font-size: 13px;
+  }
+  .post-content :deep(.code-block code) {
+    font-size: 12px;
+  }
+  .post-content :deep(h2) {
+    font-size: 1.05rem;
+    margin: 1.5rem 0 0.5rem;
+  }
+  .post-content :deep(h3) {
+    font-size: 0.95rem;
+  }
 }
 </style>
