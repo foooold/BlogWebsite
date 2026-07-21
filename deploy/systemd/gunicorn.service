@@ -1,0 +1,15 @@
+[Unit]
+Description=Blog Django Gunicorn
+After=network.target
+
+[Service]
+User=www-data
+Group=www-data
+WorkingDirectory=/home/www/BlogWebsite
+EnvironmentFile=/home/www/BlogWebsite/.env
+ExecStart=/home/www/BlogWebsite/venv/bin/gunicorn --config /home/www/BlogWebsite/deploy/gunicorn.conf.py config.wsgi:application
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
