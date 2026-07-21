@@ -384,5 +384,8 @@ function addCopyButtons() {
   .post-content :deep(h3) {
     font-size: 0.95rem;
   }
+  .post-content :deep(.code-block) .copy-btn {
+    display: none;
+  }
 }
 </style>
