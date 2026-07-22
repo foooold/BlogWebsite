@@ -9,11 +9,13 @@
 
 ## Stack
 
-- **Backend**: Django 6.0.7 + Django REST Framework 3.17 + django-cors-headers
+- **Backend**: Django 6.0.7 + Django REST Framework 3.17.1 + django-cors-headers
 - **Database**: SQLite (`db.sqlite3`)
 - **Admin**: django-unfold 0.101.0 (must be first in `INSTALLED_APPS`, before `django.contrib.admin`)
 - **Frontend**: Vue 3 + Vite 8 + Vue Router 4 + Pinia 4 + Axios (in `frontend/`)
+- **Django project**: named `config` (settings at `config/settings.py`, not `website/settings.py`)
 - Single Django app: `main`
+- **Config**: uses `python-decouple` — most settings (SECRET_KEY, DEBUG, ALLOWED_HOSTS, CORS) come from `.env`
 
 ## Architecture
 
@@ -102,6 +104,8 @@ Current title: `Frank Du 的个人空间`. Template changes take effect immediat
 | `main/api.py` | DRF function-based API views + `_extract_snippet()` helper |
 | `main/urls.py` | API route registration (`<str:slug>` for Chinese slug support) |
 | `main/views.py` | SPA fallback `index()` view with Vite manifest |
+| `main/apps.py` | App config (`MainConfig`, `verbose_name = 'MyBlog'`) |
+| `config/settings.py` | Django project settings (env-based via `python-decouple`) |
 
 ### Critical: Chinese slugs
 
@@ -123,13 +127,16 @@ Slug fields in both Article and Tag use `allow_unicode=True`. API URL must use `
 frontend/src/
 ├── api/index.js          # Axios client: getArticles(), getArticle(slug), getTags(), searchArticles(q)
 ├── assets/
-│   └── avatar.png        # Author avatar (imported in Home.vue, kept in Vite assets for dev server)
+│   ├── hero.png          # Hero image used in Home.vue
+│   └── vite.svg          # Vite boilerplate
 ├── components/
 │   ├── BlogCard.vue      # Card uses post.word_count for read time (not content)
 │   ├── PageHeader.vue
 │   ├── Pagination.vue
 │   ├── SearchBar.vue     # GitHub-style search bar with dropdown, keyboard nav, match highlighting
 │   └── TagBadge.vue
+├── composables/
+│   └── useMediaQuery.js  # Reactive media query hook (e.g., mobile detection)
 ├── router/index.js       # 5 routes (see below)
 ├── stores/app.js         # Pinia store
 ├── views/
@@ -137,11 +144,14 @@ frontend/src/
 │   ├── Blog.vue          # `/blog` — multi-select tag chips, pagination, ?tag= query support
 │   ├── PostDetail.vue    # `/blog/:slug` — Markdown rendering, excerpt callout, copy buttons
 │   ├── Archive.vue       # `/archive` — fetches all, groups client-side
+│   ├── Tags.vue          # Orphan — standalone tag page, NOT registered in router (/tags route was removed)
 │   └── About.vue         # `/about` — extended bio, stats
 ├── App.vue               # Root layout: full-width navbar (brand left, search+links right with separator)
 ├── main.js               # Entry point
 └── style.css             # Global styles (GitHub-inspired dark theme)
 ```
+
+Note: `Tags.vue` is an orphan component — the `/tags` route was removed in favor of tag filtering on `/blog`. It is kept for reference but is not imported or routed.
 
 ### Blog routes
 
@@ -191,13 +201,13 @@ Article detail page shows `post.excerpt` between the meta line (date/read time/c
 
 ### Home.vue avatar
 
-- Primary: `<img src="/static/avatar.png">` (Django static file)
+- Reference: `const avatarUrl = '/static/avatar.png'` (hardcoded URL string, not a Vite asset import)
 - Fallback: inline SVG placeholder (gray circle + figure), shown via `@error` handler if image fails to load
 - Avatar image: `static/avatar.png` (served by Django at `/static/avatar.png`)
 
 ### Critical: Markdown rendering (`PostDetail.vue`)
 
-Uses **`markdown-it`** (v14). Do NOT add `marked`, `markdown-it`, or `marked-highlight` again.
+Uses **`markdown-it`** (v14). Do NOT add `marked` or `marked-highlight` — `markdown-it` is the only renderer.
 
 ```js
 // frontend/src/views/PostDetail.vue
@@ -210,10 +220,13 @@ const md = new MarkdownIt({
   typographer: true,
   highlight(str, lang) {
     if (lang && hljs.getLanguage(lang)) {
-      try { return '<pre class="code-block hljs"><code class="language-'+lang+'">' + hljs.highlight(str, { language: lang }).value + '</code></pre>' }
-      catch (e) {}
+      try {
+        const highlighted = hljs.highlight(str, { language: lang }).value
+        return `<pre class="code-block hljs"><code class="language-${lang}">${highlighted}</code></pre>\n`
+      } catch (e) {}
     }
-    return '<pre class="code-block hljs"><code>' + hljs.highlightAuto(str).value + '</code></pre>'
+    const highlighted = hljs.highlightAuto(str).value
+    return `<pre class="code-block hljs"><code>${highlighted}</code></pre>\n`
   },
 })
 
@@ -221,8 +234,10 @@ const md = new MarkdownIt({
 md.inline.ruler.disable('autolink')
 
 // Custom inline code renderer (.inline-code class for CSS styling)
-md.renderer.rules.code_inline = (tokens, idx) =>
-  '<code class="inline-code">' + md.utils.escapeHtml(tokens[idx].content) + '</code>'
+md.renderer.rules.code_inline = (tokens, idx) => {
+  const token = tokens[idx]
+  return `<code class="inline-code">${md.utils.escapeHtml(token.content)}</code>`
+}
 ```
 
 Key points:
@@ -283,14 +298,23 @@ python manage.py collectstatic
 
 ## Key Configuration
 
-| Setting | Value |
-|---------|-------|
+All settings are read from `.env` via `python-decouple`. See `.env.example` for the template.
+
+| Setting | Default / dev value |
+|---------|---------------------|
 | `LANGUAGE_CODE` | `zh-hans` |
 | `TIME_ZONE` | `Asia/Shanghai` |
-| `DEBUG` | `True` |
+| `DEBUG` | env (`DEBUG=True` in dev) |
+| `SECRET_KEY` | env (required) |
+| `ALLOWED_HOSTS` | env (`*` in dev) |
+| `CSRF_TRUSTED_ORIGINS` | env |
 | `STATICFILES_DIRS` | `BASE_DIR / 'static'` |
 | `STATIC_ROOT` | `BASE_DIR / 'staticfiles'` |
-| `CORS_ALLOWED_ORIGINS` | `http://localhost:5173`, `http://127.0.0.1:5173` |
+| `CORS_ALLOWED_ORIGINS` | env (`http://localhost:5173,http://127.0.0.1:5173` in dev) |
+| `CORS_ALLOW_CREDENTIALS` | `True` |
+| `LANGUAGES` | `zh-hans` (简体中文), `en` (English) |
+| `UNFOLD.SHOW_LANGUAGES` | `True` |
+| `REST_FRAMEWORK.DEFAULT_PERMISSION_CLASSES` | `AllowAny` |
 
 ## Superuser
 
@@ -310,8 +334,9 @@ No backend settings for these yet.
 ## Notes
 
 - `backup/` contains pre-blog rollback snapshot, removed management commands (`import_posts.py`, `_check.py`), and `backup_marked/` / `backup_marked_v2/` snapshots.
-- `backup_20260718/`, `backup_20260718_2/`, `backup_20260718_3/`, `backup_20260718_4/` are earlier snapshots.
-- `backup/backup_20260720/` contains the latest backup snapshot.
+- `backup/backup_20260718/`, `backup/backup_20260718_2/`, `backup/backup_20260718_3/`, `backup/backup_20260718_4/` are earlier snapshots (all nested inside `backup/`).
+- `backup/backup_20260720/` and `backup/backup_20260721/` contain more recent backup snapshots.
+- `backup/backup_1/` and `backup/management/` are additional backup artifacts.
 - Use `gettext_lazy` (`_()`) for translatable strings in `UNFOLD` config (e.g., sidebar titles).
 - i18n routes (`/zh-hans/admin/`, `/en/admin/`) are auto-prefixed via `i18n_patterns`.
 - DRF API views go in `main/api.py` (not `views.py`). Regular Django views go in `main/views.py`.
