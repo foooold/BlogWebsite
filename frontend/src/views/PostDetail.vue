@@ -126,7 +126,19 @@ function addCopyButtons() {
     btn.textContent = '复制'
     btn.onclick = async () => {
       const code = block.querySelector('code')?.textContent || ''
-      await navigator.clipboard.writeText(code)
+      try {
+        await navigator.clipboard.writeText(code)
+      } catch {
+        // Fallback for HTTP
+        const textarea = document.createElement('textarea')
+        textarea.value = code
+        textarea.style.position = 'fixed'
+        textarea.style.opacity = '0'
+        document.body.appendChild(textarea)
+        textarea.select()
+        document.execCommand('copy')
+        document.body.removeChild(textarea)
+      }
       btn.textContent = '已复制'
       setTimeout(() => { btn.textContent = '复制' }, 2000)
     }
