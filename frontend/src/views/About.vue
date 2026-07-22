@@ -8,26 +8,31 @@
           <h3>关于我</h3>
           <p>
             我是 Frank，一名上海在读本科生，主修数据科学与大数据技术专业。
-          </p>
-          <p>
+            <br>
             你可以在此网页获取我的联系方式。
           </p>
         </section>
 
         <section class="about-section">
           <h3>关于这个博客</h3>
-          <p>
-            这个博客是我记录学习过程和分享技术心得的空间。我会在这里发布关于以下主题的文章：
-          </p>
-          <ul>
-            <li>Python 和 Django 的深度应用</li>
-            <li>Vue.js 和现代前端开发</li>
-            <li>数据库设计和查询优化</li>
-            <li>DevOps 和部署实践</li>
-            <li>编程语言和系统设计</li>
-          </ul>
-          <p>
-            所有文章都基于实际项目经验，力求提供可操作的代码示例和深入的分析。
+          <p style="white-space: pre-line;">
+            如果你问我为什么要搭这个博客，我会想半天然后敷衍你说不知道。
+            <br>
+            其实好几年前就有想过建一个网站，学学项目写写日志然后美美上传，但那时候还没接触 Git，<!--
+            -->甚至连 cpp 都才学到 include iostream，这个想法最后当然也是美美泡汤。
+            <br>
+            后来大学进入了一个计算机专业，大语言模型迭代的也越来越快，各个大厂都开始<!--
+            -->推出自家的 Harness。直到上周 —— 2026-07-18，我偶然发现 DeepSeek-V4 开始了灰度<!--
+            -->测试而且还支持接入 Claude code，那为何不以此为契机让 Agent 协助我实<!--
+            -->现几年前的想法呢。
+            <br>
+            知与行不应该分离，实践本身就是学习的一部分甚至可以更好得将知识转化为成果。在这次实践中本博客<!--
+            -->于 2026-07-21 成功部署上线，我计划把这个博客作为记录我的学习过程和日常的空间，我会经常<!--
+            -->发布项目更新日志也会分享一些个人想法和心得，希望我能持续更新这个项目 ٩(ˊᗜˋ*)و
+            <br>
+            所以...
+            <br>
+            什么？你问我为什么要搭这个博客？不知道
           </p>
         </section>
 
@@ -85,9 +90,17 @@
                 <a href="https://github.com/foooold" target="_blank">github.com/foooold</a>
               </span>
             </li>
+            
+            <li>
+              <span class="contact-label">Repository</span>
+              <span class="contact-value">
+                <a href="https://github.com/foooold/BlogWebsite" target="_blank">/BlogWebstie</a>
+              </span>
+            </li>
+
             <li>
               <span class="contact-label">Location</span>
-              <span class="contact-value">中国</span>
+              <span class="contact-value">中国 上海</span>
             </li>
           </ul>
         </div>
