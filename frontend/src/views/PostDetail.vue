@@ -14,7 +14,7 @@
           <span class="separator">·</span>
           <span>{{ chineseCharCount }} 字</span>
         </div>
-        <div v-if="post.excerpt" class="post-excerpt">{{ post.excerpt }}</div>
+        <div v-if="post.excerpt" class="post-excerpt" v-html="renderedExcerpt"></div>
         <div class="post-tags">
           <TagBadge v-for="tag in post.tags" :key="tag" :name="tag" />
         </div>
@@ -106,6 +106,10 @@ const chineseCharCount = computed(() => {
 
 const renderedContent = computed(() => {
   return post.value ? md.render(post.value.content) : ''
+})
+
+const renderedExcerpt = computed(() => {
+  return post.value?.excerpt ? md.render(post.value.excerpt) : ''
 })
 
 watch(renderedContent, () => {
