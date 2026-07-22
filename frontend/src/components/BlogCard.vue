@@ -9,7 +9,7 @@
         <span class="separator">·</span>
         <span class="read-time">{{ readTime }}</span>
       </div>
-      <p class="excerpt">{{ post.excerpt }}</p>
+      <p class="excerpt" v-html="renderedExcerpt"></p>
       <div class="tags">
         <TagBadge
           v-for="tag in post.tags"
@@ -23,10 +23,20 @@
 
 <script setup>
 import { computed } from 'vue'
+import MarkdownIt from 'markdown-it'
 import TagBadge from './TagBadge.vue'
+
+const md = new MarkdownIt({
+  breaks: true,
+  linkify: true,
+})
 
 const props = defineProps({
   post: { type: Object, required: true },
+})
+
+const renderedExcerpt = computed(() => {
+  return props.post?.excerpt ? md.render(props.post.excerpt) : ''
 })
 
 const readTime = computed(() => {
