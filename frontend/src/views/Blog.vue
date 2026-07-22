@@ -85,6 +85,7 @@ function toggleTag(name) {
   } else {
     tagFilters.value.splice(idx, 1)
   }
+  currentPage.value = 1
 }
 
 const pagedPosts = computed(() => {
