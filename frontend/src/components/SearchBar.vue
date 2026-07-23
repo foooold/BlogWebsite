@@ -170,11 +170,26 @@ watch(query, () => {
   }, 300)
 })
 
+function escapeHtml(str) {
+  const div = document.createElement('div')
+  div.textContent = str
+  return div.innerHTML
+}
+
 function highlightText(text, q) {
-  if (!q || !text) return text
+  if (!q || !text) return escapeHtml(text)
   const escaped = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-  const re = new RegExp(`(${escaped})`, 'gi')
-  return text.replace(re, '<mark class="search-highlight">$1</mark>')
+  const re = new RegExp(escaped, 'gi')
+  const parts = text.split(re)
+  const matches = text.match(re) || []
+  let result = ''
+  for (let i = 0; i < parts.length; i++) {
+    result += escapeHtml(parts[i])
+    if (i < matches.length) {
+      result += '<mark class="search-highlight">' + escapeHtml(matches[i]) + '</mark>'
+    }
+  }
+  return result
 }
 
 function onGlobalKeydown(e) {
