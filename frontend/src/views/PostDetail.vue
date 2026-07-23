@@ -83,6 +83,7 @@ async function fetchPost(slug) {
   loading.value = true
   try {
     post.value = await getArticle(slug)
+    document.title = post.value.title + ' - Frank Du 的个人空间'
   } catch (e) {
     post.value = null
   } finally {
