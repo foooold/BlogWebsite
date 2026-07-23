@@ -322,6 +322,7 @@ onBeforeUnmount(() => {
   overflow: hidden;
   text-overflow: ellipsis;
   margin-top: 1px;
+  line-height: 1.4;
 }
 
 .result-tag-badge {

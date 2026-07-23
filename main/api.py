@@ -81,7 +81,7 @@ def search(request):
     })
 
 
-def _extract_snippet(article, query, context=20):
+def _extract_snippet(article, query, prefix_len=15, suffix_len=40):     # 搜索匹配
     """Extract a snippet around the first match of query, trying content then excerpt."""
     # Try content first
     text = article.content
@@ -96,11 +96,11 @@ def _extract_snippet(article, query, context=20):
     if idx == -1:
         if article.excerpt:
             return article.excerpt
-        end = min(len(text), context * 2)
+        end = min(len(text), suffix_len * 2)
         return text[:end] + ('…' if len(text) > end else '')
 
-    start = max(0, idx - context)
-    end = min(len(text), idx + len(query) + context)
+    start = max(0, idx - prefix_len)
+    end = min(len(text), idx + len(query) + suffix_len)
     prefix = '…' if start > 0 else ''
     suffix = '…' if end < len(text) else ''
     return prefix + text[start:end] + suffix
