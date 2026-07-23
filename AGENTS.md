@@ -61,8 +61,8 @@ Route priority is critical: API and admin are matched before the SPA catch-all v
 
 - Searches articles by `title`, `content`, `excerpt` (icontains, OR logic)
 - Searches tags by `name` (icontains)
-- Each article includes a `snippet` field: ~40 chars centered around the first match in content (or excerpt). Context window: 20 chars before/after match.
-- `snippet` is computed by `_extract_snippet()` in `main/api.py`
+- Each article includes a `snippet` field: the first match in content (or excerpt) with asymmetric context — 15 chars before, 40 chars after the match. Falls back to the start of text (or excerpt) if no match is found.
+- `snippet` is computed by `_extract_snippet(article, query, prefix_len=15, suffix_len=40)` in `main/api.py`
 
 ### Serving modes
 
@@ -99,8 +99,8 @@ Current title: `Frank Du 的个人空间`. Template changes take effect immediat
 | File | Purpose |
 |------|---------|
 | `main/models.py` | Article + Tag models |
-| `main/admin.py` | django-unfold admin registration |
-| `main/serializers.py` | DRF serializers (list: no content, detail: with content; `word_count` only in list serializer) |
+| `main/admin.py` | django-unfold admin registration. Article/User/Group use `autocomplete_fields` (not `filter_horizontal`). PermissionAdmin registered but hidden. |
+| `main/serializers.py` | DRF serializers. Both list and detail include `author_name` (from `obj.author.username`), `date`, `tags`. List has `word_count`, detail has `content`. |
 | `main/api.py` | DRF function-based API views + `_extract_snippet()` helper |
 | `main/urls.py` | API route registration (`<str:slug>` for Chinese slug support) |
 | `main/views.py` | SPA fallback `index()` view with Vite manifest |
@@ -119,6 +119,17 @@ Slug fields in both Article and Tag use `allow_unicode=True`. API URL must use `
 
 `published_at` is stored in UTC. Always use `timezone.localtime()` before formatting dates, otherwise the displayed date may be off by one day for articles published late at night (Shanghai is UTC+8). Both `ArticleListSerializer` and `ArticleDetailSerializer` use `timezone.localtime(obj.published_at)` in `get_date()`.
 
+### Critical: Admin autocomplete for M2M fields
+
+Article, User, and Group admin all use `autocomplete_fields` instead of `filter_horizontal` for many-to-many widgets:
+
+- **ArticleAdmin**: `autocomplete_fields = ['tags']` (was `filter_horizontal`)
+- **UserAdmin**: custom `fieldsets` (removed `user_permissions` from the edit form), `autocomplete_fields = ['groups']`, `filter_horizontal = ()` (must be set to empty tuple since `fieldsets` doesn't include any M2M that would need it)
+- **GroupAdmin**: `autocomplete_fields = ['permissions']`
+- **PermissionAdmin**: registered at `admin.py` level with `search_fields = ['name', 'codename']` to serve autocomplete lookups, but hidden from admin index (`has_module_permission` returns `False`)
+
+This replaces horizontal filter widgets with search-as-you-type select2 widgets, which scale much better with many records.
+
 ## Frontend
 
 ### Source structure
@@ -130,7 +141,7 @@ frontend/src/
 │   ├── hero.png          # Hero image used in Home.vue
 │   └── vite.svg          # Vite boilerplate
 ├── components/
-│   ├── BlogCard.vue      # Card uses post.word_count for read time (not content)
+│   ├── BlogCard.vue      # Card shows author_name, date, read time (from word_count), tags
 │   ├── PageHeader.vue
 │   ├── Pagination.vue
 │   ├── SearchBar.vue     # GitHub-style search bar with dropdown, keyboard nav, match highlighting
@@ -142,10 +153,10 @@ frontend/src/
 ├── views/
 │   ├── Home.vue          # `/` — hero with avatar, latest articles
 │   ├── Blog.vue          # `/blog` — multi-select tag chips, pagination, ?tag= query support
-│   ├── PostDetail.vue    # `/blog/:slug` — Markdown rendering, excerpt callout, copy buttons
+│   ├── PostDetail.vue    # `/blog/:slug` — author/date/read-time meta, Markdown rendering, excerpt callout, copy buttons
 │   ├── Archive.vue       # `/archive` — fetches all, groups client-side
 │   ├── Tags.vue          # Orphan — standalone tag page, NOT registered in router (/tags route was removed)
-│   └── About.vue         # `/about` — extended bio, stats
+│   └── About.vue         # `/about` — personal bio, blog creation story, tech stack, contact sidebar with site stats
 ├── App.vue               # Root layout: full-width navbar (brand left, search+links right with separator)
 ├── main.js               # Entry point
 └── style.css             # Global styles (GitHub-inspired dark theme)
@@ -174,7 +185,7 @@ Note: `/tags` route was removed. Tag filtering is done via `/blog` page (tag chi
 
 ### Data flow
 
-All views fetch data from API on mount via `ref([])` + `onMounted(async () => ...)`. Client-side filtering (tag, pagination) works on the fetched array. `BlogCard` computes read time from `post.word_count` (available in list API).
+All views fetch data from API on mount via `ref([])` + `onMounted(async () => ...)`. Client-side filtering (tag, pagination) works on the fetched array. `BlogCard` computes read time from `post.word_count` and displays `post.author_name` — both available in the list API.
 
 ### Blog.vue tag filtering
 
@@ -197,7 +208,7 @@ All views fetch data from API on mount via `ref([])` + `onMounted(async () => ..
 
 ### PostDetail.vue excerpt
 
-Article detail page shows `post.excerpt` between the meta line (date/read time/char count) and the tag cloud, styled as a subtle callout block with left border.
+Article detail page shows `post.excerpt` between the meta line (author/date/read time/char count) and the tag cloud, styled as a subtle callout block with left border.
 
 ### Home.vue avatar
 
@@ -326,7 +337,7 @@ All settings are read from `.env` via `python-decouple`. See `.env.example` for 
 Author details are hardcoded in two files:
 
 - `frontend/src/views/Home.vue` — name, bio, GitHub, email, avatar (img + SVG fallback)
-- `frontend/src/views/About.vue` — extended bio, skills, contact info
+- `frontend/src/views/About.vue` — personal bio, blog creation story (DeepSeek-V4 + Claude Code), tech stack, contact info (email, GitHub, repository link), site stats (article/tag counts, latest update)
 - Avatar image: `static/avatar.png` (served at `/static/avatar.png`)
 
 No backend settings for these yet.
