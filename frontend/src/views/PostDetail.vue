@@ -8,6 +8,10 @@
       <header class="post-header">
         <h1>{{ post.title }}</h1>
         <div class="post-meta">
+          <template v-if="post.author_name">
+            <span class="author">{{ post.author_name }}</span>
+            <span class="separator">·</span>
+          </template>
           <time :datetime="post.date">{{ post.date }}</time>
           <span class="separator">·</span>
           <span>{{ readTime }}</span>
