@@ -5,6 +5,10 @@
         <router-link :to="`/blog/${post.slug}`">{{ post.title }}</router-link>
       </h2>
       <div class="meta">
+        <template v-if="post.author_name">
+          <span class="author">{{ post.author_name }}</span>
+          <span class="separator">·</span>
+        </template>
         <time :datetime="post.date">{{ post.date }}</time>
         <span class="separator">·</span>
         <span class="read-time">{{ readTime }}</span>
