@@ -1,0 +1,421 @@
+diff --git a/node_modules/lazy-changelog/dist/cli.js b/node_modules/lazy-changelog/dist/cli.js
+index 76df49b..2416370 100644
+--- a/node_modules/lazy-changelog/dist/cli.js
++++ b/node_modules/lazy-changelog/dist/cli.js
+@@ -408,29 +408,27 @@ var DEFAULT_DIFF_OPTIONS = {
+   ],
+   includePatterns: void 0
+ };
+-var COMMIT_MESSAGE_PROMPT = `You are writing a git commit message. Analyze the staged changes below and write a concise, informative commit message.
++var COMMIT_MESSAGE_PROMPT = `你是一个专业的提交信息撰写者。分析下面的暂存改动，用中文撰写简洁、信息丰富的 commit message。
+ 
+ STAGED CHANGES:
+ {diffs}
+ 
+-TASK: Write a commit message based ONLY on what you see above. Do NOT make up changes.
++任务：仅根据上面的改动撰写 commit message。不要编造内容。
+ 
+-RULES:
+-1. Use conventional commit format: type(scope): description
+-2. Types: feat, fix, docs, style, refactor, test, chore, perf, ci, build
+-3. Scope is optional but helpful (e.g., feat(auth): add login)
+-4. First line should be under 72 characters
+-5. If changes are complex, add a blank line then bullet points
+-6. Be specific - mention actual function names, files, or components
+-7. Focus on WHAT changed and WHY, not HOW
++规则：
++1. 使用 conventional commit 格式：type(scope): 中文描述
++2. 类型：feat, fix, docs, style, refactor, test, chore, perf, ci, build
++3. 标题行不超过 72 个字符
++4. 空一行后添加中文 body，解释改了什么、为什么这样改
++5. 要具体——提到实际的函数名、文件名或组件
++6. 重点描述做了什么和为什么，而不是怎么做
+ 
+-EXAMPLES:
+-- feat(api): add user authentication endpoint
+-- fix: resolve null pointer in data processing
+-- refactor(components): extract shared button logic
+-- docs: update API documentation for v2 endpoints
++示例：
++- feat(api): 添加用户认证接口
++- fix: 修复数据处理中的空指针异常
++- chore(deps): 添加 dotenv-cli 用于加载环境变量
+ 
+-Now write the commit message:`;
++现在撰写 commit message：`;
+ var DEFAULT_PROMPT = `You are a technical writer. Analyze the git commits and code diffs below, then write release notes.
+ 
+ COMMITS:
+@@ -448,13 +446,13 @@ RULES:
+ 5. Keep each item to one line
+ 
+ FORMAT:
+-### \u2728 Features
++### Features
+ - [source] Description of actual feature from the code
+ 
+-### \u{1F41B} Bug Fixes
++### Bug Fixes
+ - [source] Description of actual fix
+ 
+-### \u{1F6E0}\uFE0F Improvements
++### Improvements
+ - [source] Description of actual improvement
+ 
+ Now write the changelog based on the commits and code above:`;
+@@ -771,7 +769,7 @@ ${diffsText}
+           apiKey: process.env["OPENAI_API_KEY"],
+           ...baseUrl && { baseURL: baseUrl }
+         });
+-        providerInstance = openai(model);
++        providerInstance = openai.chat(model);
+         break;
+       }
+       case "google": {
+@@ -904,7 +902,7 @@ ${truncatedDiff}`;
+           apiKey: process.env["OPENAI_API_KEY"],
+           ...baseUrl && { baseURL: baseUrl }
+         });
+-        providerInstance = openai(model);
++        providerInstance = openai.chat(model);
+         break;
+       }
+       case "google": {
+diff --git a/node_modules/lazy-changelog/dist/core.js b/node_modules/lazy-changelog/dist/core.js
+index 7788ce9..b184977 100644
+--- a/node_modules/lazy-changelog/dist/core.js
++++ b/node_modules/lazy-changelog/dist/core.js
+@@ -429,29 +429,27 @@ var DEFAULT_DIFF_OPTIONS = {
+   ],
+   includePatterns: void 0
+ };
+-var COMMIT_MESSAGE_PROMPT = `You are writing a git commit message. Analyze the staged changes below and write a concise, informative commit message.
++var COMMIT_MESSAGE_PROMPT = `你是一个专业的提交信息撰写者。分析下面的暂存改动，用中文撰写简洁、信息丰富的 commit message。
+ 
+ STAGED CHANGES:
+ {diffs}
+ 
+-TASK: Write a commit message based ONLY on what you see above. Do NOT make up changes.
++任务：仅根据上面的改动撰写 commit message。不要编造内容。
+ 
+-RULES:
+-1. Use conventional commit format: type(scope): description
+-2. Types: feat, fix, docs, style, refactor, test, chore, perf, ci, build
+-3. Scope is optional but helpful (e.g., feat(auth): add login)
+-4. First line should be under 72 characters
+-5. If changes are complex, add a blank line then bullet points
+-6. Be specific - mention actual function names, files, or components
+-7. Focus on WHAT changed and WHY, not HOW
++规则：
++1. 使用 conventional commit 格式：type(scope): 中文描述
++2. 类型：feat, fix, docs, style, refactor, test, chore, perf, ci, build
++3. 标题行不超过 72 个字符
++4. 空一行后添加中文 body，解释改了什么、为什么这样改
++5. 要具体——提到实际的函数名、文件名或组件
++6. 重点描述做了什么和为什么，而不是怎么做
+ 
+-EXAMPLES:
+-- feat(api): add user authentication endpoint
+-- fix: resolve null pointer in data processing
+-- refactor(components): extract shared button logic
+-- docs: update API documentation for v2 endpoints
++示例：
++- feat(api): 添加用户认证接口
++- fix: 修复数据处理中的空指针异常
++- chore(deps): 添加 dotenv-cli 用于加载环境变量
+ 
+-Now write the commit message:`;
++现在撰写 commit message：`;
+ var DEFAULT_PROMPT = `You are a technical writer. Analyze the git commits and code diffs below, then write release notes.
+ 
+ COMMITS:
+@@ -469,13 +467,13 @@ RULES:
+ 5. Keep each item to one line
+ 
+ FORMAT:
+-### \u2728 Features
++### Features
+ - [source] Description of actual feature from the code
+ 
+-### \u{1F41B} Bug Fixes
++### Bug Fixes
+ - [source] Description of actual fix
+ 
+-### \u{1F6E0}\uFE0F Improvements
++### Improvements
+ - [source] Description of actual improvement
+ 
+ Now write the changelog based on the commits and code above:`;
+@@ -792,7 +790,7 @@ ${diffsText}
+           apiKey: process.env["OPENAI_API_KEY"],
+           ...baseUrl && { baseURL: baseUrl }
+         });
+-        providerInstance = openai(model);
++        providerInstance = openai.chat(model);
+         break;
+       }
+       case "google": {
+@@ -933,7 +931,7 @@ ${truncatedDiff}`;
+           apiKey: process.env["OPENAI_API_KEY"],
+           ...baseUrl && { baseURL: baseUrl }
+         });
+-        providerInstance = openai(model);
++        providerInstance = openai.chat(model);
+         break;
+       }
+       case "google": {
+diff --git a/node_modules/lazy-changelog/dist/core.mjs b/node_modules/lazy-changelog/dist/core.mjs
+index eb15852..996f35f 100644
+--- a/node_modules/lazy-changelog/dist/core.mjs
++++ b/node_modules/lazy-changelog/dist/core.mjs
+@@ -380,29 +380,27 @@ var DEFAULT_DIFF_OPTIONS = {
+   ],
+   includePatterns: void 0
+ };
+-var COMMIT_MESSAGE_PROMPT = `You are writing a git commit message. Analyze the staged changes below and write a concise, informative commit message.
++var COMMIT_MESSAGE_PROMPT = `你是一个专业的提交信息撰写者。分析下面的暂存改动，用中文撰写简洁、信息丰富的 commit message。
+ 
+ STAGED CHANGES:
+ {diffs}
+ 
+-TASK: Write a commit message based ONLY on what you see above. Do NOT make up changes.
++任务：仅根据上面的改动撰写 commit message。不要编造内容。
+ 
+-RULES:
+-1. Use conventional commit format: type(scope): description
+-2. Types: feat, fix, docs, style, refactor, test, chore, perf, ci, build
+-3. Scope is optional but helpful (e.g., feat(auth): add login)
+-4. First line should be under 72 characters
+-5. If changes are complex, add a blank line then bullet points
+-6. Be specific - mention actual function names, files, or components
+-7. Focus on WHAT changed and WHY, not HOW
++规则：
++1. 使用 conventional commit 格式：type(scope): 中文描述
++2. 类型：feat, fix, docs, style, refactor, test, chore, perf, ci, build
++3. 标题行不超过 72 个字符
++4. 空一行后添加中文 body，解释改了什么、为什么这样改
++5. 要具体——提到实际的函数名、文件名或组件
++6. 重点描述做了什么和为什么，而不是怎么做
+ 
+-EXAMPLES:
+-- feat(api): add user authentication endpoint
+-- fix: resolve null pointer in data processing
+-- refactor(components): extract shared button logic
+-- docs: update API documentation for v2 endpoints
++示例：
++- feat(api): 添加用户认证接口
++- fix: 修复数据处理中的空指针异常
++- chore(deps): 添加 dotenv-cli 用于加载环境变量
+ 
+-Now write the commit message:`;
++现在撰写 commit message：`;
+ var DEFAULT_PROMPT = `You are a technical writer. Analyze the git commits and code diffs below, then write release notes.
+ 
+ COMMITS:
+@@ -420,13 +418,13 @@ RULES:
+ 5. Keep each item to one line
+ 
+ FORMAT:
+-### \u2728 Features
++### Features
+ - [source] Description of actual feature from the code
+ 
+-### \u{1F41B} Bug Fixes
++### Bug Fixes
+ - [source] Description of actual fix
+ 
+-### \u{1F6E0}\uFE0F Improvements
++### Improvements
+ - [source] Description of actual improvement
+ 
+ Now write the changelog based on the commits and code above:`;
+@@ -741,9 +739,10 @@ ${diffsText}
+         const { createOpenAI } = await import("@ai-sdk/openai");
+         const openai = createOpenAI({
+           apiKey: process.env["OPENAI_API_KEY"],
++          compatibility: "strict",
+           ...baseUrl && { baseURL: baseUrl }
+         });
+-        providerInstance = openai(model);
++        providerInstance = openai.chat(model);
+         break;
+       }
+       case "google": {
+@@ -882,9 +881,10 @@ ${truncatedDiff}`;
+         const { createOpenAI } = await import("@ai-sdk/openai");
+         const openai = createOpenAI({
+           apiKey: process.env["OPENAI_API_KEY"],
++          compatibility: "strict",
+           ...baseUrl && { baseURL: baseUrl }
+         });
+-        providerInstance = openai(model);
++        providerInstance = openai.chat(model);
+         break;
+       }
+       case "google": {
+diff --git a/node_modules/lazy-changelog/dist/index.js b/node_modules/lazy-changelog/dist/index.js
+index 40ab281..f8f1f46 100644
+--- a/node_modules/lazy-changelog/dist/index.js
++++ b/node_modules/lazy-changelog/dist/index.js
+@@ -433,29 +433,27 @@ var DEFAULT_DIFF_OPTIONS = {
+   ],
+   includePatterns: void 0
+ };
+-var COMMIT_MESSAGE_PROMPT = `You are writing a git commit message. Analyze the staged changes below and write a concise, informative commit message.
++var COMMIT_MESSAGE_PROMPT = `你是一个专业的提交信息撰写者。分析下面的暂存改动，用中文撰写简洁、信息丰富的 commit message。
+ 
+ STAGED CHANGES:
+ {diffs}
+ 
+-TASK: Write a commit message based ONLY on what you see above. Do NOT make up changes.
++任务：仅根据上面的改动撰写 commit message。不要编造内容。
+ 
+-RULES:
+-1. Use conventional commit format: type(scope): description
+-2. Types: feat, fix, docs, style, refactor, test, chore, perf, ci, build
+-3. Scope is optional but helpful (e.g., feat(auth): add login)
+-4. First line should be under 72 characters
+-5. If changes are complex, add a blank line then bullet points
+-6. Be specific - mention actual function names, files, or components
+-7. Focus on WHAT changed and WHY, not HOW
++规则：
++1. 使用 conventional commit 格式：type(scope): 中文描述
++2. 类型：feat, fix, docs, style, refactor, test, chore, perf, ci, build
++3. 标题行不超过 72 个字符
++4. 空一行后添加中文 body，解释改了什么、为什么这样改
++5. 要具体——提到实际的函数名、文件名或组件
++6. 重点描述做了什么和为什么，而不是怎么做
+ 
+-EXAMPLES:
+-- feat(api): add user authentication endpoint
+-- fix: resolve null pointer in data processing
+-- refactor(components): extract shared button logic
+-- docs: update API documentation for v2 endpoints
++示例：
++- feat(api): 添加用户认证接口
++- fix: 修复数据处理中的空指针异常
++- chore(deps): 添加 dotenv-cli 用于加载环境变量
+ 
+-Now write the commit message:`;
++现在撰写 commit message：`;
+ var DEFAULT_PROMPT = `You are a technical writer. Analyze the git commits and code diffs below, then write release notes.
+ 
+ COMMITS:
+@@ -473,13 +471,13 @@ RULES:
+ 5. Keep each item to one line
+ 
+ FORMAT:
+-### \u2728 Features
++### Features
+ - [source] Description of actual feature from the code
+ 
+-### \u{1F41B} Bug Fixes
++### Bug Fixes
+ - [source] Description of actual fix
+ 
+-### \u{1F6E0}\uFE0F Improvements
++### Improvements
+ - [source] Description of actual improvement
+ 
+ Now write the changelog based on the commits and code above:`;
+@@ -796,7 +794,7 @@ ${diffsText}
+           apiKey: process.env["OPENAI_API_KEY"],
+           ...baseUrl && { baseURL: baseUrl }
+         });
+-        providerInstance = openai(model);
++        providerInstance = openai.chat(model);
+         break;
+       }
+       case "google": {
+@@ -937,7 +935,7 @@ ${truncatedDiff}`;
+           apiKey: process.env["OPENAI_API_KEY"],
+           ...baseUrl && { baseURL: baseUrl }
+         });
+-        providerInstance = openai(model);
++        providerInstance = openai.chat(model);
+         break;
+       }
+       case "google": {
+diff --git a/node_modules/lazy-changelog/dist/index.mjs b/node_modules/lazy-changelog/dist/index.mjs
+index 192b9c4..1269fa3 100644
+--- a/node_modules/lazy-changelog/dist/index.mjs
++++ b/node_modules/lazy-changelog/dist/index.mjs
+@@ -380,29 +380,27 @@ var DEFAULT_DIFF_OPTIONS = {
+   ],
+   includePatterns: void 0
+ };
+-var COMMIT_MESSAGE_PROMPT = `You are writing a git commit message. Analyze the staged changes below and write a concise, informative commit message.
++var COMMIT_MESSAGE_PROMPT = `你是一个专业的提交信息撰写者。分析下面的暂存改动，用中文撰写简洁、信息丰富的 commit message。
+ 
+ STAGED CHANGES:
+ {diffs}
+ 
+-TASK: Write a commit message based ONLY on what you see above. Do NOT make up changes.
++任务：仅根据上面的改动撰写 commit message。不要编造内容。
+ 
+-RULES:
+-1. Use conventional commit format: type(scope): description
+-2. Types: feat, fix, docs, style, refactor, test, chore, perf, ci, build
+-3. Scope is optional but helpful (e.g., feat(auth): add login)
+-4. First line should be under 72 characters
+-5. If changes are complex, add a blank line then bullet points
+-6. Be specific - mention actual function names, files, or components
+-7. Focus on WHAT changed and WHY, not HOW
++规则：
++1. 使用 conventional commit 格式：type(scope): 中文描述
++2. 类型：feat, fix, docs, style, refactor, test, chore, perf, ci, build
++3. 标题行不超过 72 个字符
++4. 空一行后添加中文 body，解释改了什么、为什么这样改
++5. 要具体——提到实际的函数名、文件名或组件
++6. 重点描述做了什么和为什么，而不是怎么做
+ 
+-EXAMPLES:
+-- feat(api): add user authentication endpoint
+-- fix: resolve null pointer in data processing
+-- refactor(components): extract shared button logic
+-- docs: update API documentation for v2 endpoints
++示例：
++- feat(api): 添加用户认证接口
++- fix: 修复数据处理中的空指针异常
++- chore(deps): 添加 dotenv-cli 用于加载环境变量
+ 
+-Now write the commit message:`;
++现在撰写 commit message：`;
+ var DEFAULT_PROMPT = `You are a technical writer. Analyze the git commits and code diffs below, then write release notes.
+ 
+ COMMITS:
+@@ -420,13 +418,13 @@ RULES:
+ 5. Keep each item to one line
+ 
+ FORMAT:
+-### \u2728 Features
++### Features
+ - [source] Description of actual feature from the code
+ 
+-### \u{1F41B} Bug Fixes
++### Bug Fixes
+ - [source] Description of actual fix
+ 
+-### \u{1F6E0}\uFE0F Improvements
++### Improvements
+ - [source] Description of actual improvement
+ 
+ Now write the changelog based on the commits and code above:`;
+@@ -743,7 +741,7 @@ ${diffsText}
+           apiKey: process.env["OPENAI_API_KEY"],
+           ...baseUrl && { baseURL: baseUrl }
+         });
+-        providerInstance = openai(model);
++        providerInstance = openai.chat(model);
+         break;
+       }
+       case "google": {
+@@ -884,7 +882,7 @@ ${truncatedDiff}`;
+           apiKey: process.env["OPENAI_API_KEY"],
+           ...baseUrl && { baseURL: baseUrl }
+         });
+-        providerInstance = openai(model);
++        providerInstance = openai.chat(model);
+         break;
+       }
+       case "google": {
