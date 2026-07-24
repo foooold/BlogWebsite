@@ -1,5 +1,5 @@
 diff --git a/node_modules/lazy-changelog/dist/cli.js b/node_modules/lazy-changelog/dist/cli.js
-index 76df49b..2416370 100644
+index 76df49b..131ddbc 100644
 --- a/node_modules/lazy-changelog/dist/cli.js
 +++ b/node_modules/lazy-changelog/dist/cli.js
 @@ -408,29 +408,27 @@ var DEFAULT_DIFF_OPTIONS = {
@@ -63,8 +63,11 @@ index 76df49b..2416370 100644
  - [source] Description of actual improvement
  
  Now write the changelog based on the commits and code above:`;
-@@ -771,7 +769,7 @@ ${diffsText}
+@@ -769,9 +767,10 @@ ${diffsText}
+         const { createOpenAI } = await import("@ai-sdk/openai");
+         const openai = createOpenAI({
            apiKey: process.env["OPENAI_API_KEY"],
++          compatibility: "strict",
            ...baseUrl && { baseURL: baseUrl }
          });
 -        providerInstance = openai(model);
@@ -72,8 +75,20 @@ index 76df49b..2416370 100644
          break;
        }
        case "google": {
-@@ -904,7 +902,7 @@ ${truncatedDiff}`;
+@@ -796,7 +795,7 @@ ${diffsText}
+     const result = await generateText({
+       model: providerInstance,
+       prompt,
+-      maxOutputTokens: 1024
++      maxOutputTokens: 4096
+     });
+     return result.text.trim();
+   }
+@@ -902,9 +901,10 @@ ${truncatedDiff}`;
+         const { createOpenAI } = await import("@ai-sdk/openai");
+         const openai = createOpenAI({
            apiKey: process.env["OPENAI_API_KEY"],
++          compatibility: "strict",
            ...baseUrl && { baseURL: baseUrl }
          });
 -        providerInstance = openai(model);
@@ -82,7 +97,7 @@ index 76df49b..2416370 100644
        }
        case "google": {
 diff --git a/node_modules/lazy-changelog/dist/core.js b/node_modules/lazy-changelog/dist/core.js
-index 7788ce9..b184977 100644
+index 7788ce9..0d41e67 100644
 --- a/node_modules/lazy-changelog/dist/core.js
 +++ b/node_modules/lazy-changelog/dist/core.js
 @@ -429,29 +429,27 @@ var DEFAULT_DIFF_OPTIONS = {
@@ -146,8 +161,11 @@ index 7788ce9..b184977 100644
  - [source] Description of actual improvement
  
  Now write the changelog based on the commits and code above:`;
-@@ -792,7 +790,7 @@ ${diffsText}
+@@ -790,9 +788,10 @@ ${diffsText}
+         const { createOpenAI } = await import("@ai-sdk/openai");
+         const openai = createOpenAI({
            apiKey: process.env["OPENAI_API_KEY"],
++          compatibility: "strict",
            ...baseUrl && { baseURL: baseUrl }
          });
 -        providerInstance = openai(model);
@@ -155,8 +173,20 @@ index 7788ce9..b184977 100644
          break;
        }
        case "google": {
-@@ -933,7 +931,7 @@ ${truncatedDiff}`;
+@@ -817,7 +816,7 @@ ${diffsText}
+     const result = await generateText({
+       model: providerInstance,
+       prompt,
+-      maxOutputTokens: 1024
++      maxOutputTokens: 4096
+     });
+     return result.text.trim();
+   }
+@@ -931,9 +930,10 @@ ${truncatedDiff}`;
+         const { createOpenAI } = await import("@ai-sdk/openai");
+         const openai = createOpenAI({
            apiKey: process.env["OPENAI_API_KEY"],
++          compatibility: "strict",
            ...baseUrl && { baseURL: baseUrl }
          });
 -        providerInstance = openai(model);
@@ -165,7 +195,7 @@ index 7788ce9..b184977 100644
        }
        case "google": {
 diff --git a/node_modules/lazy-changelog/dist/core.mjs b/node_modules/lazy-changelog/dist/core.mjs
-index eb15852..996f35f 100644
+index eb15852..18afa4f 100644
 --- a/node_modules/lazy-changelog/dist/core.mjs
 +++ b/node_modules/lazy-changelog/dist/core.mjs
 @@ -380,29 +380,27 @@ var DEFAULT_DIFF_OPTIONS = {
@@ -241,6 +271,15 @@ index eb15852..996f35f 100644
          break;
        }
        case "google": {
+@@ -768,7 +767,7 @@ ${diffsText}
+     const result = await generateText({
+       model: providerInstance,
+       prompt,
+-      maxOutputTokens: 1024
++      maxOutputTokens: 4096
+     });
+     return result.text.trim();
+   }
 @@ -882,9 +881,10 @@ ${truncatedDiff}`;
          const { createOpenAI } = await import("@ai-sdk/openai");
          const openai = createOpenAI({
@@ -254,7 +293,7 @@ index eb15852..996f35f 100644
        }
        case "google": {
 diff --git a/node_modules/lazy-changelog/dist/index.js b/node_modules/lazy-changelog/dist/index.js
-index 40ab281..f8f1f46 100644
+index 40ab281..e3f8e7b 100644
 --- a/node_modules/lazy-changelog/dist/index.js
 +++ b/node_modules/lazy-changelog/dist/index.js
 @@ -433,29 +433,27 @@ var DEFAULT_DIFF_OPTIONS = {
@@ -318,8 +357,11 @@ index 40ab281..f8f1f46 100644
  - [source] Description of actual improvement
  
  Now write the changelog based on the commits and code above:`;
-@@ -796,7 +794,7 @@ ${diffsText}
+@@ -794,9 +792,10 @@ ${diffsText}
+         const { createOpenAI } = await import("@ai-sdk/openai");
+         const openai = createOpenAI({
            apiKey: process.env["OPENAI_API_KEY"],
++          compatibility: "strict",
            ...baseUrl && { baseURL: baseUrl }
          });
 -        providerInstance = openai(model);
@@ -327,8 +369,20 @@ index 40ab281..f8f1f46 100644
          break;
        }
        case "google": {
-@@ -937,7 +935,7 @@ ${truncatedDiff}`;
+@@ -821,7 +820,7 @@ ${diffsText}
+     const result = await generateText({
+       model: providerInstance,
+       prompt,
+-      maxOutputTokens: 1024
++      maxOutputTokens: 4096
+     });
+     return result.text.trim();
+   }
+@@ -935,9 +934,10 @@ ${truncatedDiff}`;
+         const { createOpenAI } = await import("@ai-sdk/openai");
+         const openai = createOpenAI({
            apiKey: process.env["OPENAI_API_KEY"],
++          compatibility: "strict",
            ...baseUrl && { baseURL: baseUrl }
          });
 -        providerInstance = openai(model);
@@ -337,7 +391,7 @@ index 40ab281..f8f1f46 100644
        }
        case "google": {
 diff --git a/node_modules/lazy-changelog/dist/index.mjs b/node_modules/lazy-changelog/dist/index.mjs
-index 192b9c4..1269fa3 100644
+index 192b9c4..823dadf 100644
 --- a/node_modules/lazy-changelog/dist/index.mjs
 +++ b/node_modules/lazy-changelog/dist/index.mjs
 @@ -380,29 +380,27 @@ var DEFAULT_DIFF_OPTIONS = {
@@ -410,6 +464,15 @@ index 192b9c4..1269fa3 100644
          break;
        }
        case "google": {
+@@ -768,7 +766,7 @@ ${diffsText}
+     const result = await generateText({
+       model: providerInstance,
+       prompt,
+-      maxOutputTokens: 1024
++      maxOutputTokens: 4096
+     });
+     return result.text.trim();
+   }
 @@ -884,7 +882,7 @@ ${truncatedDiff}`;
            apiKey: process.env["OPENAI_API_KEY"],
            ...baseUrl && { baseURL: baseUrl }
