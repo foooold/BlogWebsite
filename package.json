@@ -1,0 +1,30 @@
+{
+  "name": "blogwebsite",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "log": "lazy-changelog generate --prepend CHANGELOG.md --provider openai --base-url https://api.deepseek.com --model deepseek-chat",
+    "log:diff": "lazy-changelog generate --diffs --prepend CHANGELOG.md --provider openai --base-url https://api.deepseek.com --model deepseek-chat",
+    "log:dry": "lazy-changelog generate --provider openai --base-url https://api.deepseek.com --model deepseek-chat",
+    "commit": "lazy-changelog commit -e --provider openai --base-url https://api.deepseek.com --model deepseek-chat",
+    "commit:msg": "lazy-changelog commit --provider openai --base-url https://api.deepseek.com --model deepseek-chat"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/foooold/BlogWebsite.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/foooold/BlogWebsite/issues"
+  },
+  "homepage": "https://github.com/foooold/BlogWebsite#readme",
+  "devDependencies": {
+    "@ai-sdk/openai": "^4.0.20",
+    "lazy-changelog": "^1.3.0"
+  }
+}
