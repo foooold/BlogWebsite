@@ -7,6 +7,30 @@
 - **Node.js**: v24+, installed globally
 - **Activate venv**: `& "venv\Scripts\Activate.ps1"` (must run from project root)
 
+## AI Tools
+
+### lazy-changelog + DeepSeek
+
+The project uses [lazy-changelog](https://github.com/nicepkg/lazy-changelog) with DeepSeek (via OpenAI-compatible API) for AI-generated changelogs and commit messages. Requires `OPENAI_API_KEY` in `.env` (set to a DeepSeek API key).
+
+| Script | Purpose |
+|--------|---------|
+| `npm run log` | Generate changelog and prepend to `CHANGELOG.md` |
+| `npm run log:diff` | Generate changelog with full code diffs for better context |
+| `npm run log:dry` | Dry-run changelog generation (print only, don't write) |
+| `npm run commit` | Generate commit message from staged changes, with `-e` (opens editor for review) |
+| `npm run commit:msg` | Generate commit message only (no editor), print to stdout |
+
+All scripts use `dotenv-cli` to load `.env` before running, and connect to `https://api.deepseek.com` with model `deepseek-v4-pro`.
+
+### patch-package
+
+`patch-package` runs on `postinstall` and applies `patches/lazy-changelog+1.3.0.patch`. The patch:
+- Localizes commit message and changelog prompts to Chinese
+- Fixes SDK compatibility: `openai(model)` → `openai.chat(model)`, adds `compatibility: "strict"` for `@ai-sdk/openai` v4+
+
+If `npm install` output shows patch failures, the patch may need to be regenerated after upgrading `lazy-changelog`.
+
 ## Stack
 
 - **Backend**: Django 6.0.7 + Django REST Framework 3.17.1 + django-cors-headers
@@ -68,13 +92,6 @@ Route priority is critical: API and admin are matched before the SPA catch-all v
 
 - **Development** (`DEBUG=True`): `templates/index.html` loads Vue from Vite dev server (`localhost:5173`), with HMR. Access `http://localhost:5173` directly.
 - **Production** (`DEBUG=False`): Django serves built Vue assets from `static/dist/`, reading paths from `.vite/manifest.json`. Access via Nginx on port 80 only (5173 is dev-only).
-
-### Production access
-
-| Page | URL |
-|------|-----|
-| Frontend | `http://<server-ip>/` |
-| Admin | `http://<server-ip>/zh-hans/admin/` |
 
 ### Website title
 
@@ -166,15 +183,19 @@ Note: `Tags.vue` is an orphan component — the `/tags` route was removed in fav
 
 ### Blog routes
 
-| Route | Page |
-|-------|------|
-| `/` | Home |
-| `/blog` | Blog list |
-| `/blog/:slug` | Post detail |
-| `/archive` | Archive |
-| `/about` | About |
+| Route | Page | Title |
+|-------|------|-------|
+| `/` | Home | `Frank Du 的个人空间` |
+| `/blog` | Blog list | `博客` |
+| `/blog/:slug` | Post detail | `{article.title} - Frank Du 的个人空间` (dynamic) |
+| `/archive` | Archive | `归档` |
+| `/about` | About | `关于 - Frank Du 的个人空间` |
 
 Note: `/tags` route was removed. Tag filtering is done via `/blog` page (tag chips + `?tag=` query param). Search bar tag results navigate to `/blog?tag=xxx`.
+
+### Page titles
+
+Route `meta.title` is set in `router/index.js`, and `router.afterEach()` sets `document.title` on every navigation. For the post detail page, the title is set dynamically in `PostDetail.vue`'s `fetchPost()`: `document.title = post.value.title + ' - Frank Du 的个人空间'` — this overrides the static route meta since the post title isn't known at route definition time.
 
 ### Navbar layout
 
@@ -289,9 +310,13 @@ Remove-Item -LiteralPath "frontend\node_modules\.vite" -Recurse -Force
 ## Commands
 
 ```powershell
+# Root: install AI tools (lazy-changelog, patch-package)
+npm install                     # root package.json — installs dotenv-cli, lazy-changelog, patch-package
+
 # Activate venv first, then:
 python manage.py migrate
 python manage.py startapp <name>
+python manage.py collectstatic
 
 # Frontend (from frontend/ dir):
 npm install                     # install Vue dependencies
@@ -301,6 +326,12 @@ npm run build                   # production build → ../static/dist/
 # Production deployment:
 cd frontend; npm run build; cd ..
 python manage.py collectstatic
+
+# AI changelog (root):
+npm run log                     # generate changelog → CHANGELOG.md
+npm run log:diff                # generate changelog with code diffs
+npm run log:dry                 # dry-run (print only)
+npm run commit                  # AI-generated commit message
 ```
 
 ## Key Configuration
@@ -322,6 +353,46 @@ All settings are read from `.env` via `python-decouple`. See `.env.example` for 
 | `LANGUAGES` | `zh-hans` (简体中文), `en` (English) |
 | `UNFOLD.SHOW_LANGUAGES` | `True` |
 | `REST_FRAMEWORK.DEFAULT_PERMISSION_CLASSES` | `AllowAny` |
+
+### Logging
+
+Django logging is configured in `config/settings.py` — all output goes to console (stdout/stderr), captured by gunicorn in production to `/var/log/gunicorn/error.log`:
+
+| Logger | Level | Notes |
+|--------|-------|-------|
+| Root | `WARNING` | Catch-all for third-party libraries |
+| `django` | `INFO` | Django framework messages |
+| `django.request` | `ERROR` | Request errors only |
+
+Format: `[{asctime}] {levelname} {module} {message}`
+
+## Deployment
+
+The `deploy/` directory contains production deployment configuration for Ubuntu + Nginx + Gunicorn.
+
+| File | Purpose |
+|------|---------|
+| `deploy/deploy.sh` | One-shot deployment script — sets up venv, runs migrations, collectstatic, restarts services |
+| `deploy/gunicorn.conf.py` | Gunicorn config: binds `127.0.0.1:8000`, workers = `cpu * 2 + 1`, logs to `/var/log/gunicorn/` |
+| `deploy/nginx.conf` | Nginx reverse proxy — serves static files, proxies `/` to gunicorn |
+| `deploy/systemd/gunicorn.service` | systemd unit for gunicorn, runs as `www-data` |
+
+### Deploy script steps
+
+1. Git pull from main
+2. Create directories (`/var/log/gunicorn`, `media/`, `logs/`)
+3. Set up Python venv (skip if exists)
+4. Install pip + frontend npm dependencies
+5. Run Django migrations
+6. Build frontend, collectstatic, restart nginx
+7. Fix permissions (`www-data` owns project dir, `staticfiles/`, `db.sqlite3*`)
+
+### Production access
+
+| Page | URL |
+|------|-----|
+| Frontend | `http://<server-ip>/` |
+| Admin | `http://<server-ip>/zh-hans/admin/` |
 
 ## Superuser
 
