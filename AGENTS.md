@@ -42,13 +42,21 @@ npm run log:dry -- --from v1.0.0 --to v1.1.0
 3. `git describe --tags --abbrev=0`（最新 tag）
 4. `"Unreleased"`
 
-打新 tag 后应同步更新 `package.json` 的 `version` 字段，避免版本号不一致。
+**发布新版本**：不要手动 `git tag`，使用 `npm version <版本号>`（支持两位版号如 `1.2`），一条命令自动完成：更新 `package.json` → git commit → 打 tag。
+
+```bash
+npm version 1.2          # 发布 1.2 版本
+npm run log:diff         # 生成 changelog（从最新 tag 到 HEAD）
+git push && git push --tags
+```
 
 ### patch-package
 
 `patch-package` runs on `postinstall` and applies `patches/lazy-changelog+1.3.0.patch`. The patch:
-- Localizes commit message and changelog prompts to Chinese
-- Fixes SDK compatibility: `openai(model)` → `openai.chat(model)`, adds `compatibility: "strict"` for `@ai-sdk/openai` v4+
+- Changelog prompt: English output, no `[commits]`/`[code]` source prefixes, emoji → plain text
+- Commit prompt: English instructions, rule 2 specifies `Make the description in Chinese`
+- SDK compatibility: `openai(model)` → `openai.chat(model)`, adds `compatibility: "strict"` for `@ai-sdk/openai` v4+
+- Token limits: changelog 8192, commit message 4096
 
 If `npm install` output shows patch failures, the patch may need to be regenerated after upgrading `lazy-changelog`.
 
@@ -347,6 +355,9 @@ npm run build                   # production build → ../static/dist/
 # Production deployment:
 cd frontend; npm run build; cd ..
 python manage.py collectstatic
+
+# Release (root):
+npm version 1.2                 # bump version → commit → tag v1.2 (three-in-one)
 
 # AI changelog (root):
 npm run log                     # generate changelog → CHANGELOG.md
