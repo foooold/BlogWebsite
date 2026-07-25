@@ -15,13 +15,34 @@ The project uses [lazy-changelog](https://github.com/nicepkg/lazy-changelog) wit
 
 | Script | Purpose |
 |--------|---------|
-| `npm run log` | Generate changelog and prepend to `CHANGELOG.md` |
+| `npm run log` | Generate changelog (latest tag → HEAD) and prepend to `CHANGELOG.md` |
 | `npm run log:diff` | Generate changelog with full code diffs for better context |
 | `npm run log:dry` | Dry-run changelog generation (print only, don't write) |
 | `npm run commit` | Generate commit message from staged changes, with `-e` (opens editor for review) |
 | `npm run commit:msg` | Generate commit message only (no editor), print to stdout |
 
 All scripts use `dotenv-cli` to load `.env` before running, and connect to `https://api.deepseek.com` with model `deepseek-v4-pro`.
+
+**`log:diff` / `log` 默认只覆盖最新 tag → HEAD**。要为特定区间生成 changelog，通过 `--` 传递额外参数：
+
+```bash
+# 为 v1.0.0 → v1.1.0 区间生成 changelog（打 tag 后补生成）
+npm run log:diff -- --from v1.0.0 --to v1.1.0 --tag v1.1.0
+
+# 为整个项目历史生成 changelog（无 tag 时）
+npm run log:diff -- --from $(git rev-list --max-parents=0 HEAD) --tag v1.0.0
+
+# 预览将要生成的内容（不写入文件）
+npm run log:dry -- --from v1.0.0 --to v1.1.0
+```
+
+**版本号来源**：changelog header 的版本号按以下优先级确定：
+1. `--tag <version>` 显式指定
+2. `package.json` 中的 `version` 字段
+3. `git describe --tags --abbrev=0`（最新 tag）
+4. `"Unreleased"`
+
+打新 tag 后应同步更新 `package.json` 的 `version` 字段，避免版本号不一致。
 
 ### patch-package
 
