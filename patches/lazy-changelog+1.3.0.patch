@@ -1,69 +1,59 @@
 diff --git a/node_modules/lazy-changelog/dist/cli.js b/node_modules/lazy-changelog/dist/cli.js
-index 76df49b..131ddbc 100644
+index 76df49b..e4d2f97 100644
 --- a/node_modules/lazy-changelog/dist/cli.js
 +++ b/node_modules/lazy-changelog/dist/cli.js
-@@ -408,29 +408,27 @@ var DEFAULT_DIFF_OPTIONS = {
-   ],
-   includePatterns: void 0
- };
--var COMMIT_MESSAGE_PROMPT = `You are writing a git commit message. Analyze the staged changes below and write a concise, informative commit message.
-+var COMMIT_MESSAGE_PROMPT = `你是一个专业的提交信息撰写者。分析下面的暂存改动，用中文撰写简洁、信息丰富的 commit message。
+@@ -417,12 +417,13 @@ TASK: Write a commit message based ONLY on what you see above. Do NOT make up ch
  
- STAGED CHANGES:
- {diffs}
- 
--TASK: Write a commit message based ONLY on what you see above. Do NOT make up changes.
-+任务：仅根据上面的改动撰写 commit message。不要编造内容。
- 
--RULES:
--1. Use conventional commit format: type(scope): description
+ RULES:
+ 1. Use conventional commit format: type(scope): description
 -2. Types: feat, fix, docs, style, refactor, test, chore, perf, ci, build
 -3. Scope is optional but helpful (e.g., feat(auth): add login)
 -4. First line should be under 72 characters
 -5. If changes are complex, add a blank line then bullet points
 -6. Be specific - mention actual function names, files, or components
 -7. Focus on WHAT changed and WHY, not HOW
-+规则：
-+1. 使用 conventional commit 格式：type(scope): 中文描述
-+2. 类型：feat, fix, docs, style, refactor, test, chore, perf, ci, build
-+3. 标题行不超过 72 个字符
-+4. 空一行后添加中文 body，解释改了什么、为什么这样改
-+5. 要具体——提到实际的函数名、文件名或组件
-+6. 重点描述做了什么和为什么，而不是怎么做
++2. Make the description in Chinese
++3. Types: feat, fix, docs, style, refactor, test, chore, perf, ci, build
++4. Scope is optional but helpful (e.g., feat(auth): add login)
++5. First line should be under 72 characters
++6. If changes are complex, add a blank line then bullet points with a Chinese body explaining what changed and why
++7. Be specific - mention actual function names, files, or components
++8. Focus on WHAT changed and WHY, not HOW
  
--EXAMPLES:
--- feat(api): add user authentication endpoint
--- fix: resolve null pointer in data processing
--- refactor(components): extract shared button logic
--- docs: update API documentation for v2 endpoints
-+示例：
-+- feat(api): 添加用户认证接口
-+- fix: 修复数据处理中的空指针异常
-+- chore(deps): 添加 dotenv-cli 用于加载环境变量
+ EXAMPLES:
+ - feat(api): add user authentication endpoint
+@@ -441,21 +442,21 @@ COMMITS:
+ TASK: Write a changelog entry based ONLY on what you see above. Do NOT make up features - describe what the actual code does.
  
--Now write the commit message:`;
-+现在撰写 commit message：`;
- var DEFAULT_PROMPT = `You are a technical writer. Analyze the git commits and code diffs below, then write release notes.
- 
- COMMITS:
-@@ -448,13 +446,13 @@ RULES:
+ RULES:
+-1. Read the code diffs carefully to understand what was actually built
+-2. Group into: Features, Bug Fixes, Improvements (skip empty sections)
+-3. If diffs are provided, prefix each item with [commits] or [code] to show the source
++1. Write the changelog in English
++2. Read the code diffs carefully to understand what was actually built
++3. Group into: Features, Bug Fixes, Improvements (skip empty sections)
+ 4. Be specific - mention actual function names, components, or capabilities you see in the code
  5. Keep each item to one line
  
  FORMAT:
 -### \u2728 Features
+-- [source] Description of actual feature from the code
 +### Features
- - [source] Description of actual feature from the code
++- Description of actual feature from the code
  
 -### \u{1F41B} Bug Fixes
+-- [source] Description of actual fix
 +### Bug Fixes
- - [source] Description of actual fix
++- Description of actual fix
  
 -### \u{1F6E0}\uFE0F Improvements
+-- [source] Description of actual improvement
 +### Improvements
- - [source] Description of actual improvement
++- Description of actual improvement
  
  Now write the changelog based on the commits and code above:`;
-@@ -769,9 +767,10 @@ ${diffsText}
+ var AIChangelogGenerator = class {
+@@ -769,9 +770,10 @@ ${diffsText}
          const { createOpenAI } = await import("@ai-sdk/openai");
          const openai = createOpenAI({
            apiKey: process.env["OPENAI_API_KEY"],
@@ -75,16 +65,16 @@ index 76df49b..131ddbc 100644
          break;
        }
        case "google": {
-@@ -796,7 +795,7 @@ ${diffsText}
+@@ -796,7 +798,7 @@ ${diffsText}
      const result = await generateText({
        model: providerInstance,
        prompt,
 -      maxOutputTokens: 1024
-+      maxOutputTokens: 4096
++      maxOutputTokens: 8192
      });
      return result.text.trim();
    }
-@@ -902,9 +901,10 @@ ${truncatedDiff}`;
+@@ -902,9 +904,10 @@ ${truncatedDiff}`;
          const { createOpenAI } = await import("@ai-sdk/openai");
          const openai = createOpenAI({
            apiKey: process.env["OPENAI_API_KEY"],
@@ -96,72 +86,71 @@ index 76df49b..131ddbc 100644
          break;
        }
        case "google": {
+@@ -929,7 +932,7 @@ ${truncatedDiff}`;
+     const result = await generateText({
+       model: providerInstance,
+       prompt,
+-      maxOutputTokens: 500
++      maxOutputTokens: 4096
+     });
+     return result.text.trim();
+   }
 diff --git a/node_modules/lazy-changelog/dist/core.js b/node_modules/lazy-changelog/dist/core.js
-index 7788ce9..0d41e67 100644
+index 7788ce9..d925e2a 100644
 --- a/node_modules/lazy-changelog/dist/core.js
 +++ b/node_modules/lazy-changelog/dist/core.js
-@@ -429,29 +429,27 @@ var DEFAULT_DIFF_OPTIONS = {
-   ],
-   includePatterns: void 0
- };
--var COMMIT_MESSAGE_PROMPT = `You are writing a git commit message. Analyze the staged changes below and write a concise, informative commit message.
-+var COMMIT_MESSAGE_PROMPT = `你是一个专业的提交信息撰写者。分析下面的暂存改动，用中文撰写简洁、信息丰富的 commit message。
+@@ -438,12 +438,13 @@ TASK: Write a commit message based ONLY on what you see above. Do NOT make up ch
  
- STAGED CHANGES:
- {diffs}
- 
--TASK: Write a commit message based ONLY on what you see above. Do NOT make up changes.
-+任务：仅根据上面的改动撰写 commit message。不要编造内容。
- 
--RULES:
--1. Use conventional commit format: type(scope): description
+ RULES:
+ 1. Use conventional commit format: type(scope): description
 -2. Types: feat, fix, docs, style, refactor, test, chore, perf, ci, build
 -3. Scope is optional but helpful (e.g., feat(auth): add login)
 -4. First line should be under 72 characters
 -5. If changes are complex, add a blank line then bullet points
 -6. Be specific - mention actual function names, files, or components
 -7. Focus on WHAT changed and WHY, not HOW
-+规则：
-+1. 使用 conventional commit 格式：type(scope): 中文描述
-+2. 类型：feat, fix, docs, style, refactor, test, chore, perf, ci, build
-+3. 标题行不超过 72 个字符
-+4. 空一行后添加中文 body，解释改了什么、为什么这样改
-+5. 要具体——提到实际的函数名、文件名或组件
-+6. 重点描述做了什么和为什么，而不是怎么做
++2. Make the description in Chinese
++3. Types: feat, fix, docs, style, refactor, test, chore, perf, ci, build
++4. Scope is optional but helpful (e.g., feat(auth): add login)
++5. First line should be under 72 characters
++6. If changes are complex, add a blank line then bullet points with a Chinese body explaining what changed and why
++7. Be specific - mention actual function names, files, or components
++8. Focus on WHAT changed and WHY, not HOW
  
--EXAMPLES:
--- feat(api): add user authentication endpoint
--- fix: resolve null pointer in data processing
--- refactor(components): extract shared button logic
--- docs: update API documentation for v2 endpoints
-+示例：
-+- feat(api): 添加用户认证接口
-+- fix: 修复数据处理中的空指针异常
-+- chore(deps): 添加 dotenv-cli 用于加载环境变量
+ EXAMPLES:
+ - feat(api): add user authentication endpoint
+@@ -462,21 +463,21 @@ COMMITS:
+ TASK: Write a changelog entry based ONLY on what you see above. Do NOT make up features - describe what the actual code does.
  
--Now write the commit message:`;
-+现在撰写 commit message：`;
- var DEFAULT_PROMPT = `You are a technical writer. Analyze the git commits and code diffs below, then write release notes.
- 
- COMMITS:
-@@ -469,13 +467,13 @@ RULES:
+ RULES:
+-1. Read the code diffs carefully to understand what was actually built
+-2. Group into: Features, Bug Fixes, Improvements (skip empty sections)
+-3. If diffs are provided, prefix each item with [commits] or [code] to show the source
++1. Write the changelog in English
++2. Read the code diffs carefully to understand what was actually built
++3. Group into: Features, Bug Fixes, Improvements (skip empty sections)
+ 4. Be specific - mention actual function names, components, or capabilities you see in the code
  5. Keep each item to one line
  
  FORMAT:
 -### \u2728 Features
+-- [source] Description of actual feature from the code
 +### Features
- - [source] Description of actual feature from the code
++- Description of actual feature from the code
  
 -### \u{1F41B} Bug Fixes
+-- [source] Description of actual fix
 +### Bug Fixes
- - [source] Description of actual fix
++- Description of actual fix
  
 -### \u{1F6E0}\uFE0F Improvements
+-- [source] Description of actual improvement
 +### Improvements
- - [source] Description of actual improvement
++- Description of actual improvement
  
  Now write the changelog based on the commits and code above:`;
-@@ -790,9 +788,10 @@ ${diffsText}
+ var AIChangelogGenerator = class {
+@@ -790,9 +791,10 @@ ${diffsText}
          const { createOpenAI } = await import("@ai-sdk/openai");
          const openai = createOpenAI({
            apiKey: process.env["OPENAI_API_KEY"],
@@ -173,16 +162,16 @@ index 7788ce9..0d41e67 100644
          break;
        }
        case "google": {
-@@ -817,7 +816,7 @@ ${diffsText}
+@@ -817,7 +819,7 @@ ${diffsText}
      const result = await generateText({
        model: providerInstance,
        prompt,
 -      maxOutputTokens: 1024
-+      maxOutputTokens: 4096
++      maxOutputTokens: 8192
      });
      return result.text.trim();
    }
-@@ -931,9 +930,10 @@ ${truncatedDiff}`;
+@@ -931,9 +933,10 @@ ${truncatedDiff}`;
          const { createOpenAI } = await import("@ai-sdk/openai");
          const openai = createOpenAI({
            apiKey: process.env["OPENAI_API_KEY"],
@@ -194,72 +183,71 @@ index 7788ce9..0d41e67 100644
          break;
        }
        case "google": {
+@@ -958,7 +961,7 @@ ${truncatedDiff}`;
+     const result = await generateText({
+       model: providerInstance,
+       prompt,
+-      maxOutputTokens: 500
++      maxOutputTokens: 4096
+     });
+     return result.text.trim();
+   }
 diff --git a/node_modules/lazy-changelog/dist/core.mjs b/node_modules/lazy-changelog/dist/core.mjs
-index eb15852..18afa4f 100644
+index eb15852..3c1d9cc 100644
 --- a/node_modules/lazy-changelog/dist/core.mjs
 +++ b/node_modules/lazy-changelog/dist/core.mjs
-@@ -380,29 +380,27 @@ var DEFAULT_DIFF_OPTIONS = {
-   ],
-   includePatterns: void 0
- };
--var COMMIT_MESSAGE_PROMPT = `You are writing a git commit message. Analyze the staged changes below and write a concise, informative commit message.
-+var COMMIT_MESSAGE_PROMPT = `你是一个专业的提交信息撰写者。分析下面的暂存改动，用中文撰写简洁、信息丰富的 commit message。
+@@ -389,12 +389,13 @@ TASK: Write a commit message based ONLY on what you see above. Do NOT make up ch
  
- STAGED CHANGES:
- {diffs}
- 
--TASK: Write a commit message based ONLY on what you see above. Do NOT make up changes.
-+任务：仅根据上面的改动撰写 commit message。不要编造内容。
- 
--RULES:
--1. Use conventional commit format: type(scope): description
+ RULES:
+ 1. Use conventional commit format: type(scope): description
 -2. Types: feat, fix, docs, style, refactor, test, chore, perf, ci, build
 -3. Scope is optional but helpful (e.g., feat(auth): add login)
 -4. First line should be under 72 characters
 -5. If changes are complex, add a blank line then bullet points
 -6. Be specific - mention actual function names, files, or components
 -7. Focus on WHAT changed and WHY, not HOW
-+规则：
-+1. 使用 conventional commit 格式：type(scope): 中文描述
-+2. 类型：feat, fix, docs, style, refactor, test, chore, perf, ci, build
-+3. 标题行不超过 72 个字符
-+4. 空一行后添加中文 body，解释改了什么、为什么这样改
-+5. 要具体——提到实际的函数名、文件名或组件
-+6. 重点描述做了什么和为什么，而不是怎么做
++2. Make the description in Chinese
++3. Types: feat, fix, docs, style, refactor, test, chore, perf, ci, build
++4. Scope is optional but helpful (e.g., feat(auth): add login)
++5. First line should be under 72 characters
++6. If changes are complex, add a blank line then bullet points with a Chinese body explaining what changed and why
++7. Be specific - mention actual function names, files, or components
++8. Focus on WHAT changed and WHY, not HOW
  
--EXAMPLES:
--- feat(api): add user authentication endpoint
--- fix: resolve null pointer in data processing
--- refactor(components): extract shared button logic
--- docs: update API documentation for v2 endpoints
-+示例：
-+- feat(api): 添加用户认证接口
-+- fix: 修复数据处理中的空指针异常
-+- chore(deps): 添加 dotenv-cli 用于加载环境变量
+ EXAMPLES:
+ - feat(api): add user authentication endpoint
+@@ -413,21 +414,21 @@ COMMITS:
+ TASK: Write a changelog entry based ONLY on what you see above. Do NOT make up features - describe what the actual code does.
  
--Now write the commit message:`;
-+现在撰写 commit message：`;
- var DEFAULT_PROMPT = `You are a technical writer. Analyze the git commits and code diffs below, then write release notes.
- 
- COMMITS:
-@@ -420,13 +418,13 @@ RULES:
+ RULES:
+-1. Read the code diffs carefully to understand what was actually built
+-2. Group into: Features, Bug Fixes, Improvements (skip empty sections)
+-3. If diffs are provided, prefix each item with [commits] or [code] to show the source
++1. Write the changelog in English
++2. Read the code diffs carefully to understand what was actually built
++3. Group into: Features, Bug Fixes, Improvements (skip empty sections)
+ 4. Be specific - mention actual function names, components, or capabilities you see in the code
  5. Keep each item to one line
  
  FORMAT:
 -### \u2728 Features
+-- [source] Description of actual feature from the code
 +### Features
- - [source] Description of actual feature from the code
++- Description of actual feature from the code
  
 -### \u{1F41B} Bug Fixes
+-- [source] Description of actual fix
 +### Bug Fixes
- - [source] Description of actual fix
++- Description of actual fix
  
 -### \u{1F6E0}\uFE0F Improvements
+-- [source] Description of actual improvement
 +### Improvements
- - [source] Description of actual improvement
++- Description of actual improvement
  
  Now write the changelog based on the commits and code above:`;
-@@ -741,9 +739,10 @@ ${diffsText}
+ var AIChangelogGenerator = class {
+@@ -741,9 +742,10 @@ ${diffsText}
          const { createOpenAI } = await import("@ai-sdk/openai");
          const openai = createOpenAI({
            apiKey: process.env["OPENAI_API_KEY"],
@@ -271,16 +259,16 @@ index eb15852..18afa4f 100644
          break;
        }
        case "google": {
-@@ -768,7 +767,7 @@ ${diffsText}
+@@ -768,7 +770,7 @@ ${diffsText}
      const result = await generateText({
        model: providerInstance,
        prompt,
 -      maxOutputTokens: 1024
-+      maxOutputTokens: 4096
++      maxOutputTokens: 8192
      });
      return result.text.trim();
    }
-@@ -882,9 +881,10 @@ ${truncatedDiff}`;
+@@ -882,9 +884,10 @@ ${truncatedDiff}`;
          const { createOpenAI } = await import("@ai-sdk/openai");
          const openai = createOpenAI({
            apiKey: process.env["OPENAI_API_KEY"],
@@ -292,72 +280,71 @@ index eb15852..18afa4f 100644
          break;
        }
        case "google": {
+@@ -909,7 +912,7 @@ ${truncatedDiff}`;
+     const result = await generateText({
+       model: providerInstance,
+       prompt,
+-      maxOutputTokens: 500
++      maxOutputTokens: 4096
+     });
+     return result.text.trim();
+   }
 diff --git a/node_modules/lazy-changelog/dist/index.js b/node_modules/lazy-changelog/dist/index.js
-index 40ab281..e3f8e7b 100644
+index 40ab281..8e6cdc7 100644
 --- a/node_modules/lazy-changelog/dist/index.js
 +++ b/node_modules/lazy-changelog/dist/index.js
-@@ -433,29 +433,27 @@ var DEFAULT_DIFF_OPTIONS = {
-   ],
-   includePatterns: void 0
- };
--var COMMIT_MESSAGE_PROMPT = `You are writing a git commit message. Analyze the staged changes below and write a concise, informative commit message.
-+var COMMIT_MESSAGE_PROMPT = `你是一个专业的提交信息撰写者。分析下面的暂存改动，用中文撰写简洁、信息丰富的 commit message。
+@@ -442,12 +442,13 @@ TASK: Write a commit message based ONLY on what you see above. Do NOT make up ch
  
- STAGED CHANGES:
- {diffs}
- 
--TASK: Write a commit message based ONLY on what you see above. Do NOT make up changes.
-+任务：仅根据上面的改动撰写 commit message。不要编造内容。
- 
--RULES:
--1. Use conventional commit format: type(scope): description
+ RULES:
+ 1. Use conventional commit format: type(scope): description
 -2. Types: feat, fix, docs, style, refactor, test, chore, perf, ci, build
 -3. Scope is optional but helpful (e.g., feat(auth): add login)
 -4. First line should be under 72 characters
 -5. If changes are complex, add a blank line then bullet points
 -6. Be specific - mention actual function names, files, or components
 -7. Focus on WHAT changed and WHY, not HOW
-+规则：
-+1. 使用 conventional commit 格式：type(scope): 中文描述
-+2. 类型：feat, fix, docs, style, refactor, test, chore, perf, ci, build
-+3. 标题行不超过 72 个字符
-+4. 空一行后添加中文 body，解释改了什么、为什么这样改
-+5. 要具体——提到实际的函数名、文件名或组件
-+6. 重点描述做了什么和为什么，而不是怎么做
++2. Make the description in Chinese
++3. Types: feat, fix, docs, style, refactor, test, chore, perf, ci, build
++4. Scope is optional but helpful (e.g., feat(auth): add login)
++5. First line should be under 72 characters
++6. If changes are complex, add a blank line then bullet points with a Chinese body explaining what changed and why
++7. Be specific - mention actual function names, files, or components
++8. Focus on WHAT changed and WHY, not HOW
  
--EXAMPLES:
--- feat(api): add user authentication endpoint
--- fix: resolve null pointer in data processing
--- refactor(components): extract shared button logic
--- docs: update API documentation for v2 endpoints
-+示例：
-+- feat(api): 添加用户认证接口
-+- fix: 修复数据处理中的空指针异常
-+- chore(deps): 添加 dotenv-cli 用于加载环境变量
+ EXAMPLES:
+ - feat(api): add user authentication endpoint
+@@ -466,21 +467,21 @@ COMMITS:
+ TASK: Write a changelog entry based ONLY on what you see above. Do NOT make up features - describe what the actual code does.
  
--Now write the commit message:`;
-+现在撰写 commit message：`;
- var DEFAULT_PROMPT = `You are a technical writer. Analyze the git commits and code diffs below, then write release notes.
- 
- COMMITS:
-@@ -473,13 +471,13 @@ RULES:
+ RULES:
+-1. Read the code diffs carefully to understand what was actually built
+-2. Group into: Features, Bug Fixes, Improvements (skip empty sections)
+-3. If diffs are provided, prefix each item with [commits] or [code] to show the source
++1. Write the changelog in English
++2. Read the code diffs carefully to understand what was actually built
++3. Group into: Features, Bug Fixes, Improvements (skip empty sections)
+ 4. Be specific - mention actual function names, components, or capabilities you see in the code
  5. Keep each item to one line
  
  FORMAT:
 -### \u2728 Features
+-- [source] Description of actual feature from the code
 +### Features
- - [source] Description of actual feature from the code
++- Description of actual feature from the code
  
 -### \u{1F41B} Bug Fixes
+-- [source] Description of actual fix
 +### Bug Fixes
- - [source] Description of actual fix
++- Description of actual fix
  
 -### \u{1F6E0}\uFE0F Improvements
+-- [source] Description of actual improvement
 +### Improvements
- - [source] Description of actual improvement
++- Description of actual improvement
  
  Now write the changelog based on the commits and code above:`;
-@@ -794,9 +792,10 @@ ${diffsText}
+ var AIChangelogGenerator = class {
+@@ -794,9 +795,10 @@ ${diffsText}
          const { createOpenAI } = await import("@ai-sdk/openai");
          const openai = createOpenAI({
            apiKey: process.env["OPENAI_API_KEY"],
@@ -369,16 +356,16 @@ index 40ab281..e3f8e7b 100644
          break;
        }
        case "google": {
-@@ -821,7 +820,7 @@ ${diffsText}
+@@ -821,7 +823,7 @@ ${diffsText}
      const result = await generateText({
        model: providerInstance,
        prompt,
 -      maxOutputTokens: 1024
-+      maxOutputTokens: 4096
++      maxOutputTokens: 8192
      });
      return result.text.trim();
    }
-@@ -935,9 +934,10 @@ ${truncatedDiff}`;
+@@ -935,9 +937,10 @@ ${truncatedDiff}`;
          const { createOpenAI } = await import("@ai-sdk/openai");
          const openai = createOpenAI({
            apiKey: process.env["OPENAI_API_KEY"],
@@ -390,72 +377,71 @@ index 40ab281..e3f8e7b 100644
          break;
        }
        case "google": {
+@@ -962,7 +965,7 @@ ${truncatedDiff}`;
+     const result = await generateText({
+       model: providerInstance,
+       prompt,
+-      maxOutputTokens: 500
++      maxOutputTokens: 4096
+     });
+     return result.text.trim();
+   }
 diff --git a/node_modules/lazy-changelog/dist/index.mjs b/node_modules/lazy-changelog/dist/index.mjs
-index 192b9c4..823dadf 100644
+index 192b9c4..866db91 100644
 --- a/node_modules/lazy-changelog/dist/index.mjs
 +++ b/node_modules/lazy-changelog/dist/index.mjs
-@@ -380,29 +380,27 @@ var DEFAULT_DIFF_OPTIONS = {
-   ],
-   includePatterns: void 0
- };
--var COMMIT_MESSAGE_PROMPT = `You are writing a git commit message. Analyze the staged changes below and write a concise, informative commit message.
-+var COMMIT_MESSAGE_PROMPT = `你是一个专业的提交信息撰写者。分析下面的暂存改动，用中文撰写简洁、信息丰富的 commit message。
+@@ -389,12 +389,13 @@ TASK: Write a commit message based ONLY on what you see above. Do NOT make up ch
  
- STAGED CHANGES:
- {diffs}
- 
--TASK: Write a commit message based ONLY on what you see above. Do NOT make up changes.
-+任务：仅根据上面的改动撰写 commit message。不要编造内容。
- 
--RULES:
--1. Use conventional commit format: type(scope): description
+ RULES:
+ 1. Use conventional commit format: type(scope): description
 -2. Types: feat, fix, docs, style, refactor, test, chore, perf, ci, build
 -3. Scope is optional but helpful (e.g., feat(auth): add login)
 -4. First line should be under 72 characters
 -5. If changes are complex, add a blank line then bullet points
 -6. Be specific - mention actual function names, files, or components
 -7. Focus on WHAT changed and WHY, not HOW
-+规则：
-+1. 使用 conventional commit 格式：type(scope): 中文描述
-+2. 类型：feat, fix, docs, style, refactor, test, chore, perf, ci, build
-+3. 标题行不超过 72 个字符
-+4. 空一行后添加中文 body，解释改了什么、为什么这样改
-+5. 要具体——提到实际的函数名、文件名或组件
-+6. 重点描述做了什么和为什么，而不是怎么做
++2. Make the description in Chinese
++3. Types: feat, fix, docs, style, refactor, test, chore, perf, ci, build
++4. Scope is optional but helpful (e.g., feat(auth): add login)
++5. First line should be under 72 characters
++6. If changes are complex, add a blank line then bullet points with a Chinese body explaining what changed and why
++7. Be specific - mention actual function names, files, or components
++8. Focus on WHAT changed and WHY, not HOW
  
--EXAMPLES:
--- feat(api): add user authentication endpoint
--- fix: resolve null pointer in data processing
--- refactor(components): extract shared button logic
--- docs: update API documentation for v2 endpoints
-+示例：
-+- feat(api): 添加用户认证接口
-+- fix: 修复数据处理中的空指针异常
-+- chore(deps): 添加 dotenv-cli 用于加载环境变量
+ EXAMPLES:
+ - feat(api): add user authentication endpoint
+@@ -413,21 +414,21 @@ COMMITS:
+ TASK: Write a changelog entry based ONLY on what you see above. Do NOT make up features - describe what the actual code does.
  
--Now write the commit message:`;
-+现在撰写 commit message：`;
- var DEFAULT_PROMPT = `You are a technical writer. Analyze the git commits and code diffs below, then write release notes.
- 
- COMMITS:
-@@ -420,13 +418,13 @@ RULES:
+ RULES:
+-1. Read the code diffs carefully to understand what was actually built
+-2. Group into: Features, Bug Fixes, Improvements (skip empty sections)
+-3. If diffs are provided, prefix each item with [commits] or [code] to show the source
++1. Write the changelog in English
++2. Read the code diffs carefully to understand what was actually built
++3. Group into: Features, Bug Fixes, Improvements (skip empty sections)
+ 4. Be specific - mention actual function names, components, or capabilities you see in the code
  5. Keep each item to one line
  
  FORMAT:
 -### \u2728 Features
+-- [source] Description of actual feature from the code
 +### Features
- - [source] Description of actual feature from the code
++- Description of actual feature from the code
  
 -### \u{1F41B} Bug Fixes
+-- [source] Description of actual fix
 +### Bug Fixes
- - [source] Description of actual fix
++- Description of actual fix
  
 -### \u{1F6E0}\uFE0F Improvements
+-- [source] Description of actual improvement
 +### Improvements
- - [source] Description of actual improvement
++- Description of actual improvement
  
  Now write the changelog based on the commits and code above:`;
-@@ -743,7 +741,7 @@ ${diffsText}
+ var AIChangelogGenerator = class {
+@@ -743,7 +744,7 @@ ${diffsText}
            apiKey: process.env["OPENAI_API_KEY"],
            ...baseUrl && { baseURL: baseUrl }
          });
@@ -464,16 +450,16 @@ index 192b9c4..823dadf 100644
          break;
        }
        case "google": {
-@@ -768,7 +766,7 @@ ${diffsText}
+@@ -768,7 +769,7 @@ ${diffsText}
      const result = await generateText({
        model: providerInstance,
        prompt,
 -      maxOutputTokens: 1024
-+      maxOutputTokens: 4096
++      maxOutputTokens: 8192
      });
      return result.text.trim();
    }
-@@ -884,7 +882,7 @@ ${truncatedDiff}`;
+@@ -884,7 +885,7 @@ ${truncatedDiff}`;
            apiKey: process.env["OPENAI_API_KEY"],
            ...baseUrl && { baseURL: baseUrl }
          });
@@ -482,3 +468,12 @@ index 192b9c4..823dadf 100644
          break;
        }
        case "google": {
+@@ -909,7 +910,7 @@ ${truncatedDiff}`;
+     const result = await generateText({
+       model: providerInstance,
+       prompt,
+-      maxOutputTokens: 500
++      maxOutputTokens: 4096
+     });
+     return result.text.trim();
+   }
