@@ -88,7 +88,6 @@ frontend (Vite :5173)  ──proxy /api──►  Django (:8000)
 |---------|--------|
 | `/api/*` | DRF endpoints (`main/urls.py` → `main/api.py`) |
 | `/i18n/*` | Language switching |
-| `/zh-hans/admin/`, `/en/admin/` | django-unfold admin |
 | `/*` | SPA index (serves Vue app from `templates/index.html`) |
 
 Route priority is critical: API and admin are matched before the SPA catch-all via Django's ordered URL dispatch. **Do not** put the catch-all before API routes.
