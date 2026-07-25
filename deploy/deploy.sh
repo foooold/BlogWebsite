@@ -93,7 +93,7 @@ nginx -t && systemctl restart nginx
 log "Nginx restarted"
 
 chown -R www-data:www-data "$PROJECT_DIR/staticfiles"
-chown www-data:www-data "$PROJECT_DIR"
+chown www-data:www-data "$PROJECT_DIR" "$PROJECT_DIR"/db.sqlite3* 2>/dev/null || true
 
 echo ""
 echo "========================================"
