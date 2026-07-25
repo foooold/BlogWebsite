@@ -26,8 +26,8 @@ fi
 
 # 2. Directories
 echo ">>> [2/6] Directories..."
-mkdir -p /var/log/gunicorn "$PROJECT_DIR/media"
-chown -R www-data:www-data /var/log/gunicorn
+mkdir -p /var/log/gunicorn "$PROJECT_DIR/media" "$PROJECT_DIR/logs"
+chown -R www-data:www-data /var/log/gunicorn "$PROJECT_DIR/logs"
 log "Done"
 
 # 3. Python venv — skip if already set up
