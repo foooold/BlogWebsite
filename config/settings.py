@@ -142,6 +142,8 @@ CORS_ALLOWED_ORIGINS = config(
 )
 CORS_ALLOW_CREDENTIALS = True
 
+ADMIN_PATH = config('ADMIN_PATH', default='admin/')
+
 # Logging
 # https://docs.djangoproject.com/en/6.0/topics/logging/
 # Console output is captured by gunicorn → /var/log/gunicorn/error.log
