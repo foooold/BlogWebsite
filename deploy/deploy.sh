@@ -65,6 +65,7 @@ DEBUG=False
 ALLOWED_HOSTS=$IP,127.0.0.1,localhost
 CSRF_TRUSTED_ORIGINS=http://$IP
 CORS_ALLOWED_ORIGINS=http://$IP
+ADMIN_PATH=admin/
 EOF
     log ".env created"
 else

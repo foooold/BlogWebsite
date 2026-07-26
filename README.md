@@ -1,6 +1,16 @@
+<div align="center">
+
 # BlogWebsite
 
-个人博客系统 — 基于 Django + Vue 3 的全栈博客应用，支持 Markdown 写作、标签筛选、全文搜索、归档、多语言、暗色主题和响应式布局。
+基于 Django + Vue 3 的个人博客网站，支持 Markdown 写作、标签筛选、全文搜索、归档和响应式布局。
+
+</div>
+
+<div align="center">
+    <img alt="Python" src="https://img.shields.io/badge/Python-3.14+-blue?logo=python&logoColor=white">
+    <img alt="Node.js" src="https://img.shields.io/badge/Node.js-v24+-green?logo=nodedotjs&logoColor=white">
+    <a href="#license"><img alt="GitHub License" src="https://img.shields.io/github/license/foooold/BlogWebsite"></a>
+</div>
 
 ## 技术栈
 
@@ -31,11 +41,6 @@
 - **一键部署** — 提供完整的 Nginx + Gunicorn + systemd 部署脚本
 
 ## 快速开始
-
-### 环境要求
-
-- Python 3.14+
-- Node.js v24+
 
 ### 本地开发
 
@@ -76,7 +81,7 @@ cd frontend
 npm run dev
 ```
 
-浏览器访问 `http://localhost:5173` 查看前端，访问 `http://localhost:8000/zh-hans/admin/` 进入管理后台。
+浏览器访问 `http://localhost:5173` 查看前端；若未在环境变量中修改路径，默认访问 `http://localhost:8000/zh-hans/admin/` 进入管理后台。
 
 > **说明**：开发模式下，Vite 将 `/api` 请求代理到 Django `127.0.0.1:8000`，前端代码修改支持 HMR 热更新。
 
@@ -151,6 +156,7 @@ npm run dev
 | `DEBUG` | 调试模式 | `True` / `False` |
 | `ALLOWED_HOSTS` | 允许的主机名 | `*,localhost` |
 | `CORS_ALLOWED_ORIGINS` | CORS 允许的源 | `http://localhost:5173` |
+| `ADMIN_PATH` | django后台路径 | 默认 `admin/`（可改为自定义路径防扫描） |
 | `OPENAI_API_KEY` | DeepSeek API 密钥（AI changelog 用） | `sk-...` |
 
 ## 部署
@@ -185,7 +191,7 @@ npm run commit:msg   # 生成提交信息（仅输出）
 
 > 需要设置 `OPENAI_API_KEY` 为有效的 DeepSeek API 密钥。
 
-## 许可
+## LICENSE
 
 Copyright (c) 2026 Frank Du
 
@@ -207,6 +213,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-## 作者
+## Author
 
 **Frank Du** — [GitHub @foooold](https://github.com/foooold)
