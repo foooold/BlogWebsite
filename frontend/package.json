@@ -12,6 +12,7 @@
     "axios": "^1.18.1",
     "highlight.js": "^11.11.1",
     "markdown-it": "^14.3.0",
+    "markdown-it-anchor": "^9.2.1",
     "pinia": "^4.0.2",
     "vue": "^3.5.39",
     "vue-router": "^4.6.4"
