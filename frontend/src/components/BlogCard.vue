@@ -31,6 +31,7 @@ import MarkdownIt from 'markdown-it'
 import TagBadge from './TagBadge.vue'
 
 const md = new MarkdownIt({
+  html: true,
   breaks: true,
   linkify: true,
 })

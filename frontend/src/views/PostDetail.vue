@@ -49,8 +49,10 @@ import { getArticle } from '@/api'
 import MarkdownIt from 'markdown-it'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/github-dark.css'
+import anchor from 'markdown-it-anchor'
 
 const md = new MarkdownIt({
+  html: true,
   breaks: true,
   linkify: true,
   typographer: true,
@@ -64,6 +66,10 @@ const md = new MarkdownIt({
     const highlighted = hljs.highlightAuto(str).value
     return `<pre class="code-block hljs"><code>${highlighted}</code></pre>\n`
   },
+})
+
+md.use(anchor, {
+  permalink: false,
 })
 
 md.inline.ruler.disable('autolink')
