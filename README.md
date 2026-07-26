@@ -1,3 +1,5 @@
+![License](https://img.shields.io/github/foooold/BlogWebsite)
+
 # BlogWebsite
 
 个人博客系统 — 基于 Django + Vue 3 的全栈博客应用，支持 Markdown 写作、标签筛选、全文搜索、归档、多语言、暗色主题和响应式布局。
