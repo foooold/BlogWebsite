@@ -88,9 +88,13 @@ frontend (Vite :5173)  ──proxy /api──►  Django (:8000)
 |---------|--------|
 | `/api/*` | DRF endpoints (`main/urls.py` → `main/api.py`) |
 | `/i18n/*` | Language switching |
+| `/admin/` | Redirect to `/zh-hans/<ADMIN_PATH>/` |
+| `/<lang>/<ADMIN_PATH>/*` | Django admin (i18n-prefixed, path from env) |
 | `/*` | SPA index (serves Vue app from `templates/index.html`) |
 
 Route priority is critical: API and admin are matched before the SPA catch-all via Django's ordered URL dispatch. **Do not** put the catch-all before API routes.
+
+**Admin path** is configurable via `ADMIN_PATH` env variable (default `admin/`). The bare `/admin/` URL always redirects to `/zh-hans/<ADMIN_PATH>/` for convenience.
 
 ### API endpoints
 
@@ -380,6 +384,7 @@ All settings are read from `.env` via `python-decouple`. See `.env.example` for 
 | `STATICFILES_DIRS` | `BASE_DIR / 'static'` |
 | `STATIC_ROOT` | `BASE_DIR / 'staticfiles'` |
 | `CORS_ALLOWED_ORIGINS` | env (`http://localhost:5173,http://127.0.0.1:5173` in dev) |
+| `ADMIN_PATH` | env (default `admin/`, override in production to avoid scans) |
 | `CORS_ALLOW_CREDENTIALS` | `True` |
 | `LANGUAGES` | `zh-hans` (简体中文), `en` (English) |
 | `UNFOLD.SHOW_LANGUAGES` | `True` |
@@ -423,12 +428,12 @@ The `deploy/` directory contains production deployment configuration for Ubuntu 
 | Page | URL |
 |------|-----|
 | Frontend | `http://<server-ip>/` |
-| Admin | `http://<server-ip>/zh-hans/admin/` |
+| Admin | `http://<server-ip>/zh-hans/<ADMIN_PATH>/` (path from env, default `admin/`) |
 
 ## Superuser
 
 - 通过 python manage.py createsuperuser 交互式设置
-- Access admin at `/zh-hans/admin/` or `/en/admin/`
+- Access admin at `/zh-hans/<ADMIN_PATH>/` or `/en/<ADMIN_PATH>/` (path from `ADMIN_PATH` env, default `admin/`)
 
 ## Author / Personal Info
 
