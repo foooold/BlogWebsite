@@ -1,5 +1,5 @@
 diff --git a/node_modules/lazy-changelog/dist/cli.js b/node_modules/lazy-changelog/dist/cli.js
-index 76df49b..e4d2f97 100644
+index 76df49b..d1f1d2b 100644
 --- a/node_modules/lazy-changelog/dist/cli.js
 +++ b/node_modules/lazy-changelog/dist/cli.js
 @@ -417,12 +417,13 @@ TASK: Write a commit message based ONLY on what you see above. Do NOT make up ch
@@ -22,7 +22,7 @@ index 76df49b..e4d2f97 100644
  
  EXAMPLES:
  - feat(api): add user authentication endpoint
-@@ -441,21 +442,21 @@ COMMITS:
+@@ -441,21 +442,22 @@ COMMITS:
  TASK: Write a changelog entry based ONLY on what you see above. Do NOT make up features - describe what the actual code does.
  
  RULES:
@@ -34,26 +34,27 @@ index 76df49b..e4d2f97 100644
 +3. Group into: Features, Bug Fixes, Improvements (skip empty sections)
  4. Be specific - mention actual function names, components, or capabilities you see in the code
  5. Keep each item to one line
++6. Append the short commit hash in parentheses at the end of each item, e.g. "- Fixed login bug (abc1234)". The hash is the 7+ character prefix at the start of each commit line in the COMMITS section above.
  
  FORMAT:
 -### \u2728 Features
 -- [source] Description of actual feature from the code
 +### Features
-+- Description of actual feature from the code
++- Description of actual feature from the code (short-hash)
  
 -### \u{1F41B} Bug Fixes
 -- [source] Description of actual fix
 +### Bug Fixes
-+- Description of actual fix
++- Description of actual fix (short-hash)
  
 -### \u{1F6E0}\uFE0F Improvements
 -- [source] Description of actual improvement
 +### Improvements
-+- Description of actual improvement
++- Description of actual improvement (short-hash)
  
  Now write the changelog based on the commits and code above:`;
  var AIChangelogGenerator = class {
-@@ -769,9 +770,10 @@ ${diffsText}
+@@ -769,9 +771,10 @@ ${diffsText}
          const { createOpenAI } = await import("@ai-sdk/openai");
          const openai = createOpenAI({
            apiKey: process.env["OPENAI_API_KEY"],
@@ -65,7 +66,7 @@ index 76df49b..e4d2f97 100644
          break;
        }
        case "google": {
-@@ -796,7 +798,7 @@ ${diffsText}
+@@ -796,7 +799,7 @@ ${diffsText}
      const result = await generateText({
        model: providerInstance,
        prompt,
@@ -74,7 +75,7 @@ index 76df49b..e4d2f97 100644
      });
      return result.text.trim();
    }
-@@ -902,9 +904,10 @@ ${truncatedDiff}`;
+@@ -902,9 +905,10 @@ ${truncatedDiff}`;
          const { createOpenAI } = await import("@ai-sdk/openai");
          const openai = createOpenAI({
            apiKey: process.env["OPENAI_API_KEY"],
@@ -86,7 +87,7 @@ index 76df49b..e4d2f97 100644
          break;
        }
        case "google": {
-@@ -929,7 +932,7 @@ ${truncatedDiff}`;
+@@ -929,7 +933,7 @@ ${truncatedDiff}`;
      const result = await generateText({
        model: providerInstance,
        prompt,
@@ -96,7 +97,7 @@ index 76df49b..e4d2f97 100644
      return result.text.trim();
    }
 diff --git a/node_modules/lazy-changelog/dist/core.js b/node_modules/lazy-changelog/dist/core.js
-index 7788ce9..d925e2a 100644
+index 7788ce9..cafe0fe 100644
 --- a/node_modules/lazy-changelog/dist/core.js
 +++ b/node_modules/lazy-changelog/dist/core.js
 @@ -438,12 +438,13 @@ TASK: Write a commit message based ONLY on what you see above. Do NOT make up ch
@@ -119,7 +120,7 @@ index 7788ce9..d925e2a 100644
  
  EXAMPLES:
  - feat(api): add user authentication endpoint
-@@ -462,21 +463,21 @@ COMMITS:
+@@ -462,21 +463,22 @@ COMMITS:
  TASK: Write a changelog entry based ONLY on what you see above. Do NOT make up features - describe what the actual code does.
  
  RULES:
@@ -131,26 +132,27 @@ index 7788ce9..d925e2a 100644
 +3. Group into: Features, Bug Fixes, Improvements (skip empty sections)
  4. Be specific - mention actual function names, components, or capabilities you see in the code
  5. Keep each item to one line
++6. Append the short commit hash in parentheses at the end of each item, e.g. "- Fixed login bug (abc1234)". The hash is the 7+ character prefix at the start of each commit line in the COMMITS section above.
  
  FORMAT:
 -### \u2728 Features
 -- [source] Description of actual feature from the code
 +### Features
-+- Description of actual feature from the code
++- Description of actual feature from the code (short-hash)
  
 -### \u{1F41B} Bug Fixes
 -- [source] Description of actual fix
 +### Bug Fixes
-+- Description of actual fix
++- Description of actual fix (short-hash)
  
 -### \u{1F6E0}\uFE0F Improvements
 -- [source] Description of actual improvement
 +### Improvements
-+- Description of actual improvement
++- Description of actual improvement (short-hash)
  
  Now write the changelog based on the commits and code above:`;
  var AIChangelogGenerator = class {
-@@ -790,9 +791,10 @@ ${diffsText}
+@@ -790,9 +792,10 @@ ${diffsText}
          const { createOpenAI } = await import("@ai-sdk/openai");
          const openai = createOpenAI({
            apiKey: process.env["OPENAI_API_KEY"],
@@ -162,7 +164,7 @@ index 7788ce9..d925e2a 100644
          break;
        }
        case "google": {
-@@ -817,7 +819,7 @@ ${diffsText}
+@@ -817,7 +820,7 @@ ${diffsText}
      const result = await generateText({
        model: providerInstance,
        prompt,
@@ -171,7 +173,7 @@ index 7788ce9..d925e2a 100644
      });
      return result.text.trim();
    }
-@@ -931,9 +933,10 @@ ${truncatedDiff}`;
+@@ -931,9 +934,10 @@ ${truncatedDiff}`;
          const { createOpenAI } = await import("@ai-sdk/openai");
          const openai = createOpenAI({
            apiKey: process.env["OPENAI_API_KEY"],
@@ -183,7 +185,7 @@ index 7788ce9..d925e2a 100644
          break;
        }
        case "google": {
-@@ -958,7 +961,7 @@ ${truncatedDiff}`;
+@@ -958,7 +962,7 @@ ${truncatedDiff}`;
      const result = await generateText({
        model: providerInstance,
        prompt,
@@ -193,7 +195,7 @@ index 7788ce9..d925e2a 100644
      return result.text.trim();
    }
 diff --git a/node_modules/lazy-changelog/dist/core.mjs b/node_modules/lazy-changelog/dist/core.mjs
-index eb15852..3c1d9cc 100644
+index eb15852..6eae619 100644
 --- a/node_modules/lazy-changelog/dist/core.mjs
 +++ b/node_modules/lazy-changelog/dist/core.mjs
 @@ -389,12 +389,13 @@ TASK: Write a commit message based ONLY on what you see above. Do NOT make up ch
@@ -216,7 +218,7 @@ index eb15852..3c1d9cc 100644
  
  EXAMPLES:
  - feat(api): add user authentication endpoint
-@@ -413,21 +414,21 @@ COMMITS:
+@@ -413,21 +414,22 @@ COMMITS:
  TASK: Write a changelog entry based ONLY on what you see above. Do NOT make up features - describe what the actual code does.
  
  RULES:
@@ -228,26 +230,27 @@ index eb15852..3c1d9cc 100644
 +3. Group into: Features, Bug Fixes, Improvements (skip empty sections)
  4. Be specific - mention actual function names, components, or capabilities you see in the code
  5. Keep each item to one line
++6. Append the short commit hash in parentheses at the end of each item, e.g. "- Fixed login bug (abc1234)". The hash is the 7+ character prefix at the start of each commit line in the COMMITS section above.
  
  FORMAT:
 -### \u2728 Features
 -- [source] Description of actual feature from the code
 +### Features
-+- Description of actual feature from the code
++- Description of actual feature from the code (short-hash)
  
 -### \u{1F41B} Bug Fixes
 -- [source] Description of actual fix
 +### Bug Fixes
-+- Description of actual fix
++- Description of actual fix (short-hash)
  
 -### \u{1F6E0}\uFE0F Improvements
 -- [source] Description of actual improvement
 +### Improvements
-+- Description of actual improvement
++- Description of actual improvement (short-hash)
  
  Now write the changelog based on the commits and code above:`;
  var AIChangelogGenerator = class {
-@@ -741,9 +742,10 @@ ${diffsText}
+@@ -741,9 +743,10 @@ ${diffsText}
          const { createOpenAI } = await import("@ai-sdk/openai");
          const openai = createOpenAI({
            apiKey: process.env["OPENAI_API_KEY"],
@@ -259,7 +262,7 @@ index eb15852..3c1d9cc 100644
          break;
        }
        case "google": {
-@@ -768,7 +770,7 @@ ${diffsText}
+@@ -768,7 +771,7 @@ ${diffsText}
      const result = await generateText({
        model: providerInstance,
        prompt,
@@ -268,7 +271,7 @@ index eb15852..3c1d9cc 100644
      });
      return result.text.trim();
    }
-@@ -882,9 +884,10 @@ ${truncatedDiff}`;
+@@ -882,9 +885,10 @@ ${truncatedDiff}`;
          const { createOpenAI } = await import("@ai-sdk/openai");
          const openai = createOpenAI({
            apiKey: process.env["OPENAI_API_KEY"],
@@ -280,7 +283,7 @@ index eb15852..3c1d9cc 100644
          break;
        }
        case "google": {
-@@ -909,7 +912,7 @@ ${truncatedDiff}`;
+@@ -909,7 +913,7 @@ ${truncatedDiff}`;
      const result = await generateText({
        model: providerInstance,
        prompt,
@@ -290,7 +293,7 @@ index eb15852..3c1d9cc 100644
      return result.text.trim();
    }
 diff --git a/node_modules/lazy-changelog/dist/index.js b/node_modules/lazy-changelog/dist/index.js
-index 40ab281..8e6cdc7 100644
+index 40ab281..9cf6753 100644
 --- a/node_modules/lazy-changelog/dist/index.js
 +++ b/node_modules/lazy-changelog/dist/index.js
 @@ -442,12 +442,13 @@ TASK: Write a commit message based ONLY on what you see above. Do NOT make up ch
@@ -313,7 +316,7 @@ index 40ab281..8e6cdc7 100644
  
  EXAMPLES:
  - feat(api): add user authentication endpoint
-@@ -466,21 +467,21 @@ COMMITS:
+@@ -466,21 +467,22 @@ COMMITS:
  TASK: Write a changelog entry based ONLY on what you see above. Do NOT make up features - describe what the actual code does.
  
  RULES:
@@ -325,26 +328,27 @@ index 40ab281..8e6cdc7 100644
 +3. Group into: Features, Bug Fixes, Improvements (skip empty sections)
  4. Be specific - mention actual function names, components, or capabilities you see in the code
  5. Keep each item to one line
++6. Append the short commit hash in parentheses at the end of each item, e.g. "- Fixed login bug (abc1234)". The hash is the 7+ character prefix at the start of each commit line in the COMMITS section above.
  
  FORMAT:
 -### \u2728 Features
 -- [source] Description of actual feature from the code
 +### Features
-+- Description of actual feature from the code
++- Description of actual feature from the code (short-hash)
  
 -### \u{1F41B} Bug Fixes
 -- [source] Description of actual fix
 +### Bug Fixes
-+- Description of actual fix
++- Description of actual fix (short-hash)
  
 -### \u{1F6E0}\uFE0F Improvements
 -- [source] Description of actual improvement
 +### Improvements
-+- Description of actual improvement
++- Description of actual improvement (short-hash)
  
  Now write the changelog based on the commits and code above:`;
  var AIChangelogGenerator = class {
-@@ -794,9 +795,10 @@ ${diffsText}
+@@ -794,9 +796,10 @@ ${diffsText}
          const { createOpenAI } = await import("@ai-sdk/openai");
          const openai = createOpenAI({
            apiKey: process.env["OPENAI_API_KEY"],
@@ -356,7 +360,7 @@ index 40ab281..8e6cdc7 100644
          break;
        }
        case "google": {
-@@ -821,7 +823,7 @@ ${diffsText}
+@@ -821,7 +824,7 @@ ${diffsText}
      const result = await generateText({
        model: providerInstance,
        prompt,
@@ -365,7 +369,7 @@ index 40ab281..8e6cdc7 100644
      });
      return result.text.trim();
    }
-@@ -935,9 +937,10 @@ ${truncatedDiff}`;
+@@ -935,9 +938,10 @@ ${truncatedDiff}`;
          const { createOpenAI } = await import("@ai-sdk/openai");
          const openai = createOpenAI({
            apiKey: process.env["OPENAI_API_KEY"],
@@ -377,7 +381,7 @@ index 40ab281..8e6cdc7 100644
          break;
        }
        case "google": {
-@@ -962,7 +965,7 @@ ${truncatedDiff}`;
+@@ -962,7 +966,7 @@ ${truncatedDiff}`;
      const result = await generateText({
        model: providerInstance,
        prompt,
@@ -387,7 +391,7 @@ index 40ab281..8e6cdc7 100644
      return result.text.trim();
    }
 diff --git a/node_modules/lazy-changelog/dist/index.mjs b/node_modules/lazy-changelog/dist/index.mjs
-index 192b9c4..866db91 100644
+index 192b9c4..f42116c 100644
 --- a/node_modules/lazy-changelog/dist/index.mjs
 +++ b/node_modules/lazy-changelog/dist/index.mjs
 @@ -389,12 +389,13 @@ TASK: Write a commit message based ONLY on what you see above. Do NOT make up ch
@@ -410,7 +414,7 @@ index 192b9c4..866db91 100644
  
  EXAMPLES:
  - feat(api): add user authentication endpoint
-@@ -413,21 +414,21 @@ COMMITS:
+@@ -413,21 +414,22 @@ COMMITS:
  TASK: Write a changelog entry based ONLY on what you see above. Do NOT make up features - describe what the actual code does.
  
  RULES:
@@ -422,26 +426,27 @@ index 192b9c4..866db91 100644
 +3. Group into: Features, Bug Fixes, Improvements (skip empty sections)
  4. Be specific - mention actual function names, components, or capabilities you see in the code
  5. Keep each item to one line
++6. Append the short commit hash in parentheses at the end of each item, e.g. "- Fixed login bug (abc1234)". The hash is the 7+ character prefix at the start of each commit line in the COMMITS section above.
  
  FORMAT:
 -### \u2728 Features
 -- [source] Description of actual feature from the code
 +### Features
-+- Description of actual feature from the code
++- Description of actual feature from the code (short-hash)
  
 -### \u{1F41B} Bug Fixes
 -- [source] Description of actual fix
 +### Bug Fixes
-+- Description of actual fix
++- Description of actual fix (short-hash)
  
 -### \u{1F6E0}\uFE0F Improvements
 -- [source] Description of actual improvement
 +### Improvements
-+- Description of actual improvement
++- Description of actual improvement (short-hash)
  
  Now write the changelog based on the commits and code above:`;
  var AIChangelogGenerator = class {
-@@ -743,7 +744,7 @@ ${diffsText}
+@@ -743,7 +745,7 @@ ${diffsText}
            apiKey: process.env["OPENAI_API_KEY"],
            ...baseUrl && { baseURL: baseUrl }
          });
@@ -450,7 +455,7 @@ index 192b9c4..866db91 100644
          break;
        }
        case "google": {
-@@ -768,7 +769,7 @@ ${diffsText}
+@@ -768,7 +770,7 @@ ${diffsText}
      const result = await generateText({
        model: providerInstance,
        prompt,
@@ -459,7 +464,7 @@ index 192b9c4..866db91 100644
      });
      return result.text.trim();
    }
-@@ -884,7 +885,7 @@ ${truncatedDiff}`;
+@@ -884,7 +886,7 @@ ${truncatedDiff}`;
            apiKey: process.env["OPENAI_API_KEY"],
            ...baseUrl && { baseURL: baseUrl }
          });
@@ -468,7 +473,7 @@ index 192b9c4..866db91 100644
          break;
        }
        case "google": {
-@@ -909,7 +910,7 @@ ${truncatedDiff}`;
+@@ -909,7 +911,7 @@ ${truncatedDiff}`;
      const result = await generateText({
        model: providerInstance,
        prompt,
