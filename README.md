@@ -191,6 +191,29 @@ npm run commit:msg   # 生成提交信息（仅输出）
 
 > 需要设置 `OPENAI_API_KEY` 为有效的 DeepSeek API 密钥。
 
+**`log:diff` / `log` 默认只覆盖最新 tag → HEAD**。要为特定区间生成 changelog，通过 `--` 传递额外参数：
+
+```bash
+# 为 v1.0.0 → v1.1.0 区间生成 changelog（打 tag 后补生成）
+npm run log:diff -- --from v1.0.0 --to v1.1.0 --tag v1.1.0
+
+# 为整个项目历史生成 changelog（无 tag 时）
+npm run log:diff -- --from $(git rev-list --max-parents=0 HEAD) --tag v1.0.0
+
+# 预览将要生成的内容（不写入文件）
+npm run log:dry -- --from v1.0.0 --to v1.1.0
+```
+
+## 更新版本号
+
+**发布新版本**：使用 `npm version <版本号>` ，自动完成：更新 `package.json` → git commit → git tag 。
+
+```bash
+npm version v1.2.3       # 发布 v1.2.3 版
+
+git push && git push --tags
+```
+
 ## LICENSE
 
 Copyright (c) 2026 Frank Du
