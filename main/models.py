@@ -39,6 +39,7 @@ class Article(models.Model):
         verbose_name='作者'
     )
     tags = models.ManyToManyField(Tag, blank=True, verbose_name='标签')
+    is_pinned = models.BooleanField(default=False, verbose_name='置顶')
     status = models.CharField(
         max_length=20, choices=STATUS_CHOICES, default=STATUS_DRAFT,
         verbose_name='状态'
@@ -50,7 +51,7 @@ class Article(models.Model):
     class Meta:
         verbose_name = '文章'
         verbose_name_plural = verbose_name
-        ordering = ['-published_at', '-created_at']
+        ordering = ['-is_pinned', '-published_at', '-created_at']
 
     def save(self, *args, **kwargs):
         if not self.slug:

@@ -15,8 +15,8 @@ class TagAdmin(UnfoldModelAdmin):
 
 @admin.register(Article)
 class ArticleAdmin(UnfoldModelAdmin):
-    list_display = ['title', 'status', 'author', 'published_at', 'created_at']
-    list_filter = ['status', 'tags', 'published_at']
+    list_display = ['title', 'is_pinned', 'status', 'author', 'published_at', 'created_at']
+    list_filter = ['is_pinned', 'status', 'tags', 'published_at']
     search_fields = ['title', 'content']
     prepopulated_fields = {'slug': ('title',)}
     autocomplete_fields = ['tags']
@@ -25,7 +25,7 @@ class ArticleAdmin(UnfoldModelAdmin):
     actions = ['delete_selected']
     fieldsets = (
         (None, {
-            'fields': ('title', 'slug', 'author', 'tags', 'status')
+            'fields': ('title', 'slug', 'author', 'tags', 'is_pinned', 'status')
         }),
         ('内容', {
             'fields': ('excerpt', 'content')

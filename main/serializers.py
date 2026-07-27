@@ -23,7 +23,7 @@ class ArticleListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
         fields = ['id', 'title', 'slug', 'excerpt', 'tags', 'author_name',
-                  'date', 'published_at', 'word_count']
+                  'date', 'published_at', 'word_count', 'is_pinned']
 
     def get_date(self, obj):
         if obj.published_at:
