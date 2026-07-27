@@ -22,8 +22,7 @@ def hello(request):
 def article_list(request):
     articles = Article.objects.filter(status=Article.STATUS_PUBLISHED)\
         .prefetch_related('tags')\
-        .select_related('author')\
-        .order_by('-published_at')
+        .select_related('author')
     return Response(ArticleListSerializer(articles, many=True).data)
 
 
