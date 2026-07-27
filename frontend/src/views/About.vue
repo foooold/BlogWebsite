@@ -36,42 +36,8 @@
           </p>
         </section>
 
-        <section class="about-section">
-          <h3>技术栈</h3>
-          <div class="skills">
-            <div class="skill-category">
-              <h4>后端</h4>
-              <div class="skill-tags">
-                <span class="skill-tag">Python</span>
-                <span class="skill-tag">Django</span>
-                <span class="skill-tag">DRF</span>
-                <span class="skill-tag">PostgreSQL</span>
-                <span class="skill-tag">Redis</span>
-                <span class="skill-tag">Docker</span>
-              </div>
-            </div>
-            <div class="skill-category">
-              <h4>前端</h4>
-              <div class="skill-tags">
-                <span class="skill-tag">Vue 3</span>
-                <span class="skill-tag">JavaScript</span>
-                <span class="skill-tag">TypeScript</span>
-                <span class="skill-tag">Vite</span>
-                <span class="skill-tag">Tailwind CSS</span>
-              </div>
-            </div>
-            <div class="skill-category">
-              <h4>工具</h4>
-              <div class="skill-tags">
-                <span class="skill-tag">Git</span>
-                <span class="skill-tag">Linux</span>
-                <span class="skill-tag">Nginx</span>
-                <span class="skill-tag">GitHub Actions</span>
-                <span class="skill-tag">VS Code</span>
-              </div>
-            </div>
-          </div>
-        </section>
+        <hr style="border: none;border-top: 1px dashed #30363d;">
+
       </div>
 
       <aside class="about-sidebar">
