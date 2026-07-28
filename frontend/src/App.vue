@@ -5,9 +5,8 @@
       <div class="nav-inner">
         <div class="nav-left">
           <router-link to="/" class="nav-brand">
-            <svg width="22" height="22" viewBox="0 0 16 16" fill="currentColor">
-            <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-            Frank's Blog
+            <img src="/static/avatar.png" alt="Frank's Blog" class="nav-avatar" />
+            <span class="brand-text">Frank's Blog</span>
           </router-link>
         </div>
         <div class="nav-right">
@@ -25,8 +24,8 @@
     <nav v-else class="nav-bar mobile-nav-bar">
       <div class="nav-inner mobile-nav-inner">
         <router-link to="/" class="nav-brand mobile-brand">
-          <svg width="22" height="22" viewBox="0 0 16 16" fill="currentColor">
-          <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          <img src="/static/avatar.png" alt="Frank's Blog" class="nav-avatar" />
+          <span class="brand-text mobile-brand-text">Blog</span>
         </router-link>
         <button class="hamburger-btn" @click="openDrawer" aria-label="菜单">
           <span></span><span></span><span></span>
@@ -135,17 +134,33 @@ onBeforeUnmount(() => {
   padding: 0 2rem;
   height: 52px;
 }
+.nav-left {
+  display: flex;
+  align-items: center;
+  height: 52px;
+}
 .nav-brand {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.95rem;
+  gap: 0.7rem;
   font-weight: 600;
   color: #e6edf3;
   text-decoration: none;
 }
+.brand-text {
+  font-family: 'Times New Roman', serif;
+  font-size: 20px;
+  letter-spacing: 0.5px;
+  padding-top: 2px;
+}
 .nav-brand:hover { color: #c9d1d9; }
-.nav-brand svg { color: #8b949e; }
+.nav-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #30363d;
+}
 .nav-right {
   display: flex;
   align-items: center;
@@ -200,8 +215,8 @@ onBeforeUnmount(() => {
   height: 48px;
   padding: 0 1rem;
 }
-.mobile-brand {
-  font-size: 0; /* hide text, keep icon only */
+.mobile-brand-text {
+  font-size: 22px;
 }
 .mobile-brand svg {
   width: 24px;
