@@ -142,21 +142,22 @@ onBeforeUnmount(() => {
 .nav-brand {
   display: inline-flex;
   align-items: center;
-  gap: 0.7rem;
+  gap: 0.5rem;
   font-weight: 600;
   color: #e6edf3;
   text-decoration: none;
 }
 .brand-text {
   font-family: 'Times New Roman', serif;
-  font-size: 20px;
+  color: #c9d1d9;
+  font-size: 18px;
   letter-spacing: 0.5px;
-  padding-top: 2px;
+  padding-top: 5px;
 }
-.nav-brand:hover { color: #c9d1d9; }
+.nav-brand:hover .brand-text { color: #e6edf3; }
 .nav-avatar {
-  width: 36px;
-  height: 36px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   object-fit: cover;
   border: 1px solid #30363d;
@@ -217,6 +218,7 @@ onBeforeUnmount(() => {
 }
 .mobile-brand-text {
   font-size: 22px;
+  padding-top: 2px;
 }
 .mobile-brand svg {
   width: 24px;
