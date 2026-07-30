@@ -5,9 +5,9 @@ After=network.target
 [Service]
 User=www-data
 Group=www-data
-WorkingDirectory=/home/www/BlogWebsite
-EnvironmentFile=/home/www/BlogWebsite/.env
-ExecStart=/home/www/BlogWebsite/venv/bin/gunicorn --config /home/www/BlogWebsite/deploy/gunicorn.conf.py config.wsgi:application
+WorkingDirectory=PROJECT_DIR
+EnvironmentFile=PROJECT_DIR/.env
+ExecStart=PROJECT_DIR/venv/bin/gunicorn --config PROJECT_DIR/deploy/gunicorn.conf.py config.wsgi:application
 Restart=on-failure
 RestartSec=5
 
