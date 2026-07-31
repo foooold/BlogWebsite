@@ -7,4 +7,5 @@ urlpatterns = [
     path('articles/<str:slug>/', api.article_detail, name='api-article-detail'),
     path('tags/', api.tag_list, name='api-tag-list'),
     path('search/', api.search, name='api-search'),
+    path('changelog/', api.changelog, name='api-changelog'),
 ]

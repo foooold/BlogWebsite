@@ -33,4 +33,8 @@ export function searchArticles(query) {
   return api.get('/search/', { params: { q: query } })
 }
 
+export function getChangelog() {
+  return api.get('/changelog/')
+}
+
 export default api

@@ -1,3 +1,7 @@
+import re
+from pathlib import Path
+
+from django.conf import settings
 from django.db import models
 from django.db.models import Q
 from rest_framework.decorators import api_view
@@ -103,3 +107,45 @@ def _extract_snippet(article, query, prefix_len=15, suffix_len=40):     # 搜索
     prefix = '…' if start > 0 else ''
     suffix = '…' if end < len(text) else ''
     return prefix + text[start:end] + suffix
+
+
+@api_view(['GET'])
+def changelog(request):
+    changelog_path = Path(settings.BASE_DIR) / 'CHANGELOG.md'
+    if not changelog_path.exists():
+        return Response({'entries': []})
+
+    content = changelog_path.read_text(encoding='utf-8')
+
+    # Split by version headers: ## vX.Y.Z (date)
+    version_pattern = re.compile(r'^## v([\d.]+)\s*\((\d{4}-\d{2}-\d{2})\)', re.MULTILINE)
+    section_pattern = re.compile(r'^### (Features|Bug Fixes|Improvements)', re.MULTILINE)
+
+    # Find all version boundaries
+    versions = list(version_pattern.finditer(content))
+    entries = []
+
+    for i, match in enumerate(versions):
+        version = match.group(1)
+        date = match.group(2)
+        start = match.end()
+        end = versions[i + 1].start() if i + 1 < len(versions) else len(content)
+        body = content[start:end]
+
+        sections = {}
+        section_matches = list(section_pattern.finditer(body))
+        for j, sm in enumerate(section_matches):
+            name = sm.group(1)
+            sec_start = sm.end()
+            sec_end = section_matches[j + 1].start() if j + 1 < len(section_matches) else len(body)
+            items = [line.strip('- ').strip() for line in body[sec_start:sec_end].strip().split('\n') if line.startswith('- ')]
+            if items:
+                sections[name] = items
+
+        entries.append({
+            'version': version,
+            'date': date,
+            'sections': sections,
+        })
+
+    return Response({'entries': entries[:5]})
