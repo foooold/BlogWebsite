@@ -166,7 +166,7 @@ const stats = computed(() => {
 
 <style scoped>
 .home-page {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 2rem 4rem;
 }
@@ -253,12 +253,12 @@ const stats = computed(() => {
   align-items: flex-start;
 }
 .post-grid {
-  min-width: 0;
-  max-width: 750px;
+  flex: 1;
+  min-width: 800;
+  max-width: 1200px;
 }
 .sidebar {
-  flex-shrink: 1;
-  flex: 1;
+  flex-shrink: 0;
   min-width: 270px;
   max-width: 340px;
   display: flex;
