@@ -10,7 +10,7 @@
         <img v-show="!showFallback" :src="avatarUrl" alt="Frank Du" class="hero-mobile-img" @error="onAvatarError" />
       </div>
       <h1 class="hero-mobile-name">Frank Du</h1>
-      <p class="hero-mobile-bio">欢迎来到我的个人博客！</p>
+      <p class="hero-mobile-bio">欢迎来到我的个人博客！<br>点击 <router-link to="/about" class="to-about">此处</router-link> 以获取更多信息</p>
       <div class="hero-mobile-stats">
         <div class="stat-item">
           <span class="stat-num">{{ stats.posts }}</span>
@@ -59,7 +59,7 @@
               <img v-show="!showFallback" :src="avatarUrl" alt="Frank Du" class="avatar-img" @error="onAvatarError" />
             </div>
             <h3 class="profile-name">Frank Du</h3>
-            <p class="profile-bio">欢迎来到我的个人博客！</p>
+            <p class="profile-bio">欢迎来到我的个人博客！<br>点击 <router-link to="/about" class="to-about">此处</router-link> 以获取更多信息</p>
             <div class="profile-stats">
               <div class="stat-item">
                 <span class="stat-num">{{ stats.posts }}</span>
@@ -166,7 +166,7 @@ const stats = computed(() => {
 
 <style scoped>
 .home-page {
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 2rem 4rem;
 }
@@ -398,6 +398,14 @@ const stats = computed(() => {
 }
 .view-all:hover {
   text-decoration: underline;
+}
+
+.to-about {
+  color: #8b949e;
+}
+
+.to-about:hover{
+  color: #60a5fa;
 }
 
 @media (max-width: 768px) {
