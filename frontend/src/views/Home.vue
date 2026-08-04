@@ -254,7 +254,7 @@ const stats = computed(() => {
 }
 .post-grid {
   flex: 1;
-  min-width: 800px;
+  min-width: 800;
   max-width: 1200px;
 }
 .sidebar {
