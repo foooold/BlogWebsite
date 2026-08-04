@@ -119,6 +119,9 @@ onBeforeUnmount(() => {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  /* 作为 drawer 和 overlay 的定位容器，限制遮罩范围不超出内容区域 */
+  position: relative;
+  overflow-x: hidden;
 }
 .nav-bar {
   background: #161b22;
@@ -249,7 +252,7 @@ onBeforeUnmount(() => {
 
 /* ===== 抽屉遮罩 ===== */
 .drawer-overlay {
-  position: fixed;
+  position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0.5);
   z-index: 20;
@@ -257,12 +260,12 @@ onBeforeUnmount(() => {
 
 /* ===== 侧滑抽屉 ===== */
 .drawer {
-  position: fixed;
+  position: absolute;
   top: 0;
+  bottom: 0;
   right: -300px;
   width: 300px;
   max-width: 85vw;
-  height: 100vh;
   background: #161b22;
   border-left: 1px solid #30363d;
   z-index: 30;
