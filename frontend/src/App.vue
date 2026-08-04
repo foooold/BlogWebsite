@@ -34,10 +34,10 @@
     </nav>
 
     <!-- ===== 移动端遮罩层 ===== -->
-    <div v-if="isMobile && drawerOpen" class="drawer-overlay" @click="closeDrawer"></div>
+    <div v-if="isMobile && drawerOpen" class="drawer-overlay" :style="{ top: drawerTop + 'px', height: drawerHeight + 'px' }" @click="closeDrawer"></div>
 
     <!-- ===== 移动端侧滑抽屉 ===== -->
-    <div v-if="isMobile" class="drawer" :class="{ open: drawerOpen }">
+    <div v-if="isMobile" class="drawer" :class="{ open: drawerOpen }" :style="{ top: drawerTop + 'px', height: drawerHeight + 'px' }">
       <div class="drawer-header">
         <span class="drawer-title">导航</span>
         <button class="drawer-close" @click="closeDrawer" aria-label="关闭">
@@ -95,8 +95,12 @@ import { useMediaQuery } from '@/composables/useMediaQuery'
 const route = useRoute()
 const isMobile = useMediaQuery()
 const drawerOpen = ref(false)
+const drawerTop = ref(0)
+const drawerHeight = ref(0)
 
 function openDrawer() {
+  drawerTop.value = window.scrollY
+  drawerHeight.value = window.innerHeight
   drawerOpen.value = true
   document.body.style.overflow = 'hidden'
 }
@@ -119,9 +123,8 @@ onBeforeUnmount(() => {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  /* 作为 drawer 和 overlay 的定位容器，限制遮罩范围不超出内容区域 */
   position: relative;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 .nav-bar {
   background: #161b22;
@@ -221,7 +224,6 @@ onBeforeUnmount(() => {
 }
 .mobile-brand-text {
   font-size: 22px;
-  padding-top: 2px;
 }
 .mobile-brand svg {
   width: 24px;
@@ -253,7 +255,9 @@ onBeforeUnmount(() => {
 /* ===== 抽屉遮罩 ===== */
 .drawer-overlay {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
   background: rgba(0, 0, 0, 0.5);
   z-index: 20;
 }
@@ -261,7 +265,7 @@ onBeforeUnmount(() => {
 /* ===== 侧滑抽屉 ===== */
 .drawer {
   position: absolute;
-  top: 0;
+  top: 1000;
   bottom: 0;
   right: -300px;
   width: 300px;
