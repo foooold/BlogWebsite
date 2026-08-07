@@ -23,7 +23,7 @@ if command -v node &>/dev/null && node -e 'process.exit(parseFloat(process.versi
     skip "Node.js $(node -v) already meets requirements"
 else
     echo "Installing Node.js 22.x from NodeSource..."
-    curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
+    curl -fsSL https://deb.nodesource.com/setup_22.x | DEBIAN_FRONTEND=noninteractive bash -
     apt-get install -y -qq nodejs
     log "Node.js $(node -v) installed"
 fi
