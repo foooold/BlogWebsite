@@ -14,15 +14,21 @@ echo -n "Enter server IP: "; read -r IP
 
 echo "=== Deploying to $IP ==="
 
-# 1. System deps — skip if nginx already installed
-if command -v nginx &>/dev/null; then
-    skip "System packages already installed"
+# 1. System deps + Node.js 22.x
+echo ">>> [1/6] System packages..."
+apt-get update -qq && apt-get install -y -qq python3 python3-pip python3-venv nginx curl
+
+# Install Node.js 22.x from NodeSource (Vite 8 requires Node >=20.19)
+if command -v node &>/dev/null && node -e 'process.exit(+process.version.slice(1) < 20.19 ? 1 : 0)'; then
+    skip "Node.js $(node -v) already meets requirements"
 else
-    echo ">>> [1/6] System packages..."
-    apt-get update -qq && apt-get install -y -qq python3 python3-pip python3-venv nginx nodejs npm curl
-    npm config set registry https://registry.npmmirror.com
-    log "Done"
+    echo "Installing Node.js 22.x from NodeSource..."
+    curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
+    apt-get install -y -qq nodejs
+    log "Node.js $(node -v) installed"
 fi
+npm config set registry https://registry.npmmirror.com
+log "System ready"
 
 # 2. Directories
 echo ">>> [2/6] Directories..."
@@ -44,15 +50,11 @@ else
     log "Done"
 fi
 
-# 4. Frontend — skip if already built
-if [ -f "$PROJECT_DIR/static/dist/.vite/manifest.json" ]; then
-    skip "Frontend already built"
-else
-    echo ">>> [4/6] Frontend build..."
-    cd "$PROJECT_DIR/frontend"
-    npm install --silent && npm run build
-    log "Done"
-fi
+# 4. Frontend
+echo ">>> [4/6] Frontend build..."
+cd "$PROJECT_DIR/frontend"
+npm install --silent && npm run build
+log "Done"
 
 # 5. .env + Django
 echo ">>> [5/6] Django setup..."
