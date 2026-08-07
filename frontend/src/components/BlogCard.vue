@@ -1,5 +1,6 @@
 <template>
   <article :class="['blog-card', { pinned: post.is_pinned }]">
+    <span v-if="post.is_pinned" class="hole-punch"></span>
     <div class="card-body">
       <h2 class="title">
         <router-link :to="`/blog/${post.slug}`">{{ post.title }}</router-link>
@@ -12,8 +13,6 @@
         <time :datetime="post.date">{{ post.date }}</time>
         <span class="separator">·</span>
         <span class="read-time">{{ readTime }}</span>
-        <span class="separator">|</span>
-        <span v-if="post.is_pinned" class="pinned-badge">Pinned</span>
       </div>
       <p class="excerpt" v-html="renderedExcerpt"></p>
       <div class="tags">
@@ -59,9 +58,21 @@ const readTime = computed(() => {
   border-radius: 6px;
   background: #161b22;
   margin-bottom: 1rem;
+  position: relative;
 }
 .blog-card.pinned {
   border-left: 3px solid #1f6feb;
+}
+.hole-punch {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 18px;
+  height: 18px;
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 50%;
+  z-index: 1;
 }
 .card-body {
   padding: 1.25rem 1.5rem;
@@ -87,11 +98,6 @@ const readTime = computed(() => {
   align-items: center;
   flex-wrap: wrap;
   gap: 0 0.4rem;
-}
-.pinned-badge {
-  color: #1f6feb;
-  font-weight: 600;
-  font-size: 0.75rem;
 }
 .read-time {
   color: #8b949e;
