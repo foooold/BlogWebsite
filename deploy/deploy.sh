@@ -19,7 +19,7 @@ echo ">>> [1/6] System packages..."
 apt-get update -qq && apt-get install -y -qq python3 python3-pip python3-venv nginx curl
 
 # Install Node.js 22.x from NodeSource (Vite 8 requires Node >=20.19)
-if command -v node &>/dev/null && node -e 'process.exit(+process.version.slice(1) < 20.19 ? 1 : 0)'; then
+if command -v node &>/dev/null && node -e 'process.exit(parseFloat(process.version.slice(1)) < 20.19 ? 1 : 0)'; then
     skip "Node.js $(node -v) already meets requirements"
 else
     echo "Installing Node.js 22.x from NodeSource..."
