@@ -83,7 +83,7 @@
               <span>个标签</span>
             </li>
             <li>
-              <span>{{ allPosts[0]?.date || '—' }}</span>
+              <span>{{ latestUpdate }}</span>
               <span>最近更新</span>
             </li>
           </ul>
@@ -94,12 +94,18 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { getArticles, getTags } from '@/api'
 import PageHeader from '@/components/PageHeader.vue'
 
 const allPosts = ref([])
 const allTags = ref([])
+
+const latestUpdate = computed(() => {
+  if (!allPosts.value.length) return '—'
+  const dates = allPosts.value.map((p) => p.date).filter(Boolean)
+  return dates.length ? dates.reduce((max, d) => (d > max ? d : max)) : '—'
+})
 
 onMounted(async () => {
   try {
