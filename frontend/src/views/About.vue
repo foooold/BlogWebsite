@@ -36,7 +36,7 @@
           </p>
         </section>
 
-        <hr style="border: none;border-top: 1px dashed #30363d;">
+        <hr style="border: none;border-top: 1px dashed var(--border-default);">
 
       </div>
 
@@ -140,14 +140,14 @@ onMounted(async () => {
 .about-section h3 {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #e6edf3;
+  color: var(--fg-strong);
   margin-bottom: 0.75rem;
   padding-bottom: 0.4rem;
-  border-bottom: 1px solid #21262d;
+  border-bottom: 1px solid var(--border-muted);
 }
 .about-section p {
   font-size: 0.9rem;
-  color: #c9d1d9;
+  color: var(--fg-default);
   line-height: 1.7;
   margin-bottom: 0.6rem;
 }
@@ -157,7 +157,7 @@ onMounted(async () => {
 }
 .about-section li {
   font-size: 0.9rem;
-  color: #c9d1d9;
+  color: var(--fg-default);
   line-height: 1.7;
 }
 .skills {
@@ -166,7 +166,7 @@ onMounted(async () => {
 }
 .skill-category h4 {
   font-size: 0.85rem;
-  color: #8b949e;
+  color: var(--fg-muted);
   margin-bottom: 0.4rem;
   font-weight: 400;
 }
@@ -178,9 +178,9 @@ onMounted(async () => {
 .skill-tag {
   padding: 0.25rem 0.65rem;
   font-size: 0.8rem;
-  color: #c9d1d9;
-  background: #21262d;
-  border: 1px solid #30363d;
+  color: var(--tag-fg);
+  background: var(--tag-bg);
+  border: 1px solid var(--tag-border);
   border-radius: 6px;
 }
 .about-sidebar {
@@ -189,15 +189,15 @@ onMounted(async () => {
   gap: 1rem;
 }
 .sidebar-card {
-  background: #161b22;
-  border: 1px solid #30363d;
+  background: var(--bg-default);
+  border: 1px solid var(--border-default);
   border-radius: 6px;
   padding: 1rem 1.25rem;
 }
 .sidebar-card h3 {
   font-size: 0.9rem;
   font-weight: 600;
-  color: #e6edf3;
+  color: var(--fg-strong);
   margin-bottom: 0.75rem;
 }
 .contact-list {
@@ -214,13 +214,13 @@ onMounted(async () => {
   font-size: 0.85rem;
 }
 .contact-label {
-  color: #8b949e;
+  color: var(--fg-muted);
 }
 .contact-value {
-  color: #c9d1d9;
+  color: var(--fg-default);
 }
 .contact-value a {
-  color: #60a5fa;
+  color: var(--accent);
   text-decoration: none;
 }
 .contact-value a:hover {
@@ -237,10 +237,10 @@ onMounted(async () => {
   display: flex;
   justify-content: space-between;
   font-size: 0.85rem;
-  color: #c9d1d9;
+  color: var(--fg-default);
 }
 .stats-list li span:first-child {
   font-weight: 600;
-  color: #60a5fa;
+  color: var(--accent);
 }
 </style>

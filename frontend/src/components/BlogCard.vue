@@ -54,14 +54,14 @@ const readTime = computed(() => {
 
 <style scoped>
 .blog-card {
-  border: 1px solid #30363d;
+  border: 1px solid var(--border-default);
   border-radius: 6px;
-  background: #161b22;
+  background: var(--bg-default);
   margin-bottom: 1rem;
   position: relative;
 }
 .blog-card.pinned {
-  border-left: 3px solid #1f6feb;
+  border-left: 3px solid var(--accent-emphasis);
 }
 .hole-punch {
   position: absolute;
@@ -69,8 +69,8 @@ const readTime = computed(() => {
   right: 12px;
   width: 18px;
   height: 18px;
-  background: #0d1117;
-  border: 1px solid #30363d;
+  background: var(--bg-canvas);
+  border: 1px solid var(--border-default);
   border-radius: 50%;
   z-index: 1;
 }
@@ -84,7 +84,7 @@ const readTime = computed(() => {
   line-height: 1.4;
 }
 .title a {
-  color: #60a5fa;
+  color: var(--accent);
   text-decoration: none;
 }
 .title a:hover {
@@ -92,7 +92,7 @@ const readTime = computed(() => {
 }
 .meta {
   font-size: 0.8rem;
-  color: #8b949e;
+  color: var(--fg-muted);
   margin-bottom: 0.75rem;
   display: flex;
   align-items: center;
@@ -100,11 +100,11 @@ const readTime = computed(() => {
   gap: 0 0.4rem;
 }
 .read-time {
-  color: #8b949e;
+  color: var(--fg-muted);
 }
 .excerpt {
   font-size: 0.9rem;
-  color: #c9d1d9;
+  color: var(--fg-default);
   line-height: 1.6;
   margin-bottom: 0.75rem;
 }

@@ -102,7 +102,7 @@ const pagedPosts = computed(() => {
 }
 .empty {
   text-align: center;
-  color: #8b949e;
+  color: var(--fg-muted);
   padding: 3rem 0;
   font-size: 0.95rem;
 }
@@ -118,12 +118,12 @@ const pagedPosts = computed(() => {
   align-items: center;
   margin-bottom: 1rem;
   padding-bottom: 0.6rem;
-  border-bottom: 1px solid #21262d;
+  border-bottom: 1px solid var(--border-muted);
 }
 .tagged-header h2 {
   font-size: 0.95rem;
   font-weight: 400;
-  color: #8b949e;
+  color: var(--fg-muted);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -131,21 +131,23 @@ const pagedPosts = computed(() => {
 }
 .tagged-header em {
   font-style: normal;
-  color: #60a5fa;
+  color: var(--accent);
   font-weight: 600;
 }
 .clear-btn {
   padding: 0.25rem 0.6rem;
   font-size: 0.8rem;
-  color: #c9d1d9;
-  background: #21262d;
-  border: 1px solid #30363d;
+  color: var(--fg-default);
+  background: var(--bg-muted);
+  border: 1px solid var(--border-default);
   border-radius: 6px;
   cursor: pointer;
   flex-shrink: 0;
 }
 .clear-btn:hover {
-  background: #30363d;
+  background: var(--control-hover-bg);
+  border-color: var(--control-hover-border);
+  color: var(--control-hover-fg);
 }
 .tag-chip {
   display: inline-flex;
@@ -153,30 +155,31 @@ const pagedPosts = computed(() => {
   gap: 0.35rem;
   padding: 0.4rem 0.65rem;
   font-size: 0.8rem;
-  color: #c9d1d9;
-  background: #21262d;
-  border: 1px solid #30363d;
+  color: var(--tag-fg);
+  background: var(--tag-bg);
+  border: 1px solid var(--tag-border);
   border-radius: 6px;
   cursor: pointer;
 }
 .tag-chip:hover {
-  background: #30363d;
-  border-color: #8b949e;
+  background: var(--control-hover-bg);
+  border-color: var(--control-hover-border);
+  color: var(--control-hover-fg);
 }
 .tag-chip.active {
-  background: rgba(31, 111, 235, 0.15);
-  border-color: #1f6feb;
-  color: #60a5fa;
+  background: var(--control-active-accent-bg);
+  border-color: var(--control-active-border);
+  color: var(--tag-active-fg);
 }
 .chip-count {
   font-size: 0.72rem;
-  color: #8b949e;
-  background: rgba(110, 118, 129, 0.15);
+  color: var(--tag-fg);
+  background: var(--tag-active-count-bg);
   padding: 1px 6px;
   border-radius: 10px;
 }
 .tag-chip.active .chip-count {
-  background: rgba(31, 111, 235, 0.2);
-  color: #60a5fa;
+  background: var(--tag-active-count-bg);
+  color: var(--tag-active-fg);
 }
 </style>

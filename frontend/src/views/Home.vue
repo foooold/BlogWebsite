@@ -3,9 +3,9 @@
     <section class="hero-mobile">
       <div class="hero-mobile-avatar">
         <svg width="80" height="80" viewBox="0 0 80 80" fill="none" class="hero-mobile-fallback">
-          <circle cx="40" cy="40" r="40" fill="#30363d"/>
-          <circle cx="40" cy="32" r="14" fill="#8b949e"/>
-          <ellipse cx="40" cy="66" rx="24" ry="12" fill="#8b949e"/>
+          <circle cx="40" cy="40" r="40" fill="var(--border-default)"/>
+          <circle cx="40" cy="32" r="14" fill="var(--fg-muted)"/>
+          <ellipse cx="40" cy="66" rx="24" ry="12" fill="var(--fg-muted)"/>
         </svg>
         <img v-show="!showFallback" :src="avatarUrl" alt="Frank Du" class="hero-mobile-img" @error="onAvatarError" />
       </div>
@@ -52,9 +52,9 @@
           <aside class="profile-card">
             <div class="profile-avatar">
               <svg width="64" height="64" viewBox="0 0 80 80" fill="none" class="avatar-fallback">
-                <circle cx="40" cy="40" r="40" fill="#30363d"/>
-                <circle cx="40" cy="32" r="14" fill="#8b949e"/>
-                <ellipse cx="40" cy="66" rx="24" ry="12" fill="#8b949e"/>
+                <circle cx="40" cy="40" r="40" fill="var(--border-default)"/>
+                <circle cx="40" cy="32" r="14" fill="var(--fg-muted)"/>
+                <ellipse cx="40" cy="66" rx="24" ry="12" fill="var(--fg-muted)"/>
               </svg>
               <img v-show="!showFallback" :src="avatarUrl" alt="Frank Du" class="avatar-img" @error="onAvatarError" />
             </div>
@@ -195,11 +195,11 @@ const stats = computed(() => {
 .hero-mobile-name {
   font-size: 1.6rem;
   font-weight: 600;
-  color: #e6edf3;
+  color: var(--fg-strong);
   margin-bottom: 0.6rem;
 }
 .hero-mobile-bio {
-  color: #8b949e;
+  color: var(--fg-muted);
   font-size: 0.95rem;
   max-width: 500px;
   margin: 0 auto 1.5rem;
@@ -221,12 +221,12 @@ const stats = computed(() => {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  color: #8b949e;
+  color: var(--fg-muted);
   font-size: 0.85rem;
   text-decoration: none;
 }
 .hero-mobile-link[href]:hover {
-  color: #60a5fa;
+  color: var(--accent);
 }
 .profile-avatar {
   position: relative;
@@ -265,8 +265,8 @@ const stats = computed(() => {
   gap: 1rem;
 }
 .profile-card {
-  background: #161b22;
-  border: 1px solid #30363d;
+  background: var(--bg-default);
+  border: 1px solid var(--border-default);
   border-radius: 8px;
   margin-top: 45px;
   padding: 1.5rem 1.25rem;
@@ -275,11 +275,11 @@ const stats = computed(() => {
 .profile-name {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #e6edf3;
+  color: var(--fg-strong);
   margin-bottom: 0.5rem;
 }
 .profile-bio {
-  color: #8b949e;
+  color: var(--fg-muted);
   font-size: 0.85rem;
   margin-bottom: 1.25rem;
   line-height: 1.5;
@@ -290,7 +290,7 @@ const stats = computed(() => {
   gap: 1.5rem;
   margin-bottom: 1.25rem;
   padding-bottom: 1.25rem;
-  border-bottom: 1px solid #30363d;
+  border-bottom: 1px solid var(--border-default);
 }
 .stat-item {
   display: flex;
@@ -300,11 +300,11 @@ const stats = computed(() => {
 .stat-num {
   font-size: 1.15rem;
   font-weight: 600;
-  color: #e6edf3;
+  color: var(--fg-strong);
 }
 .stat-label {
   font-size: 0.7rem;
-  color: #8b949e;
+  color: var(--fg-muted);
   margin-top: 0.1rem;
 }
 .profile-links {
@@ -316,16 +316,16 @@ const stats = computed(() => {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  color: #8b949e;
+  color: var(--fg-muted);
   font-size: 0.8rem;
   text-decoration: none;
 }
 .profile-link[href]:hover {
-  color: #60a5fa;
+  color: var(--accent);
 }
 .changelog-card {
-  background: #161b22;
-  border: 1px solid #30363d;
+  background: var(--bg-default);
+  border: 1px solid var(--border-default);
   border-radius: 8px;
   padding: 1rem 1rem;
   text-align: left;
@@ -333,10 +333,10 @@ const stats = computed(() => {
 .changelog-title {
   font-size: 0.95rem;
   font-weight: 600;
-  color: #e6edf3;
+  color: var(--fg-strong);
   margin-bottom: 0.75rem;
   padding-bottom: 0.5rem;
-  border-bottom: 1px solid #30363d;
+  border-bottom: 1px solid var(--border-default);
 }
 .changelog-list {
   max-height: 420px;
@@ -357,11 +357,11 @@ const stats = computed(() => {
 .changelog-ver {
   font-size: 0.8rem;
   font-weight: 600;
-  color: #60a5fa;
+  color: var(--accent);
 }
 .changelog-date {
   font-size: 0.7rem;
-  color: #484f58;
+  color: var(--fg-subtle);
 }
 .changelog-items {
   list-style: none;
@@ -370,13 +370,13 @@ const stats = computed(() => {
 }
 .changelog-item {
   font-size: 0.75rem;
-  color: #8b949e;
+  color: var(--fg-muted);
   line-height: 1.5;
   padding: 0.15rem 0;
 }
 .changelog-item::before {
   content: '• ';
-  color: #484f58;
+  color: var(--fg-subtle);
 }
 
 .section-header {
@@ -388,11 +388,11 @@ const stats = computed(() => {
 .section-header h2 {
   font-size: 1.15rem;
   font-weight: 600;
-  color: #e6edf3;
+  color: var(--fg-strong);
 }
 .view-all {
   font-size: 0.85rem;
-  color: #60a5fa;
+  color: var(--accent);
   text-decoration: none;
 }
 .view-all:hover {
@@ -400,11 +400,11 @@ const stats = computed(() => {
 }
 
 .to-about {
-  color: #8b949e;
+  color: var(--fg-muted);
 }
 
 .to-about:hover{
-  color: #60a5fa;
+  color: var(--accent);
 }
 
 @media (max-width: 768px) {
@@ -412,7 +412,7 @@ const stats = computed(() => {
     display: block;
     text-align: center;
     padding: 2rem 1rem;
-    border-bottom: 1px solid #30363d;
+    border-bottom: 1px solid var(--border-default);
     margin-bottom: 2rem;
   }
   .hero-mobile-stats {

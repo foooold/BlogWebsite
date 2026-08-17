@@ -15,17 +15,17 @@ defineProps({
 <style scoped>
 .page-header {
   padding: 2rem 0 1.5rem;
-  border-bottom: 1px solid #30363d;
+  border-bottom: 1px solid var(--border-default);
   margin-bottom: 1.5rem;
 }
 h1 {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #e6edf3;
+  color: var(--fg-strong);
 }
 .desc {
   margin-top: 0.5rem;
-  color: #8b949e;
+  color: var(--fg-muted);
   font-size: 0.9rem;
 }
 

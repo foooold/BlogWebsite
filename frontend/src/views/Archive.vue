@@ -75,40 +75,40 @@ const archive = computed(() => getArchive())
 .group-title {
   font-size: 1.05rem;
   font-weight: 600;
-  color: #e6edf3;
+  color: var(--fg-strong);
   margin-bottom: 0.75rem;
   padding-bottom: 0.4rem;
-  border-bottom: 1px solid #21262d;
+  border-bottom: 1px solid var(--border-muted);
 }
 .group-count {
   font-size: 0.8rem;
   font-weight: 400;
-  color: #8b949e;
+  color: var(--fg-muted);
   margin-left: 0.5rem;
 }
 .archive-item {
   display: flex;
   align-items: center;
   padding: 0.6rem 0.75rem;
-  border: 1px solid #21262d;
+  border: 1px solid var(--border-muted);
   border-radius: 6px;
   margin-bottom: 0.4rem;
   gap: 0.75rem;
   flex-wrap: wrap;
 }
 .archive-item:hover {
-  background: #161b22;
-  border-color: #30363d;
+  background: var(--control-hover-surface-bg);
+  border-color: var(--control-hover-subtle-border);
 }
 .item-date {
   font-size: 0.8rem;
-  color: #8b949e;
+  color: var(--fg-muted);
   white-space: nowrap;
   font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
 }
 .item-title {
   font-size: 0.9rem;
-  color: #60a5fa;
+  color: var(--accent);
   text-decoration: none;
   flex: 1;
   min-width: 200px;
