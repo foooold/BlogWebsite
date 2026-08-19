@@ -155,31 +155,31 @@ const pagedPosts = computed(() => {
   gap: 0.35rem;
   padding: 0.4rem 0.65rem;
   font-size: 0.8rem;
-  color: var(--tag-fg);
-  background: var(--tag-bg);
-  border: 1px solid var(--tag-border);
+  color: var(--filter-tag-fg);
+  background: var(--filter-tag-bg);
+  border: 1px solid var(--filter-tag-border);
   border-radius: 6px;
   cursor: pointer;
 }
 .tag-chip:hover {
-  background: var(--control-hover-bg);
-  border-color: var(--control-hover-border);
-  color: var(--control-hover-fg);
+  background: var(--filter-tag-hover-bg);
+  border-color: var(--filter-tag-hover-border);
+  color: var(--filter-tag-hover-fg);
 }
 .tag-chip.active {
-  background: var(--control-active-accent-bg);
-  border-color: var(--control-active-border);
-  color: var(--tag-active-fg);
+  background: var(--filter-tag-active-bg);
+  border-color: var(--filter-tag-active-border);
+  color: var(--filter-tag-active-fg);
 }
 .chip-count {
   font-size: 0.72rem;
-  color: var(--tag-fg);
-  background: var(--tag-active-count-bg);
+  color: var(--filter-tag-fg);
+  background: var(--filter-tag-count-bg);
   padding: 1px 6px;
   border-radius: 10px;
 }
 .tag-chip.active .chip-count {
-  background: var(--tag-active-count-bg);
-  color: var(--tag-active-fg);
+  background: var(--filter-tag-active-count-bg);
+  color: var(--filter-tag-active-fg);
 }
 </style>

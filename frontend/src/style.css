@@ -14,7 +14,6 @@
   --accent-focus: #58a6ff;
   --accent-light: #79c0ff;
   --accent-muted: rgba(31, 111, 235, 0.2);
-  --accent-border: rgba(88, 166, 255, 0.35);
   --selection: rgba(31, 111, 235, 0.3);
   --overlay: rgba(0, 0, 0, 0.5);
   --shadow: rgba(0, 0, 0, 0.4);
@@ -23,18 +22,24 @@
   --control-hover-border: #8b949e;
   --control-hover-fg: #e6edf3;
   --control-active-bg: #21262d;
-  --control-active-border: #1f6feb;
-  --control-hover-raised-bg: #30363d;
   --control-hover-surface-bg: #161b22;
   --control-hover-subtle-border: #30363d;
   --control-hover-accent-bg: rgba(31, 111, 235, 0.2);
   --control-hover-accent-border: rgba(88, 166, 255, 0.35);
-  --control-active-accent-bg: rgba(31, 111, 235, 0.2);
   --tag-bg: rgba(31, 111, 235, 0.2);
   --tag-border: rgba(88, 166, 255, 0.35);
-  --tag-active-count-bg: rgba(31, 111, 235, 0.2);
   --tag-fg: #60a5fa;
-  --tag-active-fg: #60a5fa;
+  --filter-tag-bg: #1e293b;
+  --filter-tag-border: #334155;
+  --filter-tag-fg: #cbd5e1;
+  --filter-tag-hover-bg: #1e3a5f;
+  --filter-tag-hover-border: #3b82f6;
+  --filter-tag-hover-fg: #bfdbfe;
+  --filter-tag-active-bg: #2563eb;
+  --filter-tag-active-border: #60a5fa;
+  --filter-tag-active-fg: #ffffff;
+  --filter-tag-count-bg: #334155;
+  --filter-tag-active-count-bg: rgba(255, 255, 255, 0.18);
 }
 
 html[data-theme='light'] {
@@ -53,7 +58,6 @@ html[data-theme='light'] {
   --accent-focus: #0969da;
   --accent-light: #0550ae;
   --accent-muted: rgba(84, 174, 255, 0.3);
-  --accent-border: rgba(9, 105, 218, 0.35);
   --selection: rgba(84, 174, 255, 0.4);
   --overlay: rgba(31, 35, 40, 0.4);
   --shadow: rgba(31, 35, 40, 0.15);
@@ -62,18 +66,24 @@ html[data-theme='light'] {
   --control-hover-border: #8c959f;
   --control-hover-fg: #24292f;
   --control-active-bg: #d8dee4;
-  --control-active-border: #57606a;
-  --control-hover-raised-bg: #e6e9ec;
   --control-hover-surface-bg: #f1f3f5;
   --control-hover-subtle-border: #8c959f;
   --control-hover-accent-bg: #eef0f2;
   --control-hover-accent-border: #8c959f;
-  --control-active-accent-bg: #d8dee4;
   --tag-bg: #eef0f2;
   --tag-border: #d0d7de;
-  --tag-active-count-bg: #cfd6dc;
   --tag-fg: #57606a;
-  --tag-active-fg: #24292f;
+  --filter-tag-bg: #f1f5f9;
+  --filter-tag-border: #cbd5e1;
+  --filter-tag-fg: #475569;
+  --filter-tag-hover-bg: #dbeafe;
+  --filter-tag-hover-border: #93c5fd;
+  --filter-tag-hover-fg: #1d4ed8;
+  --filter-tag-active-bg: #2563eb;
+  --filter-tag-active-border: #1e40af;
+  --filter-tag-active-fg: #ffffff;
+  --filter-tag-count-bg: #e2e8f0;
+  --filter-tag-active-count-bg: rgba(255, 255, 255, 0.2);
 }
 
 * {
