@@ -161,10 +161,12 @@ const pagedPosts = computed(() => {
   border-radius: 6px;
   cursor: pointer;
 }
-.tag-chip:hover {
-  background: var(--filter-tag-hover-bg);
-  border-color: var(--filter-tag-hover-border);
-  color: var(--filter-tag-hover-fg);
+@media (hover: hover) and (pointer: fine) {
+  .tag-chip:hover {
+    background: var(--filter-tag-hover-bg);
+    border-color: var(--filter-tag-hover-border);
+    color: var(--filter-tag-hover-fg);
+  }
 }
 .tag-chip.active {
   background: var(--filter-tag-active-bg);

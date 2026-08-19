@@ -143,6 +143,27 @@ a:hover { text-decoration: underline; }
 }
 ::-webkit-scrollbar-thumb:hover { background: var(--fg-subtle); }
 
+/* Prevent mobile browsers from leaving a tap highlight/focus ring behind. */
+@media (hover: none) and (pointer: coarse) {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  :is(
+    a,
+    button,
+    input,
+    select,
+    textarea,
+    summary,
+    [tabindex]
+  ):focus,
+  .theme-toggle:focus-visible {
+    outline: none;
+    box-shadow: none;
+  }
+}
+
 @media (max-width: 768px) {
   body { font-size: 16px; }
 }
