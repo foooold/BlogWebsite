@@ -84,7 +84,7 @@
         <span class="footer-dot">·</span>
         <span>Powered by Vue 3 + Vite + Django</span>
         <br />
-        <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener" class="icp-link">沪ICP备XXXXXXXX号-1</a>
+        <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener" class="icp-link">沪ICP备2026040587号-1</a>
       </div>
     </footer>
   </div>
