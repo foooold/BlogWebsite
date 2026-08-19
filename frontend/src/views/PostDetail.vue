@@ -43,13 +43,15 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted, nextTick } from 'vue'
+import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import { useRoute } from 'vue-router'
 import { getArticle } from '@/api'
 import MarkdownIt from 'markdown-it'
 import hljs from 'highlight.js'
-import 'highlight.js/styles/github-dark.css'
+import githubLightCss from 'highlight.js/styles/github.css?inline'
+import githubDarkCss from 'highlight.js/styles/github-dark.css?inline'
 import anchor from 'markdown-it-anchor'
+import { useTheme } from '@/composables/useTheme'
 
 const md = new MarkdownIt({
   html: true,
@@ -82,8 +84,18 @@ md.renderer.rules.code_inline = (tokens, idx) => {
 import TagBadge from '@/components/TagBadge.vue'
 
 const route = useRoute()
+const { isDark } = useTheme()
 const post = ref(null)
 const loading = ref(true)
+const highlightThemeStyle = document.createElement('style')
+highlightThemeStyle.dataset.highlightTheme = 'github'
+document.head.appendChild(highlightThemeStyle)
+
+watch(isDark, dark => {
+  highlightThemeStyle.textContent = dark ? githubDarkCss : githubLightCss
+}, { immediate: true })
+
+onBeforeUnmount(() => highlightThemeStyle.remove())
 
 async function fetchPost(slug) {
   loading.value = true
@@ -176,7 +188,7 @@ function addCopyButtons() {
   padding: 1rem 0;
 }
 .back-link a {
-  color: #60a5fa;
+  color: var(--accent);
   text-decoration: none;
   font-size: 0.85rem;
 }
@@ -184,20 +196,20 @@ function addCopyButtons() {
   text-decoration: underline;
 }
 .post-header {
-  border-bottom: 1px solid #30363d;
+  border-bottom: 1px solid var(--border-default);
   padding-bottom: 1.5rem;
   margin-bottom: 2rem;
 }
 .post-header h1 {
   font-size: 1.6rem;
   font-weight: 600;
-  color: #e6edf3;
+  color: var(--fg-strong);
   line-height: 1.4;
   margin-bottom: 0.6rem;
 }
 .post-meta {
   font-size: 0.82rem;
-  color: #8b949e;
+  color: var(--fg-muted);
   margin-bottom: 0.75rem;
 }
 .separator {
@@ -210,31 +222,31 @@ function addCopyButtons() {
 }
 .post-excerpt {
   font-size: 0.9rem;
-  color: #8b949e;
+  color: var(--fg-muted);
   line-height: 1.6;
   padding: 0.6rem 0.9rem;
   margin-bottom: 0.75rem;
-  background: #161b22;
-  border-left: 3px solid #30363d;
+  background: var(--bg-default);
+  border-left: 3px solid var(--border-default);
   border-radius: 4px;
 }
 .post-content {
   font-size: 16px;
   line-height: 1.8;
-  color: #c9d1d9;
+  color: var(--fg-default);
 }
 .post-content :deep(h2) {
   font-size: 1.2rem;
   font-weight: 600;
-  color: #e6edf3;
+  color: var(--fg-strong);
   margin: 2rem 0 0.75rem;
   padding-bottom: 0.4rem;
-  border-bottom: 1px solid #21262d;
+  border-bottom: 1px solid var(--border-muted);
 }
 .post-content :deep(h3) {
   font-size: 1.05rem;
   font-weight: 600;
-  color: #e6edf3;
+  color: var(--fg-strong);
   margin: 1.5rem 0 0.5rem;
 }
 .post-content :deep(p) {
@@ -249,7 +261,7 @@ function addCopyButtons() {
 }
 .post-content :deep(strong) {
   font-weight: 600;
-  color: #e6edf3;
+  color: var(--fg-strong);
 }
 .post-content :deep(ol) {
   margin: 0.75rem 0;
@@ -258,11 +270,11 @@ function addCopyButtons() {
 .post-content :deep(blockquote) {
   margin: 1rem 0;
   padding: 0.5rem 1rem;
-  color: #8b949e;
-  border-left: 3px solid #30363d;
+  color: var(--fg-muted);
+  border-left: 3px solid var(--border-default);
 }
 .post-content :deep(a) {
-  color: #60a5fa;
+  color: var(--accent);
   text-decoration: none;
 }
 .post-content :deep(a:hover) {
@@ -274,35 +286,35 @@ function addCopyButtons() {
 .post-content :deep(hr) {
   height: 1px;
   margin: 2rem 0;
-  background: #30363d;
+  background: var(--border-default);
   border: 0;
 }
 .post-content :deep(h4) {
   font-size: 1rem;
   font-weight: 600;
-  color: #e6edf3;
+  color: var(--fg-strong);
   margin: 1.25rem 0 0.5rem;
 }
 .post-content :deep(h5),
 .post-content :deep(h6) {
   font-size: 0.95rem;
   font-weight: 600;
-  color: #e6edf3;
+  color: var(--fg-strong);
   margin: 1.25rem 0 0.5rem;
 }
 .post-content :deep(.inline-code) {
   padding: 0.15rem 0.4rem;
   font-size: 0.85em;
-  background: rgba(110, 118, 129, 0.15);
+  background: var(--inline-code-bg);
   border-radius: 4px;
   font-family: 'Cascadia Code', 'Fira Code', 'Menlo', 'Monaco', 'Consolas', 'Courier New', monospace;
-  color: #c9d1d9;
+  color: var(--fg-default);
 }
 .post-content :deep(.code-block) {
   margin: 0.75rem 0;
   padding: 1rem 1.25rem;
-  background: #0d1117;
-  border: 1px solid #30363d;
+  background: var(--bg-canvas);
+  border: 1px solid var(--border-default);
   border-radius: 6px;
   overflow-x: auto;
   position: relative;
@@ -311,7 +323,7 @@ function addCopyButtons() {
   font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
   font-size: 14px;
   line-height: 1.6;
-  color: #c9d1d9;
+  color: var(--fg-default);
   white-space: pre;
 }
 .post-content :deep(.code-block) .copy-btn {
@@ -320,9 +332,9 @@ function addCopyButtons() {
   right: 0.5rem;
   padding: 0.15rem 0.5rem;
   font-size: 0.72rem;
-  color: #8b949e;
-  background: #21262d;
-  border: 1px solid #30363d;
+  color: var(--fg-muted);
+  background: var(--bg-muted);
+  border: 1px solid var(--border-default);
   border-radius: 4px;
   cursor: pointer;
   opacity: 0;
@@ -332,8 +344,9 @@ function addCopyButtons() {
   opacity: 1;
 }
 .post-content :deep(.copy-btn):hover {
-  color: #e6edf3;
-  background: #30363d;
+  color: var(--control-hover-fg);
+  background: var(--control-hover-bg);
+  border-color: var(--control-hover-border);
 }
 .post-content :deep(table) {
   width: 100%;
@@ -344,11 +357,11 @@ function addCopyButtons() {
 .post-content :deep(th),
 .post-content :deep(td) {
   padding: 0.5rem 0.75rem;
-  border: 1px solid #30363d;
+  border: 1px solid var(--border-default);
   text-align: left;
 }
 .post-content :deep(th) {
-  background: #161b22;
+  background: var(--bg-default);
   font-weight: 600;
 }
 .post-content :deep(.table-wrapper) {
@@ -356,12 +369,12 @@ function addCopyButtons() {
   margin: 0.75rem 0;
 }
 .post-footer {
-  border-top: 1px solid #30363d;
+  border-top: 1px solid var(--border-default);
   padding: 2rem 0;
   text-align: center;
 }
 .back-btn {
-  color: #60a5fa;
+  color: var(--accent);
   text-decoration: none;
   font-size: 0.9rem;
 }
@@ -371,14 +384,14 @@ function addCopyButtons() {
 .not-found {
   text-align: center;
   padding: 4rem 1rem;
-  color: #8b949e;
+  color: var(--fg-muted);
 }
 .not-found h2 {
-  color: #e6edf3;
+  color: var(--fg-strong);
   margin-bottom: 1rem;
 }
 .not-found a {
-  color: #60a5fa;
+  color: var(--accent);
 }
 
 /* Touch devices: always show copy button */

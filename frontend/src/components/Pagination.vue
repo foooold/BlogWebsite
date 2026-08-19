@@ -63,32 +63,33 @@ const displayedPages = computed(() => {
 button {
   padding: 0.35rem 0.8rem;
   font-size: 0.85rem;
-  color: #c9d1d9;
-  background: #21262d;
-  border: 1px solid #30363d;
+  color: var(--fg-default);
+  background: var(--bg-muted);
+  border: 1px solid var(--border-default);
   border-radius: 6px;
   cursor: pointer;
 }
 button:hover:not(:disabled) {
-  background: #30363d;
-  border-color: #8b949e;
+  background: var(--control-hover-bg);
+  border-color: var(--control-hover-border);
+  color: var(--control-hover-fg);
 }
 button:disabled {
   opacity: 0.4;
   cursor: default;
 }
 button.active {
-  background: #1f6feb;
-  border-color: #1f6feb;
+  background: var(--accent-emphasis);
+  border-color: var(--accent-emphasis);
   color: #ffffff;
 }
 .ellipsis {
-  color: #8b949e;
+  color: var(--fg-muted);
   padding: 0 0.25rem;
 }
 .info {
   font-size: 0.8rem;
-  color: #8b949e;
+  color: var(--fg-muted);
   margin-left: 1rem;
 }
 

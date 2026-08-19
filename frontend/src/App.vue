@@ -11,6 +11,7 @@
         </div>
         <div class="nav-right">
           <SearchBar />
+          <ThemeToggle />
           <span class="nav-sep"></span>
           <router-link to="/">首页</router-link>
           <router-link to="/blog">博客</router-link>
@@ -40,9 +41,12 @@
     <div v-if="isMobile" class="drawer" :class="{ open: drawerOpen }" :style="{ top: drawerTop + 'px', height: drawerHeight + 'px' }">
       <div class="drawer-header">
         <span class="drawer-title">导航</span>
-        <button class="drawer-close" @click="closeDrawer" aria-label="关闭">
-          <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z"/></svg>
-        </button>
+        <div class="drawer-actions">
+          <ThemeToggle />
+          <button class="drawer-close" @click="closeDrawer" aria-label="关闭">
+            <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M3.72 3.72a.75.75 0 011.06 0L8 6.94l3.22-3.22a.75.75 0 111.06 1.06L9.06 8l3.22 3.22a.75.75 0 11-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 01-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 010-1.06z"/></svg>
+          </button>
+        </div>
       </div>
 
       <div class="drawer-search">
@@ -90,6 +94,7 @@
 import { ref, watch, onBeforeUnmount } from 'vue'
 import { useRoute } from 'vue-router'
 import SearchBar from '@/components/SearchBar.vue'
+import ThemeToggle from '@/components/ThemeToggle.vue'
 import { useMediaQuery } from '@/composables/useMediaQuery'
 
 const route = useRoute()
@@ -127,8 +132,8 @@ onBeforeUnmount(() => {
   overflow-x: clip;
 }
 .nav-bar {
-  background: #161b22;
-  border-bottom: 1px solid #30363d;
+  background: var(--bg-default);
+  border-bottom: 1px solid var(--border-default);
   position: sticky;
   top: 0;
   z-index: 10;
@@ -150,56 +155,57 @@ onBeforeUnmount(() => {
   align-items: center;
   gap: 0.5rem;
   font-weight: 600;
-  color: #e6edf3;
+  color: var(--fg-strong);
   text-decoration: none;
 }
 .brand-text {
   font-family: 'Times New Roman', serif;
-  color: #c9d1d9;
+  color: var(--fg-default);
   font-size: 18px;
   letter-spacing: 0.5px;
   padding-top: 5px;
 }
-.nav-brand:hover .brand-text { color: #e6edf3; }
+.nav-brand:hover .brand-text { color: var(--fg-strong); }
 .nav-avatar {
   width: 30px;
   height: 30px;
   border-radius: 50%;
   object-fit: cover;
-  border: 1px solid #30363d;
+  border: 1px solid var(--border-default);
 }
 .nav-right {
   display: flex;
   align-items: center;
   gap: 0.25rem;
 }
+.nav-right :deep(.theme-toggle) { margin-left: 0.4rem; }
 .nav-sep {
   width: 1px;
   height: 20px;
-  background: #30363d;
+  background: var(--border-default);
   margin: 0 0.5rem;
 }
 .nav-right a {
   padding: 0.35rem 0.7rem;
   font-size: 0.85rem;
-  color: #c9d1d9;
+  color: var(--fg-default);
   text-decoration: none;
   border-radius: 6px;
 }
 .nav-right a:hover {
-  background: #21262d;
-  color: #e6edf3;
+  background: var(--control-hover-bg);
+  color: var(--control-hover-fg);
 }
 .nav-right a.router-link-exact-active {
-  background: #21262d;
-  color: #e6edf3;
+  background: var(--control-active-bg);
+  color: var(--control-hover-fg);
 }
 .main-content {
   flex: 1;
   padding: 0 0 3rem;
 }
 .site-footer {
-  border-top: 1px solid #30363d;
+  border-top: 1px solid var(--border-default);
   padding: 1.5rem 1rem;
   margin-top: auto;
 }
@@ -208,11 +214,11 @@ onBeforeUnmount(() => {
   margin: 0 auto;
   text-align: center;
   font-size: 0.8rem;
-  color: #484f58;
+  color: var(--fg-subtle);
 }
 .footer-dot { margin: 0 0.4rem; }
-.icp-link { color: #484f58; text-decoration: none; }
-.icp-link:hover { color: #8b949e; text-decoration: underline; }
+.icp-link { color: var(--fg-subtle); text-decoration: none; }
+.icp-link:hover { color: var(--fg-muted); text-decoration: underline; }
 
 /* ===== 移动端导航栏 ===== */
 .mobile-nav-bar {
@@ -238,18 +244,19 @@ onBeforeUnmount(() => {
   height: 36px;
   padding: 6px;
   background: transparent;
-  border: 1px solid #30363d;
+  border: 1px solid var(--border-default);
   border-radius: 6px;
   cursor: pointer;
 }
 .hamburger-btn span {
   display: block;
   height: 2px;
-  background: #c9d1d9;
+  background: var(--fg-default);
   border-radius: 1px;
 }
 .hamburger-btn:hover {
-  background: #21262d;
+  background: var(--control-hover-bg);
+  border-color: var(--control-hover-border);
 }
 
 /* ===== 抽屉遮罩 ===== */
@@ -258,7 +265,7 @@ onBeforeUnmount(() => {
   top: 0;
   left: 0;
   right: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--overlay);
   z-index: 20;
 }
 
@@ -270,8 +277,8 @@ onBeforeUnmount(() => {
   right: -300px;
   width: 300px;
   max-width: 85vw;
-  background: #161b22;
-  border-left: 1px solid #30363d;
+  background: var(--bg-default);
+  border-left: 1px solid var(--border-default);
   z-index: 30;
   display: flex;
   flex-direction: column;
@@ -286,12 +293,17 @@ onBeforeUnmount(() => {
   justify-content: space-between;
   align-items: center;
   padding: 0.9rem 1rem;
-  border-bottom: 1px solid #21262d;
+  border-bottom: 1px solid var(--border-muted);
+}
+.drawer-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 .drawer-title {
   font-size: 1rem;
   font-weight: 600;
-  color: #e6edf3;
+  color: var(--fg-strong);
 }
 .drawer-close {
   display: flex;
@@ -301,17 +313,17 @@ onBeforeUnmount(() => {
   height: 32px;
   background: transparent;
   border: none;
-  color: #8b949e;
+  color: var(--fg-muted);
   cursor: pointer;
   border-radius: 6px;
 }
 .drawer-close:hover {
-  background: #21262d;
-  color: #e6edf3;
+  background: var(--control-hover-bg);
+  color: var(--control-hover-fg);
 }
 .drawer-search {
   padding: 0.75rem 1rem;
-  border-bottom: 1px solid #21262d;
+  border-bottom: 1px solid var(--border-muted);
 }
 .drawer-link {
   display: flex;
@@ -319,28 +331,31 @@ onBeforeUnmount(() => {
   gap: 0.75rem;
   padding: 0.85rem 1.2rem;
   font-size: 1.05rem;
-  color: #c9d1d9;
+  color: var(--fg-default);
   text-decoration: none;
-  border-bottom: 1px solid #21262d;
+  border-bottom: 1px solid var(--border-muted);
 }
 .drawer-link svg {
-  color: #8b949e;
+  color: var(--fg-muted);
   flex-shrink: 0;
 }
-.drawer-link:hover,
+.drawer-link:hover {
+  background: var(--control-hover-bg);
+  color: var(--control-hover-fg);
+}
 .drawer-link.active {
-  background: #21262d;
-  color: #e6edf3;
+  background: var(--control-active-bg);
+  color: var(--control-hover-fg);
 }
 .drawer-link.active svg {
-  color: #60a5fa;
+  color: var(--accent);
 }
 .drawer-footer {
   margin-top: auto;
   padding: 1rem;
   text-align: center;
   font-size: 0.78rem;
-  color: #484f58;
-  border-top: 1px solid #21262d;
+  color: var(--fg-subtle);
+  border-top: 1px solid var(--border-muted);
 }
 </style>
