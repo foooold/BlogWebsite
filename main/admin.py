@@ -6,6 +6,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin, GroupAdmin as 
 from django.contrib.auth.models import User, Group, Permission
 from django.http import JsonResponse
 from django.urls import path, reverse
+from django.utils.html import format_html
 from unfold.admin import ModelAdmin as UnfoldModelAdmin
 from .models import Tag, Article, ArticleImage
 
@@ -103,6 +104,45 @@ class ArticleAdmin(UnfoldModelAdmin):
             'alt_text': article_image.alt_text,
             'id': article_image.pk,
         })
+
+
+@admin.register(ArticleImage)
+class ArticleImageAdmin(UnfoldModelAdmin):
+    form = ArticleImageUploadForm
+    list_display = ['thumbnail', 'alt_text', 'original_name', 'uploaded_by', 'created_at']
+    search_fields = ['alt_text', 'original_name', 'uploaded_by__username']
+    list_filter = ['created_at', 'uploaded_by']
+    readonly_fields = ['preview', 'original_name', 'uploaded_by', 'created_at']
+    fields = ['image', 'preview', 'alt_text', 'original_name', 'uploaded_by', 'created_at']
+    ordering = ['-created_at']
+    actions = ['delete_selected']
+
+    @admin.display(description='预览')
+    def thumbnail(self, obj):
+        if not obj.image:
+            return '-'
+        return format_html(
+            '<img src="{}" alt="" style="width:64px;height:48px;object-fit:cover;border-radius:6px">',
+            obj.image.url,
+        )
+
+    @admin.display(description='图片预览')
+    def preview(self, obj):
+        if not obj or not obj.image:
+            return '-'
+        return format_html(
+            '<a href="{}" target="_blank" rel="noopener">'
+            '<img src="{}" alt="" style="max-width:600px;max-height:400px;object-fit:contain">'
+            '</a>',
+            obj.image.url,
+            obj.image.url,
+        )
+
+    def save_model(self, request, obj, form, change):
+        if not change and obj.image:
+            obj.original_name = Path(obj.image.name).name
+            obj.uploaded_by = request.user
+        super().save_model(request, obj, form, change)
 
 
 admin.site.unregister(User)

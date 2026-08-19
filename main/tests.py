@@ -83,7 +83,11 @@ class ArticleImageUploadTests(TestCase):
         self.assertIn('vLargeTextField', widget.attrs['class'])
         self.assertEqual(widget.attrs['data-image-upload-url'], self.url)
 
-    def test_article_image_has_no_standalone_admin_entry(self):
-        self.assertNotIn(ArticleImage, admin.site._registry)
+    def test_article_image_has_standalone_admin_entry(self):
+        self.assertIn(ArticleImage, admin.site._registry)
+
+        response = self.client.get(reverse('admin:main_articleimage_changelist'))
+
+        self.assertEqual(response.status_code, 200)
 
 # Create your tests here.
