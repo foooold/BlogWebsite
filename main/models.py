@@ -1,7 +1,16 @@
+import uuid
+from pathlib import Path
+
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
 from django.utils import timezone
+
+
+def article_image_upload_to(instance, filename):
+    """Store article images under a date-based path with collision-free names."""
+    extension = Path(filename).suffix.lower()
+    return f'article-images/{timezone.now():%Y/%m}/{uuid.uuid4().hex}{extension}'
 
 
 class Tag(models.Model):
@@ -62,3 +71,25 @@ class Article(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class ArticleImage(models.Model):
+    image = models.ImageField(upload_to=article_image_upload_to, verbose_name='图片')
+    alt_text = models.CharField(max_length=200, blank=True, verbose_name='替代文字')
+    original_name = models.CharField(max_length=255, blank=True, verbose_name='原始文件名')
+    uploaded_by = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name='上传者',
+    )
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='上传时间')
+
+    class Meta:
+        verbose_name = '文章图片'
+        verbose_name_plural = verbose_name
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return self.alt_text or self.original_name or self.image.name

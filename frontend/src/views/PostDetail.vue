@@ -81,6 +81,27 @@ md.renderer.rules.code_inline = (tokens, idx) => {
   return `<code class="inline-code">${md.utils.escapeHtml(token.content)}</code>`
 }
 
+const defaultImageRenderer = md.renderer.rules.image || ((tokens, idx, options, env, self) => {
+  return self.renderToken(tokens, idx, options)
+})
+
+md.renderer.rules.image = (tokens, idx, options, env, self) => {
+  const token = tokens[idx]
+  const src = token.attrGet('src') || ''
+  let isUploadedArticleImage = false
+  try {
+    isUploadedArticleImage = new URL(src, window.location.origin)
+      .pathname.startsWith('/media/article-images/')
+  } catch {}
+
+  if (isUploadedArticleImage) {
+    token.attrJoin('class', 'article-image')
+    token.attrSet('loading', 'lazy')
+    token.attrSet('decoding', 'async')
+  }
+  return defaultImageRenderer(tokens, idx, options, env, self)
+}
+
 import TagBadge from '@/components/TagBadge.vue'
 
 const route = useRoute()
@@ -282,6 +303,16 @@ function addCopyButtons() {
 }
 .post-content :deep(img) {
   max-width: 100%;
+}
+.post-content :deep(img.article-image) {
+  display: block;
+  width: auto;
+  height: auto;
+  margin: 1.5rem auto;
+  background: var(--bg-default);
+  border: 1px solid var(--border-muted);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgb(0 0 0 / 8%);
 }
 .post-content :deep(hr) {
   height: 1px;
