@@ -7,7 +7,6 @@
 <p>
   <img alt="Python" src="https://img.shields.io/badge/Python-3.10+-blue?logo=python&logoColor=white">
   <img alt="Node.js" src="https://img.shields.io/badge/Node.js-%5E20.19.0%20%7C%20%3E%3D22.12.0-green?logo=nodedotjs&logoColor=white">
-  <a href="#许可证"><img alt="GitHub License" src="https://img.shields.io/github/license/foooold/BlogWebsite"></a>
 </p>
 
 </div>
