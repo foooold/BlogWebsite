@@ -118,7 +118,8 @@ npm run dev
 ├── deploy/                 # 生产部署配置
 │   ├── deploy.sh           # 一键部署脚本
 │   ├── gunicorn.conf.py    # Gunicorn 配置
-│   ├── nginx.conf          # Nginx 反向代理配置
+│   ├── nginx.conf          # 域名模式 Nginx 配置
+│   ├── nginx.ip.conf       # IP 模式 Nginx 配置
 │   └── systemd/            # systemd 服务单元
 ├── templates/              # Django 模板（SPA 入口）
 ├── static/                 # 静态文件（含 Vite 构建产物）
@@ -157,8 +158,9 @@ npm run dev
 |------|------|------|
 | `SECRET_KEY` | Django 密钥 | `django-insecure-...` |
 | `DEBUG` | 调试模式 | `True` / `False` |
-| `ALLOWED_HOSTS` | 允许的主机名 | `*,localhost` |
-| `CORS_ALLOWED_ORIGINS` | CORS 允许的源 | `http://localhost:5173` |
+| `ALLOWED_HOSTS` | 允许的主机名 | `example.com,www.example.com` 或 `203.0.113.10` |
+| `CSRF_TRUSTED_ORIGINS` | CSRF 信任的来源 | `http://example.com,http://www.example.com` 或 `http://203.0.113.10` |
+| `CORS_ALLOWED_ORIGINS` | CORS 允许的源 | `http://example.com,http://www.example.com` 或 `http://203.0.113.10` |
 | `ADMIN_PATH` | django后台路径 | 默认 `admin/`（可改为自定义路径防扫描） |
 | `OPENAI_API_KEY` | DeepSeek API 密钥（AI changelog 用） | `sk-...` |
 
@@ -166,9 +168,18 @@ npm run dev
 
 项目包含完整的生产环境部署方案（Ubuntu + Nginx + Gunicorn）：
 
+如果使用域名，部署前请先在 DNS 服务商处将裸域名和对应的 `www` 域名解析到服务器。例如输入 `example.com` 时，需要确保 `example.com` 和 `www.example.com` 都已指向服务器。没有域名时可以直接选择 IP 模式。
+
 ```bash
 # 在目标服务器上以 root 执行
 sudo bash deploy/deploy.sh
+# 域名模式
+# Do you have a domain? [y/n]: y
+# Enter root domain (e.g. example.com)
+
+# IP 模式
+# Do you have a domain? [y/n]: n
+# Enter server IPv4 address (e.g. 203.0.113.10): 203.0.113.10
 ```
 
 部署脚本会自动完成：
@@ -178,7 +189,9 @@ sudo bash deploy/deploy.sh
 - 生成 `.env` 配置文件
 - 运行数据库迁移和静态文件收集
 - 配置 Gunicorn systemd 服务
-- 配置 Nginx 反向代理
+- 根据域名或 IP 模式配置 Nginx 反向代理；域名模式会将裸域名永久重定向到 `www` 域名
+
+部署脚本会在每次运行时根据所选模式同步 `.env` 中的主机配置，但会保留 `SECRET_KEY`、`ADMIN_PATH`、`OPENAI_API_KEY` 等其他已有配置。当前部署仅启用 HTTP：域名模式下，访问 `http://example.com/path` 会重定向到 `http://www.example.com/path`；IP 模式下，博客通过输入的 IPv4 地址直接访问。两种模式都会拒绝未配置的 Host。
 
 ## AI 辅助开发
 
