@@ -8,11 +8,90 @@ log()  { echo -e "${GREEN}[OK]${NC} $1"; }
 warn() { echo -e "${YELLOW}[WARN]${NC} $1"; }
 skip() { echo -e "${YELLOW}[SKIP]${NC} $1"; }
 
+is_valid_root_domain() {
+    local domain="$1"
+    local label_pattern='[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?'
+
+    [ "${#domain}" -le 253 ] \
+        && [[ "$domain" != www.* ]] \
+        && [[ "$domain" =~ ^(${label_pattern}\.)+${label_pattern}$ ]]
+}
+
+is_valid_ipv4() {
+    local ip="$1"
+    local octet
+    local -a octets
+
+    [[ "$ip" =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}$ ]] || return 1
+    IFS='.' read -r -a octets <<< "$ip"
+
+    for octet in "${octets[@]}"; do
+        ((10#$octet <= 255)) || return 1
+    done
+}
+
+upsert_env() {
+    local key="$1"
+    local value="$2"
+
+    if grep -q "^${key}=" .env; then
+        sed -i "s|^${key}=.*|${key}=${value}|" .env
+    else
+        printf '%s=%s\n' "$key" "$value" >> .env
+    fi
+}
+
 [ "$EUID" -ne 0 ] && { echo "Please run as root"; exit 1; }
 
-echo -n "Enter server IP: "; read -r IP
+while true; do
+    read -r -p "Do you have a domain? [y/n]: " HAS_DOMAIN
 
-echo "=== Deploying to $IP ==="
+    case "${HAS_DOMAIN,,}" in
+        y|yes)
+            USE_DOMAIN=true
+            break
+            ;;
+        n|no)
+            USE_DOMAIN=false
+            break
+            ;;
+        *)
+            warn "Enter y/yes or n/no."
+            ;;
+    esac
+done
+
+if [ "$USE_DOMAIN" = true ]; then
+    while true; do
+        read -r -p "Enter root domain (e.g. example.com): " ROOT_DOMAIN
+        ROOT_DOMAIN="${ROOT_DOMAIN,,}"
+
+        if is_valid_root_domain "$ROOT_DOMAIN"; then
+            break
+        fi
+
+        warn "Enter a root domain without protocol, port, path, or www prefix."
+    done
+
+    DEPLOY_SCHEME="https"
+    WWW_DOMAIN="www.${ROOT_DOMAIN}"
+    DEPLOY_HOST="$WWW_DOMAIN"
+else
+    while true; do
+        read -r -p "Enter server IPv4 address (e.g. 203.0.113.10): " SERVER_IP
+
+        if is_valid_ipv4 "$SERVER_IP"; then
+            break
+        fi
+
+        warn "Enter a valid IPv4 address."
+    done
+
+    DEPLOY_SCHEME="http"
+    DEPLOY_HOST="$SERVER_IP"
+fi
+
+echo "=== Deploying to $DEPLOY_HOST ==="
 
 # 1. System deps + Node.js 22.x
 echo ">>> [1/6] System packages..."
@@ -66,15 +145,24 @@ if [ ! -f .env ]; then
     cat > .env << EOF
 SECRET_KEY=$KEY
 DEBUG=False
-ALLOWED_HOSTS=$IP,127.0.0.1,localhost
-CSRF_TRUSTED_ORIGINS=http://$IP
-CORS_ALLOWED_ORIGINS=http://$IP
 ADMIN_PATH=admin/
 EOF
     log ".env created"
 else
     skip ".env already exists"
 fi
+
+if [ "$USE_DOMAIN" = true ]; then
+    upsert_env "ALLOWED_HOSTS" "$ROOT_DOMAIN,$WWW_DOMAIN,127.0.0.1,localhost"
+    upsert_env "CSRF_TRUSTED_ORIGINS" "https://$ROOT_DOMAIN,https://$WWW_DOMAIN"
+    upsert_env "CORS_ALLOWED_ORIGINS" "https://$ROOT_DOMAIN,https://$WWW_DOMAIN"
+else
+    upsert_env "ALLOWED_HOSTS" "$SERVER_IP,127.0.0.1,localhost"
+    upsert_env "CSRF_TRUSTED_ORIGINS" "http://$SERVER_IP"
+    upsert_env "CORS_ALLOWED_ORIGINS" "http://$SERVER_IP"
+fi
+log ".env host settings updated"
+
 chmod 600 .env
 chown www-data:www-data .env
 
@@ -91,7 +179,18 @@ systemctl daemon-reload
 systemctl enable gunicorn --now
 log "Gunicorn started"
 
-sed "s|PROJECT_DIR|$PROJECT_DIR|g" "$PROJECT_DIR/deploy/nginx.conf" > /etc/nginx/sites-available/website
+if [ "$USE_DOMAIN" = true ]; then
+    sed \
+        -e "s|PROJECT_DIR|$PROJECT_DIR|g" \
+        -e "s|ROOT_DOMAIN|$ROOT_DOMAIN|g" \
+        -e "s|WWW_DOMAIN|$WWW_DOMAIN|g" \
+        "$PROJECT_DIR/deploy/nginx.conf" > /etc/nginx/sites-available/website
+else
+    sed \
+        -e "s|PROJECT_DIR|$PROJECT_DIR|g" \
+        -e "s|SERVER_IP|$SERVER_IP|g" \
+        "$PROJECT_DIR/deploy/nginx.ip.conf" > /etc/nginx/sites-available/website
+fi
 ln -sf /etc/nginx/sites-available/website /etc/nginx/sites-enabled/
 rm -f /etc/nginx/sites-enabled/default
 nginx -t && systemctl restart nginx
@@ -103,6 +202,6 @@ chown www-data:www-data "$PROJECT_DIR" "$PROJECT_DIR"/db.sqlite3* 2>/dev/null ||
 echo ""
 echo "========================================"
 log "Deploy complete!"
-echo "  http://$IP"
-echo "  http://$IP/zh-hans/admin/"
+echo "  $DEPLOY_SCHEME://$DEPLOY_HOST"
+echo "  $DEPLOY_SCHEME://$DEPLOY_HOST/zh-hans/admin/"
 echo "========================================"

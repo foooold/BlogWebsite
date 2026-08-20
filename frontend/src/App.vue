@@ -84,7 +84,20 @@
         <span class="footer-dot">·</span>
         <span>Powered by Vue 3 + Vite + Django</span>
         <br />
-        <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener" class="icp-link">沪ICP备2026040587号-1</a>
+        <span class="filing-links">
+          <a
+            href="https://beian.mps.gov.cn/#/query/webSearch?code=31010602010436"
+            target="_blank"
+            rel="noreferrer"
+            class="filing-link public-security-link"
+          >
+            <img src="/static/beian.png" alt="" class="beian-icon" />
+            <span>沪公网安备31010602010436号</span>
+          </a>
+          <span class="icp-filing">
+            <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener" class="filing-link">沪ICP备2026040587号-1</a>
+          </span>
+        </span>
       </div>
     </footer>
   </div>
@@ -217,8 +230,30 @@ onBeforeUnmount(() => {
   color: var(--fg-subtle);
 }
 .footer-dot { margin: 0 0.4rem; }
-.icp-link { color: var(--fg-subtle); text-decoration: none; }
-.icp-link:hover { color: var(--fg-muted); text-decoration: underline; }
+.filing-links {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  column-gap: 1rem;
+}
+.filing-link {
+  color: var(--fg-subtle);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.filing-link:hover { color: var(--fg-muted); text-decoration: underline; }
+.public-security-link,
+.icp-filing {
+  display: inline-flex;
+  align-items: center;
+}
+.beian-icon {
+  width: auto;
+  height: 16px;
+  margin-right: 0.25rem;
+  flex-shrink: 0;
+}
 
 /* ===== 移动端导航栏 ===== */
 .mobile-nav-bar {
