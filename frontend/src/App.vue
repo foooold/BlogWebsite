@@ -95,7 +95,6 @@
             <span>沪公网安备31010602010436号</span>
           </a>
           <span class="icp-filing">
-            <span class="footer-dot" aria-hidden="true">·</span>
             <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener" class="filing-link">沪ICP备2026040587号-1</a>
           </span>
         </span>
@@ -236,6 +235,7 @@ onBeforeUnmount(() => {
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
+  column-gap: 1rem;
 }
 .filing-link {
   color: var(--fg-subtle);
