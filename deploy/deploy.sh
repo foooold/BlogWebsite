@@ -73,6 +73,7 @@ if [ "$USE_DOMAIN" = true ]; then
         warn "Enter a root domain without protocol, port, path, or www prefix."
     done
 
+    DEPLOY_SCHEME="https"
     WWW_DOMAIN="www.${ROOT_DOMAIN}"
     DEPLOY_HOST="$WWW_DOMAIN"
 else
@@ -86,6 +87,7 @@ else
         warn "Enter a valid IPv4 address."
     done
 
+    DEPLOY_SCHEME="http"
     DEPLOY_HOST="$SERVER_IP"
 fi
 
@@ -152,8 +154,8 @@ fi
 
 if [ "$USE_DOMAIN" = true ]; then
     upsert_env "ALLOWED_HOSTS" "$ROOT_DOMAIN,$WWW_DOMAIN,127.0.0.1,localhost"
-    upsert_env "CSRF_TRUSTED_ORIGINS" "http://$ROOT_DOMAIN,http://$WWW_DOMAIN"
-    upsert_env "CORS_ALLOWED_ORIGINS" "http://$ROOT_DOMAIN,http://$WWW_DOMAIN"
+    upsert_env "CSRF_TRUSTED_ORIGINS" "https://$ROOT_DOMAIN,https://$WWW_DOMAIN"
+    upsert_env "CORS_ALLOWED_ORIGINS" "https://$ROOT_DOMAIN,https://$WWW_DOMAIN"
 else
     upsert_env "ALLOWED_HOSTS" "$SERVER_IP,127.0.0.1,localhost"
     upsert_env "CSRF_TRUSTED_ORIGINS" "http://$SERVER_IP"
@@ -200,6 +202,6 @@ chown www-data:www-data "$PROJECT_DIR" "$PROJECT_DIR"/db.sqlite3* 2>/dev/null ||
 echo ""
 echo "========================================"
 log "Deploy complete!"
-echo "  http://$DEPLOY_HOST"
-echo "  http://$DEPLOY_HOST/zh-hans/admin/"
+echo "  $DEPLOY_SCHEME://$DEPLOY_HOST"
+echo "  $DEPLOY_SCHEME://$DEPLOY_HOST/zh-hans/admin/"
 echo "========================================"
