@@ -21,8 +21,8 @@ defineProps({
   line-height: 1.6;
 }
 .tag-badge:hover {
-  color: var(--control-hover-fg);
-  background: var(--control-hover-accent-bg);
-  border-color: var(--control-hover-accent-border);
+  color: var(--tag-hover-fg);
+  background: var(--tag-hover-bg);
+  border-color: var(--tag-hover-border);
 }
 </style>
