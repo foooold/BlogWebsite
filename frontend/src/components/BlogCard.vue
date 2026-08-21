@@ -37,6 +37,11 @@ const md = new MarkdownIt({
   linkify: true,
 })
 
+md.renderer.rules.code_inline = (tokens, idx) => {
+  const token = tokens[idx]
+  return `<code class="inline-code">${md.utils.escapeHtml(token.content)}</code>`
+}
+
 const props = defineProps({
   post: { type: Object, required: true },
 })
@@ -107,6 +112,14 @@ const readTime = computed(() => {
   color: var(--fg-default);
   line-height: 1.6;
   margin-bottom: 0.75rem;
+}
+.excerpt :deep(.inline-code) {
+  padding: 0.15rem 0.4rem;
+  font-size: 0.85em;
+  background: var(--inline-code-bg);
+  border-radius: 4px;
+  font-family: 'Cascadia Code', 'Fira Code', 'Menlo', 'Monaco', 'Consolas', 'Courier New', monospace;
+  color: var(--fg-default);
 }
 .tags {
   display: flex;

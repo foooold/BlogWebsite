@@ -127,6 +127,11 @@ import BlogCard from '@/components/BlogCard.vue'
 
 const md = new MarkdownIt()
 
+md.renderer.rules.code_inline = (tokens, idx) => {
+  const token = tokens[idx]
+  return `<code class="inline-code">${md.utils.escapeHtml(token.content)}</code>`
+}
+
 const avatarUrl = '/static/avatar.png'
 const allPosts = ref([])
 const allTags = ref([])
@@ -397,6 +402,14 @@ const stats = computed(() => {
   color: var(--fg-muted);
   line-height: 1.55;
   padding: 0.15rem 0;
+}
+.changelog-item :deep(.inline-code) {
+  padding: 0.15rem 0.4rem;
+  font-size: 0.85em;
+  background: var(--inline-code-bg);
+  border-radius: 4px;
+  font-family: 'Cascadia Code', 'Fira Code', 'Menlo', 'Monaco', 'Consolas', 'Courier New', monospace;
+  color: var(--fg-default);
 }
 .changelog-item::before {
   content: '• ';
