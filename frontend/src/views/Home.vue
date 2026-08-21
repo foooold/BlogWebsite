@@ -95,9 +95,21 @@
                   <span class="changelog-ver">v{{ entry.version }}</span>
                   <span class="changelog-date">{{ entry.date }}</span>
                 </div>
-                <ul class="changelog-items">
-                  <li v-for="item in changelogItems(entry)" :key="item" class="changelog-item" v-html="md.renderInline(item)"></li>
-                </ul>
+                <div
+                  v-for="section in changelogSections(entry)"
+                  :key="section.name"
+                  class="changelog-section"
+                >
+                  <h4 class="changelog-section-title">{{ section.name }}</h4>
+                  <ul class="changelog-items">
+                    <li
+                      v-for="(item, index) in section.items"
+                      :key="`${section.name}-${index}`"
+                      class="changelog-item"
+                      v-html="md.renderInline(item)"
+                    ></li>
+                  </ul>
+                </div>
               </div>
             </div>
           </aside>
@@ -115,6 +127,11 @@ import BlogCard from '@/components/BlogCard.vue'
 
 const md = new MarkdownIt()
 
+md.renderer.rules.code_inline = (tokens, idx) => {
+  const token = tokens[idx]
+  return `<code class="inline-code">${md.utils.escapeHtml(token.content)}</code>`
+}
+
 const avatarUrl = '/static/avatar.png'
 const allPosts = ref([])
 const allTags = ref([])
@@ -122,14 +139,16 @@ const allTags = ref([])
 const recentPosts = computed(() => allPosts.value.slice(0, 5))
 
 const changelog = ref([])
+const changelogSectionOrder = ['Features', 'Bug Fixes', 'Improvements']
 
-function changelogItems(entry) {
+function changelogSections(entry) {
   const sections = entry.sections || {}
-  return [].concat(
-    sections['Features'] || [],
-    sections['Bug Fixes'] || [],
-    sections['Improvements'] || [],
-  )
+  return changelogSectionOrder
+    .map((name) => ({
+      name,
+      items: Array.isArray(sections[name]) ? sections[name] : [],
+    }))
+    .filter((section) => section.items.length > 0)
 }
 
 onMounted(async () => {
@@ -363,16 +382,34 @@ const stats = computed(() => {
   font-size: 0.7rem;
   color: var(--fg-subtle);
 }
+.changelog-section + .changelog-section {
+  margin-top: 0.5rem;
+}
+.changelog-section-title {
+  margin: 0 0 0.15rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--fg-strong);
+}
 .changelog-items {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 .changelog-item {
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   color: var(--fg-muted);
-  line-height: 1.5;
+  line-height: 1.55;
   padding: 0.15rem 0;
+}
+.changelog-item :deep(.inline-code) {
+  padding: 0.15rem 0.4rem;
+  font-size: 0.85em;
+  background: var(--inline-code-bg);
+  border-radius: 4px;
+  font-family: 'Cascadia Code', 'Fira Code', 'Menlo', 'Monaco', 'Consolas', 'Courier New', monospace;
+  color: var(--fg-default);
 }
 .changelog-item::before {
   content: '• ';

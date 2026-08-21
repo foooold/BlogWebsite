@@ -1,3 +1,66 @@
+## v1.0.0 (2026-08-21)
+
+### Bug Fixes
+- Fixed inline code rendering and styling in article cards and homepage changelog items by adding a custom MarkdownIt `code_inline` renderer and `.inline-code` styles (9449043)
+- Fixed homepage changelog subtitle rendering by grouping changelog entries into `changelogSections` under Features, Bug Fixes, and Improvements headings (da57415)
+- Fixed `lazy-changelog` patch and updated `CHANGELOG.md` (650f2d6)
+
+### Improvements
+- Adjusted Markdown heading font sizes in post detail, including h2–h6 and mobile responsive heading sizes (6c2eafe)
+- Removed the GitHub license badge link from `README.md` (449a675)
+
+## v0.10.0 (2026-08-20)
+
+### Features
+- Added domain/IP dual-mode deployment with `is_valid_root_domain`/`is_valid_ipv4`, `upsert_env`, and a dedicated IPv4 Nginx config (b5b8de7)
+- Added HTTPS Nginx configuration with HTTP→HTTPS redirect, root→www redirect, and default unknown-host 444 responses (6926fb4)
+- Added CSRF trusted origins configuration, `SECURE_PROXY_SSL_HEADER`, and secure session/CSRF cookies when not DEBUG (c07111f)
+- Added public security filing link and beian icon to the footer (b227ad2)
+
+### Bug Fixes
+- Fixed domain deployment to write HTTPS `CSRF_TRUSTED_ORIGINS` and `CORS_ALLOWED_ORIGINS` values (de8ffa1)
+
+### Improvements
+- Refactored article tag palette and filter tag colors for dark/light themes (b2a1d63)
+- Renamed tag hover variables to `--tag-hover-*` in `TagBadge.vue` and added light-theme tag hover tokens (82f7911)
+- Updated README with deployment and configuration documentation (dc750e7)
+- Refined footer filing link layout, spacing, and beian icon alignment (f6aa4eb)
+
+## v0.9.0 (2026-08-19)
+
+### Features
+- Added admin article image upload with Markdown toolbar button that inserts uploaded image Markdown at the cursor and validates JPG/PNG/GIF/WebP up to 10 MB (25e02ff)
+- Added ArticleImage model and migration with ImageField, alt_text, original_name, uploaded_by, created_at and date/UUID upload paths (25e02ff)
+- Registered ArticleImage as a standalone admin entry with changelist view (175c43c)
+- Added MEDIA_URL/MEDIA_ROOT, DEBUG media serving, Vite /media proxy, and Pillow dependency (25e02ff)
+- Rendered uploaded article images in PostDetail with .article-image styling, lazy loading, and async decoding (25e02ff)
+
+### Bug Fixes
+- Removed mobile tap highlight and focus outline for coarse pointer / touch devices (382b3eb)
+- Applied tag chip hover styles only when hover and fine pointer are available (382b3eb)
+
+### Improvements
+- Reworked article tag filter chip colors with dedicated filter-tag variables and removed unused theme variables (ae8b777)
+- Updated footer ICP registration number (c8a8057)
+
+## v0.8.0 (2026-08-19)
+
+### Features
+- Added dark/light theme switching with persisted preference, pre-hydration flash prevention, CSS variables, and View Transitions circle reveal (ee6858e)
+
+### Bug Fixes
+- Fixed About page recent update date to show the latest article date instead of the first article date (e8ed173)
+- Downgraded django-unfold to 0.81.0 for Python 3.10 compatibility (5cfe12a)
+- Removed conflicting system Node packages before NodeSource installation in deploy.sh (d936fdd)
+- Configured non-interactive NodeSource setup in deploy.sh (2200a66)
+- Added Node.js 20.19+ version check and switched Django to 5.2 LTS for Python 3.10 (4f33453)
+- Fixed deploy.sh frontend build flow to always rebuild frontend assets (f4cbd8b)
+- Fixed overlay/mask styling (09ffc0f)
+
+### Improvements
+- Refactored BlogCard pinned style to use a hole-punch marker and removed the pinned badge (5e2abc8)
+- Updated CHANGELOG.md with recent release entries (44e78d9)
+
 ## v0.7.0 (2026-08-04)
 
 ### Features
