@@ -1,5 +1,5 @@
 diff --git a/node_modules/lazy-changelog/dist/cli.js b/node_modules/lazy-changelog/dist/cli.js
-index 76df49b..c91fc27 100644
+index 76df49b..e56099b 100644
 --- a/node_modules/lazy-changelog/dist/cli.js
 +++ b/node_modules/lazy-changelog/dist/cli.js
 @@ -417,12 +417,13 @@ TASK: Write a commit message based ONLY on what you see above. Do NOT make up ch
@@ -94,6 +94,17 @@ index 76df49b..c91fc27 100644
    /**
     * Get the last tag before the target ref
     */
+@@ -628,8 +652,8 @@ ${summary}`;
+         diffRange = `${EMPTY_TREE}..${to}`;
+       }
+     }
+-    const excludeArgs = diffOptions.excludePatterns.map((p) => `':(exclude)${p}'`).join(" ");
+-    const includeArgs = diffOptions.includePatterns ? diffOptions.includePatterns.map((p) => `'${p}'`).join(" ") : "";
++    const excludeArgs = diffOptions.excludePatterns.map((p) => `\":(exclude)${p}\"`).join(" ");
++    const includeArgs = diffOptions.includePatterns ? diffOptions.includePatterns.map((p) => `\"${p}\"`).join(" ") : "";
+     try {
+       const diffStat = (0, import_child_process.execSync)(
+         `git diff ${diffRange} --stat ${includeArgs} -- . ${excludeArgs}`,
 @@ -769,9 +793,10 @@ ${diffsText}
          const { createOpenAI } = await import("@ai-sdk/openai");
          const openai = createOpenAI({
@@ -137,7 +148,7 @@ index 76df49b..c91fc27 100644
      return result.text.trim();
    }
 diff --git a/node_modules/lazy-changelog/dist/core.js b/node_modules/lazy-changelog/dist/core.js
-index 7788ce9..1d50571 100644
+index 7788ce9..62d7e63 100644
 --- a/node_modules/lazy-changelog/dist/core.js
 +++ b/node_modules/lazy-changelog/dist/core.js
 @@ -438,12 +438,13 @@ TASK: Write a commit message based ONLY on what you see above. Do NOT make up ch
@@ -232,6 +243,17 @@ index 7788ce9..1d50571 100644
    /**
     * Get the last tag before the target ref
     */
+@@ -649,8 +673,8 @@ ${summary}`;
+         diffRange = `${EMPTY_TREE}..${to}`;
+       }
+     }
+-    const excludeArgs = diffOptions.excludePatterns.map((p) => `':(exclude)${p}'`).join(" ");
+-    const includeArgs = diffOptions.includePatterns ? diffOptions.includePatterns.map((p) => `'${p}'`).join(" ") : "";
++    const excludeArgs = diffOptions.excludePatterns.map((p) => `\":(exclude)${p}\"`).join(" ");
++    const includeArgs = diffOptions.includePatterns ? diffOptions.includePatterns.map((p) => `\"${p}\"`).join(" ") : "";
+     try {
+       const diffStat = (0, import_child_process.execSync)(
+         `git diff ${diffRange} --stat ${includeArgs} -- . ${excludeArgs}`,
 @@ -790,9 +814,10 @@ ${diffsText}
          const { createOpenAI } = await import("@ai-sdk/openai");
          const openai = createOpenAI({
@@ -275,7 +297,7 @@ index 7788ce9..1d50571 100644
      return result.text.trim();
    }
 diff --git a/node_modules/lazy-changelog/dist/core.mjs b/node_modules/lazy-changelog/dist/core.mjs
-index eb15852..9ac8883 100644
+index eb15852..0a4d135 100644
 --- a/node_modules/lazy-changelog/dist/core.mjs
 +++ b/node_modules/lazy-changelog/dist/core.mjs
 @@ -389,12 +389,13 @@ TASK: Write a commit message based ONLY on what you see above. Do NOT make up ch
@@ -370,6 +392,17 @@ index eb15852..9ac8883 100644
    /**
     * Get the last tag before the target ref
     */
+@@ -600,8 +624,8 @@ ${summary}`;
+         diffRange = `${EMPTY_TREE}..${to}`;
+       }
+     }
+-    const excludeArgs = diffOptions.excludePatterns.map((p) => `':(exclude)${p}'`).join(" ");
+-    const includeArgs = diffOptions.includePatterns ? diffOptions.includePatterns.map((p) => `'${p}'`).join(" ") : "";
++    const excludeArgs = diffOptions.excludePatterns.map((p) => `\":(exclude)${p}\"`).join(" ");
++    const includeArgs = diffOptions.includePatterns ? diffOptions.includePatterns.map((p) => `\"${p}\"`).join(" ") : "";
+     try {
+       const diffStat = execSync(
+         `git diff ${diffRange} --stat ${includeArgs} -- . ${excludeArgs}`,
 @@ -741,9 +765,10 @@ ${diffsText}
          const { createOpenAI } = await import("@ai-sdk/openai");
          const openai = createOpenAI({
@@ -413,7 +446,7 @@ index eb15852..9ac8883 100644
      return result.text.trim();
    }
 diff --git a/node_modules/lazy-changelog/dist/index.js b/node_modules/lazy-changelog/dist/index.js
-index 40ab281..c5bc023 100644
+index 40ab281..b21a771 100644
 --- a/node_modules/lazy-changelog/dist/index.js
 +++ b/node_modules/lazy-changelog/dist/index.js
 @@ -442,12 +442,13 @@ TASK: Write a commit message based ONLY on what you see above. Do NOT make up ch
@@ -508,6 +541,17 @@ index 40ab281..c5bc023 100644
    /**
     * Get the last tag before the target ref
     */
+@@ -653,8 +677,8 @@ ${summary}`;
+         diffRange = `${EMPTY_TREE}..${to}`;
+       }
+     }
+-    const excludeArgs = diffOptions.excludePatterns.map((p) => `':(exclude)${p}'`).join(" ");
+-    const includeArgs = diffOptions.includePatterns ? diffOptions.includePatterns.map((p) => `'${p}'`).join(" ") : "";
++    const excludeArgs = diffOptions.excludePatterns.map((p) => `\":(exclude)${p}\"`).join(" ");
++    const includeArgs = diffOptions.includePatterns ? diffOptions.includePatterns.map((p) => `\"${p}\"`).join(" ") : "";
+     try {
+       const diffStat = (0, import_child_process.execSync)(
+         `git diff ${diffRange} --stat ${includeArgs} -- . ${excludeArgs}`,
 @@ -794,9 +818,10 @@ ${diffsText}
          const { createOpenAI } = await import("@ai-sdk/openai");
          const openai = createOpenAI({
@@ -551,7 +595,7 @@ index 40ab281..c5bc023 100644
      return result.text.trim();
    }
 diff --git a/node_modules/lazy-changelog/dist/index.mjs b/node_modules/lazy-changelog/dist/index.mjs
-index 192b9c4..19b5886 100644
+index 192b9c4..b6c518e 100644
 --- a/node_modules/lazy-changelog/dist/index.mjs
 +++ b/node_modules/lazy-changelog/dist/index.mjs
 @@ -389,12 +389,13 @@ TASK: Write a commit message based ONLY on what you see above. Do NOT make up ch
@@ -646,6 +690,17 @@ index 192b9c4..19b5886 100644
    /**
     * Get the last tag before the target ref
     */
+@@ -600,8 +624,8 @@ ${summary}`;
+         diffRange = `${EMPTY_TREE}..${to}`;
+       }
+     }
+-    const excludeArgs = diffOptions.excludePatterns.map((p) => `':(exclude)${p}'`).join(" ");
+-    const includeArgs = diffOptions.includePatterns ? diffOptions.includePatterns.map((p) => `'${p}'`).join(" ") : "";
++    const excludeArgs = diffOptions.excludePatterns.map((p) => `\":(exclude)${p}\"`).join(" ");
++    const includeArgs = diffOptions.includePatterns ? diffOptions.includePatterns.map((p) => `\"${p}\"`).join(" ") : "";
+     try {
+       const diffStat = execSync(
+         `git diff ${diffRange} --stat ${includeArgs} -- . ${excludeArgs}`,
 @@ -743,7 +767,7 @@ ${diffsText}
            apiKey: process.env["OPENAI_API_KEY"],
            ...baseUrl && { baseURL: baseUrl }
