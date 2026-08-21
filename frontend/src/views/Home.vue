@@ -95,9 +95,21 @@
                   <span class="changelog-ver">v{{ entry.version }}</span>
                   <span class="changelog-date">{{ entry.date }}</span>
                 </div>
-                <ul class="changelog-items">
-                  <li v-for="item in changelogItems(entry)" :key="item" class="changelog-item" v-html="md.renderInline(item)"></li>
-                </ul>
+                <div
+                  v-for="section in changelogSections(entry)"
+                  :key="section.name"
+                  class="changelog-section"
+                >
+                  <h4 class="changelog-section-title">{{ section.name }}</h4>
+                  <ul class="changelog-items">
+                    <li
+                      v-for="(item, index) in section.items"
+                      :key="`${section.name}-${index}`"
+                      class="changelog-item"
+                      v-html="md.renderInline(item)"
+                    ></li>
+                  </ul>
+                </div>
               </div>
             </div>
           </aside>
@@ -122,14 +134,16 @@ const allTags = ref([])
 const recentPosts = computed(() => allPosts.value.slice(0, 5))
 
 const changelog = ref([])
+const changelogSectionOrder = ['Features', 'Bug Fixes', 'Improvements']
 
-function changelogItems(entry) {
+function changelogSections(entry) {
   const sections = entry.sections || {}
-  return [].concat(
-    sections['Features'] || [],
-    sections['Bug Fixes'] || [],
-    sections['Improvements'] || [],
-  )
+  return changelogSectionOrder
+    .map((name) => ({
+      name,
+      items: Array.isArray(sections[name]) ? sections[name] : [],
+    }))
+    .filter((section) => section.items.length > 0)
 }
 
 onMounted(async () => {
@@ -362,6 +376,16 @@ const stats = computed(() => {
 .changelog-date {
   font-size: 0.7rem;
   color: var(--fg-subtle);
+}
+.changelog-section + .changelog-section {
+  margin-top: 0.5rem;
+}
+.changelog-section-title {
+  margin: 0 0 0.15rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--fg-strong);
 }
 .changelog-items {
   list-style: none;
