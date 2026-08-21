@@ -382,7 +382,7 @@ const stats = computed(() => {
 }
 .changelog-section-title {
   margin: 0 0 0.15rem;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 600;
   line-height: 1.4;
   color: var(--fg-strong);
@@ -393,9 +393,9 @@ const stats = computed(() => {
   margin: 0;
 }
 .changelog-item {
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   color: var(--fg-muted);
-  line-height: 1.5;
+  line-height: 1.55;
   padding: 0.15rem 0;
 }
 .changelog-item::before {

@@ -257,7 +257,7 @@ function addCopyButtons() {
   color: var(--fg-default);
 }
 .post-content :deep(h2) {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-weight: 600;
   color: var(--fg-strong);
   margin: 2rem 0 0.75rem;
@@ -265,7 +265,7 @@ function addCopyButtons() {
   border-bottom: 1px solid var(--border-muted);
 }
 .post-content :deep(h3) {
-  font-size: 1.05rem;
+  font-size: 1.3rem;
   font-weight: 600;
   color: var(--fg-strong);
   margin: 1.5rem 0 0.5rem;
@@ -321,14 +321,14 @@ function addCopyButtons() {
   border: 0;
 }
 .post-content :deep(h4) {
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 600;
   color: var(--fg-strong);
   margin: 1.25rem 0 0.5rem;
 }
 .post-content :deep(h5),
 .post-content :deep(h6) {
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   font-weight: 600;
   color: var(--fg-strong);
   margin: 1.25rem 0 0.5rem;
@@ -449,11 +449,18 @@ function addCopyButtons() {
     font-size: 12px;
   }
   .post-content :deep(h2) {
-    font-size: 1.05rem;
+    font-size: 1.5rem;
     margin: 1.5rem 0 0.5rem;
   }
   .post-content :deep(h3) {
-    font-size: 0.95rem;
+    font-size: 1.35rem;
+  }
+  .post-content :deep(h4) {
+    font-size: 1.2rem;
+  }
+  .post-content :deep(h5),
+  .post-content :deep(h6) {
+    font-size: 1.1rem;
   }
   .post-content :deep(.code-block) .copy-btn {
     display: none;
