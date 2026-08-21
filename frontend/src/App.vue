@@ -54,11 +54,18 @@
       </div>
 
       <router-link to="/" class="drawer-link" :class="{ active: $route.path === '/' }" @click="closeDrawer">
-        <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><path fill-rule="evenodd" d="M7.823.127a.25.25 0 01.354 0l6.146 5.804a.25.25 0 01-.093.423L7.5 7.87a.25.25 0 01-.223-.036l-4.992-3.66a.25.25 0 01.039-.425L7.823.127zM1.5 14.654V6.729a.25.25 0 01.364-.224l4.496 1.94a.25.25 0 01.14.138l2.378 5.357a.25.25 0 01-.22.368H1.777a.25.25 0 01-.251-.192 5.53 5.53 0 01-.026-.462zM14.5 14.654V6.729a.25.25 0 00-.364-.224l-4.496 1.94a.25.25 0 00-.14.138l-2.378 5.357a.25.25 0 00.22.368h5.38c.16 0 .292-.124.252-.28a5.396 5.396 0 00-.027-.374z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-house" aria-hidden="true">
+          <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" />
+          <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+        </svg>
         首页
       </router-link>
       <router-link to="/blog" class="drawer-link" :class="{ active: $route.path.startsWith('/blog') }" @click="closeDrawer">
-        <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><path d="M0 1.75A.75.75 0 01.75 1h4.253c1.227 0 2.317.59 3 1.501A3.744 3.744 0 0111.006 1h4.245a.75.75 0 01.75.75v10.5a.75.75 0 01-.75.75h-4.507a2.25 2.25 0 00-1.591.659l-.622.621a.75.75 0 01-1.06 0l-.622-.621A2.25 2.25 0 005.258 13H.75a.75.75 0 01-.75-.75V1.75z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-book-open" aria-hidden="true">
+          <path d="M12 7v14" />
+          <path d="M3 18a1 1 0 0 1-1-1V5a2 2 0 0 1 2-2h5a3 3 0 0 1 3 3v15a3 3 0 0 0-3-3z" />
+          <path d="M21 18a1 1 0 0 0 1-1V5a2 2 0 0 0-2-2h-5a3 3 0 0 0-3 3v15a3 3 0 0 1 3-3z" />
+        </svg>
         博客
       </router-link>
       <router-link to="/archive" class="drawer-link" :class="{ active: $route.path === '/archive' }" @click="closeDrawer">
