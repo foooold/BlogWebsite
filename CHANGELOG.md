@@ -1,3 +1,14 @@
+## v1.0.0 (2026-08-21)
+
+### Bug Fixes
+- Fixed inline code rendering and styling in article cards and homepage changelog items by adding a custom MarkdownIt `code_inline` renderer and `.inline-code` styles (9449043)
+- Fixed homepage changelog subtitle rendering by grouping changelog entries into `changelogSections` under Features, Bug Fixes, and Improvements headings (da57415)
+- Fixed `lazy-changelog` patch and updated `CHANGELOG.md` (650f2d6)
+
+### Improvements
+- Adjusted Markdown heading font sizes in post detail, including h2–h6 and mobile responsive heading sizes (6c2eafe)
+- Removed the GitHub license badge link from `README.md` (449a675)
+
 ## v0.10.0 (2026-08-20)
 
 ### Features
@@ -30,7 +41,7 @@
 
 ### Improvements
 - Reworked article tag filter chip colors with dedicated filter-tag variables and removed unused theme variables (ae8b777)
-- Updated footer ICP registration number to 沪ICP备2026040587号-1 (c8a8057)
+- Updated footer ICP registration number (c8a8057)
 
 ## v0.8.0 (2026-08-19)
 
